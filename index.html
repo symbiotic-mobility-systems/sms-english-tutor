@@ -5,335 +5,543 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cambridge 0500 Socratic Tutor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#ffffff;--bg2:#f7f9fb;--bg3:#f0f4f8;
-  --bgi:#e6f1fb;--bgs:#e1f5ee;--bgw:#faeeda;--bgd:#fcebeb;
+  --bgi:#e6f1fb;--bgs:#e1f5ee;--bgw:#faeeda;--bgd:#fcebeb;--bgp:#eeedfe;
   --tx:#0e1c2e;--tx2:#2d3f52;--tx3:#5a7080;--tx4:#8fa3b0;
-  --txi:#0c447c;--txs:#085041;--txw:#412402;--txd:#791f1f;
-  --bd:rgba(10,22,40,0.10);--bd2:rgba(10,22,40,0.18);
+  --txi:#0c447c;--txs:#085041;--txw:#412402;--txd:#791f1f;--txp:#3c3489;
+  --bd:rgba(10,22,40,0.10);--bd2:rgba(10,22,40,0.20);
   --bdi:rgba(24,95,165,0.25);--bds:rgba(29,158,117,0.25);
-  --r8:8px;--r12:12px;--r20:20px;
-  --sans:'DM Sans',system-ui,sans-serif;--mono:monospace
+  --teal:#1D9E75;--blue:#185FA5;--navy:#0a1628;
+  --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:'DM Serif Display',Georgia,serif
 }
-body{font-family:var(--sans);background:var(--bg3);color:var(--tx);height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.app{display:flex;flex-direction:column;height:100vh}
-nav{background:var(--bg);border-bottom:1px solid var(--bd);padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.logo{font-size:14px;font-weight:500;color:var(--tx)}
+body{font-family:var(--sans);background:var(--bg3);color:var(--tx);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+
+/* ── SCREEN MANAGER ── */
+.screen{display:none;flex-direction:column;height:100vh}
+.screen.active{display:flex}
+
+/* ── LOGIN SCREEN ── */
+.login-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:24px}
+.login-header{text-align:center}
+.login-header h1{font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--navy);line-height:1.2}
+.login-header h1 em{font-style:italic;color:var(--teal)}
+.login-header p{font-size:13px;color:var(--tx3);margin-top:6px}
+.user-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:520px}
+.user-card{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:20px 16px;text-align:center;cursor:pointer;transition:all 0.18s;position:relative}
+.user-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 16px rgba(29,158,117,0.1)}
+.user-card.mentor-card:hover{border-color:var(--blue);box-shadow:0 4px 16px rgba(24,95,165,0.1)}
+.user-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;margin:0 auto 10px;font-family:var(--serif)}
+.av-david{background:#E1F5EE;color:#085041}
+.av-melusi{background:#E6F1FB;color:#0C447C}
+.av-gerald{background:#EEEDFE;color:#3C3489}
+.av-mentor{background:#FAEEDA;color:#412402}
+.user-name{font-size:14px;font-weight:500;color:var(--tx);margin-bottom:2px}
+.user-role{font-size:11px;color:var(--tx4)}
+.user-stats{font-size:11px;color:var(--teal);margin-top:6px;font-weight:500}
+.mentor-divider{width:100%;max-width:520px;display:flex;align-items:center;gap:10px}
+.mentor-divider span{font-size:11px;color:var(--tx4);white-space:nowrap}
+.mentor-divider::before,.mentor-divider::after{content:'';flex:1;height:1px;background:var(--bd2)}
+.pin-wrap{width:100%;max-width:520px}
+.pin-card{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:20px;display:none}
+.pin-card.visible{display:block}
+.pin-label{font-size:12px;color:var(--tx3);margin-bottom:10px;text-align:center}
+.pin-inputs{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.pin-inputs input{width:48px;height:52px;text-align:center;font-size:22px;font-weight:500;border:1.5px solid var(--bd2);border-radius:var(--r8);background:var(--bg2);color:var(--tx);font-family:var(--sans)}
+.pin-inputs input:focus{outline:none;border-color:var(--blue)}
+.pin-error{font-size:11px;color:var(--txd);text-align:center;display:none}
+.pin-btn{width:100%;padding:10px;border-radius:var(--r8);background:var(--bgi);color:var(--txi);border:none;font-size:13px;font-weight:500;cursor:pointer}
+.pin-btn:hover{opacity:0.85}
+
+/* ── TOP NAV ── */
+nav{background:var(--bg);border-bottom:1px solid var(--bd);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{font-size:13px;font-weight:500;color:var(--tx)}
 .logo span{color:var(--tx3);font-weight:400}
-.nav-right{display:flex;align-items:center;gap:10px}
-.wbadge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r20);background:var(--bgi);color:var(--txi)}
-.sdot{width:7px;height:7px;border-radius:50%;background:#9FE1CB}
-.sdot.live{background:#1D9E75}
+.nav-right{display:flex;align-items:center;gap:8px}
+.wbadge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:var(--r20);background:var(--bgi);color:var(--txi)}
+.user-pill{font-size:11px;font-weight:500;padding:2px 9px;border-radius:var(--r20);display:flex;align-items:center;gap:5px}
+.up-david{background:#E1F5EE;color:#085041}
+.up-melusi{background:#E6F1FB;color:#0C447C}
+.up-gerald{background:#EEEDFE;color:#3C3489}
+.up-mentor{background:#FAEEDA;color:#412402}
+.sdot{width:6px;height:6px;border-radius:50%;background:#9FE1CB}
+.sdot.live{background:var(--teal)}
 .sdot.err{background:#E24B4A}
 .timer{font-size:11px;color:var(--tx4)}
-.nbtn{font-size:11px;padding:4px 10px;border-radius:var(--r20);border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:4px}
-.nbtn:hover{background:var(--bg2)}
-.week-bar{background:var(--bg);border-bottom:1px solid var(--bd);padding:7px 12px;display:flex;gap:5px;overflow-x:auto;flex-shrink:0}
+.icon-btn{width:30px;height:30px;border-radius:var(--r8);border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.icon-btn:hover{background:var(--bg2);color:var(--tx)}
+.icon-btn svg{width:14px;height:14px}
+
+/* ── WEEK BAR ── */
+.week-bar{background:var(--bg);border-bottom:1px solid var(--bd);padding:6px 12px;display:flex;gap:5px;overflow-x:auto;flex-shrink:0}
 .week-bar::-webkit-scrollbar{height:3px}
-.wbtn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.wbtn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;transition:all 0.15s}
 .wbtn:hover{background:var(--bg2);color:var(--tx)}
 .wbtn.on{background:var(--bgi);color:var(--txi);border-color:var(--bdi)}
+
+/* ── MAIN LAYOUT ── */
 .main{display:flex;flex:1;overflow:hidden}
-.side{width:200px;background:var(--bg);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
-.side-sec{padding:12px 12px 4px;font-size:10px;font-weight:500;color:var(--tx4);letter-spacing:0.1em;text-transform:uppercase}
-.side-item{padding:7px 12px;font-size:12px;color:var(--tx3);cursor:pointer;border-radius:6px;margin:1px 6px;display:flex;align-items:center;gap:8px;transition:all 0.15s}
+
+/* ── SIDEBAR ── */
+.side{width:188px;background:var(--bg);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.side-sec{padding:10px 12px 3px;font-size:10px;font-weight:500;color:var(--tx4);letter-spacing:0.09em;text-transform:uppercase}
+.side-item{padding:6px 12px;font-size:12px;color:var(--tx3);cursor:pointer;border-radius:6px;margin:1px 5px;display:flex;align-items:center;gap:7px;transition:all 0.15s}
 .side-item:hover{background:var(--bg2);color:var(--tx)}
 .side-item.on{background:var(--bgi);color:var(--txi)}
-.side-item svg{flex-shrink:0;width:14px;height:14px}
-.sdivider{height:1px;background:var(--bd);margin:6px 12px}
-.stats{padding:8px 12px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.stat{background:var(--bg2);border-radius:var(--r8);padding:8px;text-align:center}
-.stat-n{font-size:18px;font-weight:500;color:var(--tx);line-height:1}
+.side-item svg{flex-shrink:0;width:13px;height:13px}
+.sdivider{height:1px;background:var(--bd);margin:5px 12px}
+.stats{padding:7px 10px;display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.stat{background:var(--bg2);border-radius:var(--r8);padding:7px;text-align:center}
+.stat-n{font-size:16px;font-weight:500;color:var(--tx);line-height:1}
 .stat-l{font-size:10px;color:var(--tx4);margin-top:2px}
-.elist{padding:0 6px 8px}
-.etag{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--bgw);color:var(--txw);margin:2px 0;display:flex;align-items:center;gap:4px}
-.crit{padding:0 12px 10px;display:flex;flex-direction:column;gap:4px}
-.crit-r{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--tx3)}
-.chip{font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--r20)}
+.elist{padding:0 5px 6px}
+.etag{font-size:10px;padding:3px 7px;border-radius:4px;background:var(--bgw);color:var(--txw);margin:2px 0;display:flex;align-items:center;gap:3px}
+.crit{padding:0 12px 8px;display:flex;flex-direction:column;gap:3px}
+.crit-r{display:flex;gap:5px;align-items:center;font-size:11px;color:var(--tx3)}
+.chip{font-size:10px;font-weight:500;padding:2px 6px;border-radius:var(--r20)}
 .cw1{background:#E1F5EE;color:#085041}.cw2{background:#E6F1FB;color:#0C447C}
 .cw3{background:#EEEDFE;color:#3C3489}.cw4{background:#FAEEDA;color:#412402}
+
+/* ── CHAT ── */
 .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
 .msgs::-webkit-scrollbar{width:4px}
-.msg{display:flex;gap:10px;max-width:88%;animation:fadeUp 0.25s ease}
+.msg{display:flex;gap:8px;max-width:90%;animation:fadeUp 0.25s ease}
 .msg.u{align-self:flex-end;flex-direction:row-reverse}
 .msg.a{align-self:flex-start}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px}
 .av.t{background:var(--bgi);color:var(--txi)}
-.av.u{background:var(--bgs);color:var(--txs)}
-.bub{padding:10px 13px;border-radius:var(--r12);font-size:13.5px;line-height:1.65;max-width:100%}
+.av.david{background:#E1F5EE;color:#085041}
+.av.melusi{background:#E6F1FB;color:#0C447C}
+.av.gerald{background:#EEEDFE;color:#3C3489}
+.bub{padding:9px 12px;border-radius:var(--r12);font-size:13px;line-height:1.65;max-width:100%}
 .bub.t{background:var(--bg);border:1px solid var(--bd);color:var(--tx)}
 .bub.u{background:var(--bgi);color:var(--txi)}
-.chips-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
-.typing{display:flex;gap:4px;padding:10px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--r12);width:fit-content}
-.td{width:6px;height:6px;border-radius:50%;background:var(--tx4);animation:bounce 1.2s ease infinite}
-.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.inp-area{background:var(--bg);border-top:1px solid var(--bd);padding:12px 14px;flex-shrink:0}
-.focus-bar{font-size:11px;color:var(--tx3);padding:6px 10px;background:var(--bg2);border-radius:var(--r8);margin-bottom:8px;display:flex;align-items:flex-start;gap:6px}
-.focus-bar svg{flex-shrink:0;width:13px;height:13px;color:var(--txi);margin-top:1px}
-.toolbar{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.chips-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
+.typing-wrap{display:flex;gap:4px;padding:9px 12px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--r12);width:fit-content}
+.td{width:5px;height:5px;border-radius:50%;background:var(--tx4);animation:bounce 1.2s ease infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+
+/* ── INPUT AREA ── */
+.inp-area{background:var(--bg);border-top:1px solid var(--bd);padding:10px 14px;flex-shrink:0}
+.focus-bar{font-size:11px;color:var(--tx3);padding:5px 10px;background:var(--bg2);border-radius:var(--r8);margin-bottom:8px;display:flex;align-items:flex-start;gap:5px}
+.focus-bar svg{flex-shrink:0;width:12px;height:12px;color:var(--txi);margin-top:2px}
+.toolbar{display:flex;gap:5px;margin-bottom:7px;align-items:center}
 .tlabel{font-size:11px;color:var(--tx4)}
-.mbtn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.15s}
+.mbtn{font-size:11px;font-weight:500;padding:3px 9px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:3px;transition:all 0.15s}
 .mbtn.on{background:var(--bgs);color:var(--txs);border-color:var(--bds)}
-.mbtn.rec{background:var(--bgd);color:var(--txd);border-color:rgba(226,75,74,0.3);animation:pulse 1s ease infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.mbtn.rec{background:var(--bgd);color:var(--txd);border-color:rgba(226,75,74,.3);animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 .mbtn svg{width:12px;height:12px}
-.inp-row{display:flex;gap:8px;align-items:flex-end}
-textarea{flex:1;min-height:42px;max-height:120px;padding:10px 12px;border-radius:var(--r12);border:1px solid var(--bd2);background:var(--bg2);color:var(--tx);font-size:13.5px;line-height:1.55;resize:none;font-family:var(--sans);transition:border-color 0.15s}
-textarea:focus{outline:none;border-color:#378ADD}
-.sbtn{width:38px;height:38px;border-radius:var(--r8);background:var(--bgi);color:var(--txi);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.15s}
-.sbtn:hover{opacity:0.8}
-.sbtn:disabled{opacity:0.35;cursor:not-allowed}
-.sbtn svg{width:16px;height:16px}
+.inp-row{display:flex;gap:7px;align-items:flex-end}
+textarea{flex:1;min-height:38px;max-height:110px;padding:9px 11px;border-radius:var(--r12);border:1px solid var(--bd2);background:var(--bg2);color:var(--tx);font-size:13px;line-height:1.55;resize:none;font-family:var(--sans);transition:border-color .15s}
+textarea:focus{outline:none;border-color:var(--blue)}
+.sbtn{width:36px;height:36px;border-radius:var(--r8);background:var(--bgi);color:var(--txi);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.sbtn:hover{opacity:.8}.sbtn:disabled{opacity:.35;cursor:not-allowed}
+.sbtn svg{width:15px;height:15px}
 .ccount{font-size:11px;color:var(--tx4);margin-left:auto}
-.cold-note{font-size:11px;color:var(--txw);background:var(--bgw);border-radius:var(--r8);padding:6px 10px;margin-bottom:8px;display:none}
-@media(max-width:600px){.side{display:none}.week-bar{padding:6px 8px}}
+.cold-note{font-size:11px;color:var(--txw);background:var(--bgw);border-radius:var(--r8);padding:5px 10px;margin-bottom:7px;display:none}
+
+/* ── MENTOR DASHBOARD ── */
+.dash{flex:1;overflow-y:auto;padding:20px}
+.dash-header{margin-bottom:20px}
+.dash-header h2{font-family:var(--serif);font-size:1.4rem;font-weight:400;color:var(--navy);margin-bottom:4px}
+.dash-header p{font-size:12px;color:var(--tx3)}
+.student-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
+.student-card{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:18px;transition:all .15s}
+.student-card:hover{border-color:var(--bd2);box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.sc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sc-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;font-family:var(--serif)}
+.sc-name{font-size:14px;font-weight:500;color:var(--tx)}
+.sc-week{font-size:11px;color:var(--tx4);margin-top:1px}
+.sc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px}
+.sc-stat{background:var(--bg2);border-radius:var(--r8);padding:7px;text-align:center}
+.sc-stat-n{font-size:15px;font-weight:500;color:var(--tx);line-height:1}
+.sc-stat-l{font-size:10px;color:var(--tx4);margin-top:2px}
+.sc-errors{margin-bottom:12px}
+.sc-errors-title{font-size:11px;color:var(--tx4);margin-bottom:5px}
+.sc-etag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--bgw);color:var(--txw);display:inline-block;margin:2px 2px 0 0}
+.sc-last{font-size:11px;color:var(--tx4)}
+.sc-last span{color:var(--tx3)}
+.sc-btn{width:100%;margin-top:10px;padding:7px;border-radius:var(--r8);border:1px solid var(--bd2);background:transparent;color:var(--tx3);font-size:12px;cursor:pointer;transition:all .15s}
+.sc-btn:hover{background:var(--bg2);color:var(--tx)}
+.transcript-panel{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:18px;display:none}
+.transcript-panel.visible{display:block}
+.tp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.tp-title{font-size:13px;font-weight:500;color:var(--tx)}
+.tp-close{font-size:11px;color:var(--tx3);cursor:pointer;padding:3px 8px;border-radius:var(--r20);border:1px solid var(--bd2)}
+.tp-close:hover{background:var(--bg2)}
+.tp-entry{padding:10px 0;border-bottom:1px solid var(--bd)}
+.tp-entry:last-child{border-bottom:none}
+.tp-role{font-size:10px;font-weight:500;color:var(--tx4);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em}
+.tp-text{font-size:12px;color:var(--tx2);line-height:1.6}
+.tp-empty{font-size:12px;color:var(--tx4);text-align:center;padding:24px}
+.progress-section{margin-bottom:24px}
+.progress-title{font-size:12px;font-weight:500;color:var(--tx3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.week-progress{display:flex;gap:4px}
+.wp-seg{height:6px;flex:1;border-radius:3px;background:var(--bg3)}
+.wp-seg.done{background:var(--teal)}
+.wp-seg.current{background:#9FE1CB}
+.wp-labels{display:flex;justify-content:space-between;margin-top:4px}
+.wp-label{font-size:10px;color:var(--tx4)}
+
+@media(max-width:580px){.side{display:none}.user-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<div class="app">
 
-<nav>
-  <div style="display:flex;align-items:center;gap:8px">
-    <div class="sdot" id="sdot"></div>
-    <div class="logo">Cambridge 0500 <span>Socratic Tutor</span></div>
-    <span class="wbadge" id="wbadge">Week 1 · Sentences</span>
-  </div>
-  <div class="nav-right">
-    <span class="timer" id="timer">00:00</span>
-    <button class="nbtn" onclick="newSession()">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><path d="M13.5 2.5v3h-3"/></svg>
-      New session
-    </button>
-  </div>
-</nav>
+<!-- ═══════════════════════════════════════════════
+     SCREEN 1 — LOGIN
+═══════════════════════════════════════════════ -->
+<div class="screen active" id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-header">
+      <h1>Cambridge 0500<br><em>Socratic Tutor</em></h1>
+      <p>Select your profile to begin</p>
+    </div>
 
-<div class="week-bar">
-  <button class="wbtn on" onclick="setWeek(0,this)">Wk 1–2: Sentences</button>
-  <button class="wbtn" onclick="setWeek(1,this)">Wk 3–4: Punctuation</button>
-  <button class="wbtn" onclick="setWeek(2,this)">Wk 5–6: Vocabulary</button>
-  <button class="wbtn" onclick="setWeek(3,this)">Wk 7–8: Register</button>
-  <button class="wbtn" onclick="setWeek(4,this)">Wk 9–10: Q1 Reading</button>
-  <button class="wbtn" onclick="setWeek(5,this)">Wk 9–10: Q2 Writing</button>
-  <button class="wbtn" onclick="setWeek(6,this)">Wk 9–10: Q3 Summary</button>
-  <button class="wbtn" onclick="setWeek(7,this)">Wk 11–12: Errors</button>
-</div>
-
-<div class="main">
-  <div class="side">
-    <div class="side-sec">Focus area</div>
-    <div class="side-item on" id="si0">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
-      Sentences
-    </div>
-    <div class="side-item" id="si1">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="1.5"/><path d="M8 3v2M8 11v2M3 8h2M11 8h2"/></svg>
-      Punctuation
-    </div>
-    <div class="side-item" id="si2">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5c0-1.1.9-2 2-2h6a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h6a2 2 0 0 0 2-2"/></svg>
-      Vocabulary
-    </div>
-    <div class="side-item" id="si3">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 8h5M9 8h5M8 2v5M8 9v5"/></svg>
-      Register
-    </div>
-    <div class="sdivider"></div>
-    <div class="side-sec">This session</div>
-    <div class="stats">
-      <div class="stat"><div class="stat-n" id="sexch">0</div><div class="stat-l">exchanges</div></div>
-      <div class="stat"><div class="stat-n" id="serr">0</div><div class="stat-l">errors found</div></div>
-    </div>
-    <div class="sdivider"></div>
-    <div class="side-sec">Errors logged</div>
-    <div class="elist" id="elist">
-      <div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div>
-    </div>
-    <div class="sdivider"></div>
-    <div class="side-sec">Cambridge criteria</div>
-    <div class="crit">
-      <div class="crit-r"><span class="chip cw1">W1</span>Expression</div>
-      <div class="crit-r"><span class="chip cw2">W2</span>Structure</div>
-      <div class="crit-r"><span class="chip cw3">W3</span>Vocabulary</div>
-      <div class="crit-r"><span class="chip cw4">W4</span>Register</div>
-    </div>
-  </div>
-
-  <div class="chat">
-    <div class="msgs" id="msgs"></div>
-    <div class="inp-area">
-      <div class="cold-note" id="coldNote">
-        &#9888; First load may take 30 seconds while Render wakes up. If nothing appears, click New Session.
+    <div class="user-grid">
+      <div class="user-card" onclick="loginStudent('david')">
+        <div class="user-avatar av-david">D</div>
+        <div class="user-name">David</div>
+        <div class="user-role">Student</div>
+        <div class="user-stats" id="stats-david">—</div>
       </div>
-      <div class="focus-bar">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2"/></svg>
-        <span id="focuslabel">Week 1–2: Sentence structure — simple, compound, complex sentences and subject-verb agreement</span>
+      <div class="user-card" onclick="loginStudent('melusi')">
+        <div class="user-avatar av-melusi">M</div>
+        <div class="user-name">Melusi</div>
+        <div class="user-role">Student</div>
+        <div class="user-stats" id="stats-melusi">—</div>
       </div>
-      <div class="toolbar">
-        <span class="tlabel">Input:</span>
-        <button class="mbtn on" id="typebtn" onclick="setMode('type')">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="14" height="9" rx="1.5"/><path d="M5 8h6M8 6v4"/></svg>
-          Type
-        </button>
-        <button class="mbtn" id="voicebtn" onclick="toggleVoice()">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2a2 2 0 0 0-2 2v4a2 2 0 0 0 4 0V4a2 2 0 0 0-2-2z"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2M6 14h4"/></svg>
-          <span id="vlabel">Voice</span>
-        </button>
-        <span class="ccount" id="cc">0 chars</span>
+      <div class="user-card" onclick="loginStudent('gerald')">
+        <div class="user-avatar av-gerald">G</div>
+        <div class="user-name">Gerald</div>
+        <div class="user-role">Student</div>
+        <div class="user-stats" id="stats-gerald">—</div>
       </div>
-      <div class="inp-row">
-        <textarea id="tin" placeholder="Write a paragraph, answer a question, or ask for help... (Enter to send, Shift+Enter for new line)" rows="2"
-          onkeydown="handleKey(event)" oninput="countChars()"></textarea>
-        <button class="sbtn" id="sbtn" onclick="send()" aria-label="Send">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
-        </button>
+    </div>
+
+    <div class="mentor-divider"><span>Mentor access</span></div>
+
+    <div class="pin-wrap">
+      <div class="user-card mentor-card" onclick="showPinEntry()" style="max-width:100%;display:flex;align-items:center;gap:14px;text-align:left;padding:14px 18px">
+        <div class="user-avatar av-mentor" style="margin:0;flex-shrink:0;width:40px;height:40px;font-size:16px">D</div>
+        <div>
+          <div class="user-name">David</div>
+          <div class="user-role">Programme Director · Mentor view</div>
+        </div>
+      </div>
+      <div class="pin-card" id="pinCard">
+        <div class="pin-label">Enter your 4-digit PIN</div>
+        <div class="pin-inputs">
+          <input type="password" maxlength="1" id="p0" oninput="pinInput(0)" onkeydown="pinKey(event,0)">
+          <input type="password" maxlength="1" id="p1" oninput="pinInput(1)" onkeydown="pinKey(event,1)">
+          <input type="password" maxlength="1" id="p2" oninput="pinInput(2)" onkeydown="pinKey(event,2)">
+          <input type="password" maxlength="1" id="p3" oninput="pinInput(3)" onkeydown="pinKey(event,3)">
+        </div>
+        <div class="pin-error" id="pinError">Incorrect PIN. Try again.</div>
+        <button class="pin-btn" onclick="checkPin()">Enter mentor dashboard</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════
+     SCREEN 2 — TUTOR
+═══════════════════════════════════════════════ -->
+<div class="screen" id="tutorScreen">
+  <nav>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="sdot" id="sdot"></div>
+      <div class="logo">Cambridge 0500 <span>Socratic Tutor</span></div>
+      <span class="wbadge" id="wbadge">Week 1 · Sentences</span>
+    </div>
+    <div class="nav-right">
+      <span class="user-pill" id="userPill"></span>
+      <span class="timer" id="timer">00:00</span>
+      <button class="icon-btn" onclick="newSession()" title="New session">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><path d="M13.5 2.5v3h-3"/></svg>
+      </button>
+      <button class="icon-btn" onclick="logout()" title="Switch user">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="week-bar">
+    <button class="wbtn on" onclick="setWeek(0,this)">Wk 1–2: Sentences</button>
+    <button class="wbtn" onclick="setWeek(1,this)">Wk 3–4: Punctuation</button>
+    <button class="wbtn" onclick="setWeek(2,this)">Wk 5–6: Vocabulary</button>
+    <button class="wbtn" onclick="setWeek(3,this)">Wk 7–8: Register</button>
+    <button class="wbtn" onclick="setWeek(4,this)">Wk 9–10: Q1 Reading</button>
+    <button class="wbtn" onclick="setWeek(5,this)">Wk 9–10: Q2 Writing</button>
+    <button class="wbtn" onclick="setWeek(6,this)">Wk 9–10: Q3 Summary</button>
+    <button class="wbtn" onclick="setWeek(7,this)">Wk 11–12: Errors</button>
+  </div>
+
+  <div class="main">
+    <div class="side">
+      <div class="side-sec">Focus</div>
+      <div class="side-item on" id="si0"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>Sentences</div>
+      <div class="side-item" id="si1"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="12" r="1"/><circle cx="8" cy="4" r="1"/></svg>Punctuation</div>
+      <div class="side-item" id="si2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5c0-1.1.9-2 2-2h6a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h6"/></svg>Vocabulary</div>
+      <div class="side-item" id="si3"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 8h5M9 8h5M8 2v5M8 9v5"/></svg>Register</div>
+      <div class="sdivider"></div>
+      <div class="side-sec">Session</div>
+      <div class="stats">
+        <div class="stat"><div class="stat-n" id="sexch">0</div><div class="stat-l">exchanges</div></div>
+        <div class="stat"><div class="stat-n" id="serr">0</div><div class="stat-l">errors found</div></div>
+      </div>
+      <div class="sdivider"></div>
+      <div class="side-sec">Total sessions</div>
+      <div class="stats">
+        <div class="stat"><div class="stat-n" id="stotal">0</div><div class="stat-l">all time</div></div>
+        <div class="stat"><div class="stat-n" id="sweek">Wk 1</div><div class="stat-l">current</div></div>
+      </div>
+      <div class="sdivider"></div>
+      <div class="side-sec">Errors logged</div>
+      <div class="elist" id="elist"><div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div></div>
+      <div class="sdivider"></div>
+      <div class="side-sec">Criteria</div>
+      <div class="crit">
+        <div class="crit-r"><span class="chip cw1">W1</span>Expression</div>
+        <div class="crit-r"><span class="chip cw2">W2</span>Structure</div>
+        <div class="crit-r"><span class="chip cw3">W3</span>Vocabulary</div>
+        <div class="crit-r"><span class="chip cw4">W4</span>Register</div>
+      </div>
+    </div>
+
+    <div class="chat">
+      <div class="msgs" id="msgs"></div>
+      <div class="inp-area">
+        <div class="cold-note" id="coldNote">First load may take 30 seconds while Render wakes up. If nothing appears, click the refresh icon.</div>
+        <div class="focus-bar">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2"/></svg>
+          <span id="focuslabel">Week 1–2: Sentence structure — simple, compound, complex sentences and subject-verb agreement</span>
+        </div>
+        <div class="toolbar">
+          <span class="tlabel">Input:</span>
+          <button class="mbtn on" id="typebtn" onclick="setMode('type')">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="14" height="9" rx="1.5"/></svg>Type
+          </button>
+          <button class="mbtn" id="voicebtn" onclick="toggleVoice()">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2a2 2 0 0 0-2 2v4a2 2 0 0 0 4 0V4a2 2 0 0 0-2-2z"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg>
+            <span id="vlabel">Voice</span>
+          </button>
+          <span class="ccount" id="cc">0 chars</span>
+        </div>
+        <div class="inp-row">
+          <textarea id="tin" placeholder="Write a paragraph, answer a question, or ask for help... (Enter to send)" rows="2" onkeydown="handleKey(event)" oninput="countChars()"></textarea>
+          <button class="sbtn" id="sbtn" onclick="send()" aria-label="Send">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 3 — MENTOR DASHBOARD
+═══════════════════════════════════════════════ -->
+<div class="screen" id="mentorScreen">
+  <nav>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="logo">Cambridge 0500 <span>Mentor Dashboard</span></div>
+    </div>
+    <div class="nav-right">
+      <span class="user-pill up-mentor">David · Mentor</span>
+      <button class="icon-btn" onclick="logout()" title="Sign out">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="dash" id="dash"></div>
 </div>
 
 <script>
 const API = 'https://sms-english-tutor.onrender.com';
+const MENTOR_PIN = '2445';
+const STUDENTS = [
+  {id:'david', name:'David', initial:'D', avClass:'av-david', pillClass:'up-david'},
+  {id:'melusi', name:'Melusi', initial:'M', avClass:'av-melusi', pillClass:'up-melusi'},
+  {id:'gerald', name:'Gerald', initial:'G', avClass:'av-gerald', pillClass:'up-gerald'}
+];
+const WEEK_LABELS = ['Wk 1–2','Wk 3–4','Wk 5–6','Wk 7–8','Wk 9–10 Q1','Wk 9–10 Q2','Wk 9–10 Q3','Wk 11–12'];
 
 const WEEKS = [
-{label:"Week 1–2: Sentences", focus:"Sentence structure — simple, compound, complex sentences and subject-verb agreement", si:0,
-sys:`You are a Cambridge IGCSE 0500 First Language English Socratic tutor. Student: adult, first language English, strong spoken English, weak written English. Target A*.
-
-THIS WEEK: Sentences — simple/compound/complex types; subject-verb agreement; sentence variety for deliberate effect.
-
-RULES — never break these:
-1. NEVER correct writing directly. Ask a Socratic question that leads the student to find the error themselves.
-2. NEVER give model answers. Give principles then make the student apply them.
-3. After every piece of writing submitted, ask AT LEAST TWO Socratic questions before any feedback.
-4. When the same error appears twice: name it explicitly, explain the rule ONCE, make the student correct every instance themselves.
-5. Evaluate all writing against W1 (expression), W2 (structure), W3 (vocabulary/sentence variety), W4 (register).
-6. End EVERY response with exactly one specific question or task.
-7. Be warm but demanding. You believe in this student's potential.
-
-BEGIN: Ask the student to write one paragraph on any topic of their choice. After they write, begin the Socratic process on sentence structure.`},
-
-{label:"Week 3–4: Punctuation", focus:"Punctuation as meaning — commas, semicolons, colons, dashes used for deliberate effect", si:1,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Punctuation as a tool for meaning and pace — four legitimate comma uses, the semicolon joining independent clauses, the colon introducing what follows, the dash for emphasis, paragraph breaks as structural decisions.
-
-RULES:
-1. Never correct directly. Always ask Socratic questions.
-2. For every punctuation mark the student uses, ask them to justify their choice.
-3. The comma splice is the most common error. When spotted: "Read those two clauses aloud. Are they complete sentences? What does that tell you about the comma between them?"
-4. Focus primarily on W2 (structure for deliberate effect).
-5. End every response with one specific task.
-
-BEGIN: Ask the student to write a paragraph of 6–8 sentences on any topic, then tell them you will examine every punctuation mark they used.`},
-
-{label:"Week 5–6: Vocabulary", focus:"Vocabulary precision — strong verbs, eliminating vague intensifiers, connotation vs denotation", si:2,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Vocabulary — precision over impressiveness; strong verbs over verb-adverb combinations; eliminating vague intensifiers (very, really, quite); connotation vs denotation; active vocabulary acquisition.
-
-RULES:
-1. Never suggest replacements directly. Ask: "Give me three alternatives for that word. Which is most precise and why?"
-2. Target weak verbs especially: was, went, said, got are almost always upgradeable.
-3. Cambridge rewards ambitious vocabulary WHEN ACCURATE. Precision over sophistication always.
-4. Focus on W3 (vocabulary range appropriate to context).
-5. End every response with one specific vocabulary task.
-
-BEGIN: Ask the student to write a paragraph describing a place they know well. Then identify every vague word and weak verb — through questions, never direct corrections.`},
-
-{label:"Week 7–8: Register", focus:"Register consistency — formal, informal, persuasive, informative — maintained throughout", si:3,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Register — formal (no contractions, impersonal, complex structures), informal (contractions, direct address, colloquial), persuasive (rhetoric, rule of three, inclusive pronouns), informative (precise, sequential, hedging). Consistency throughout is the key skill.
-
-RULES:
-1. When register slips: "Who is your audience? Read this sentence. Would they expect that tone from this writer in this context?"
-2. Drill all four forms: formal letter, informal letter, speech, report.
-3. Register is W4. Top band = maintained throughout, not just attempted.
-4. End every response with one specific task.
-
-BEGIN: Ask the student to write a short paragraph to a friend about a problem. Then ask them to rewrite it as a formal letter to a head teacher. Then begin comparative Socratic questioning.`},
-
-{label:"Week 9–10: Q1 Reading", focus:"Q1 comprehension — precise evidence selection, explicit vs implicit meaning, writer's effects", si:0,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Paper 1 Q1 — precise evidence selection (not copying, not loose paraphrase), explicit vs implicit meaning, writer's language effects.
-
-After the student answers any question:
-1. "Did you select the most precise evidence, or is there a better phrase in the passage?"
-2. "Is your answer showing explicit or implicit understanding? How do you know?"
-3. "Have you copied language when the question asks for your own words?"
-4. "How many marks is this question? Have you given enough distinct points?"
-Never confirm if an answer is correct. Ask: "How confident are you? What in the passage makes you sure?"
-
-PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings before theirs. Inside, the machines did not pause for thought."
-
-BEGIN: Share the passage and set this question: "What impression does the writer create of the workers' daily experience? Use evidence from the passage." [8 marks]`},
-
-{label:"Week 9–10: Q2 Writing", focus:"Q2 directed writing — register transformation, using passage information only, strong form features", si:3,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Paper 1 Q2 — transform passage information into a specific form (letter/speech/report) in the correct register. No invented content. Open and close with impact.
-
-After the student writes:
-1. "Did you use information from the passage or invent content? Point to each claim — where did it come from?"
-2. "Is your register consistent from first sentence to last? Read your third paragraph — has it shifted?"
-3. "Does your opening immediately establish the form?"
-4. "Does your closing land with impact or trail off?"
-
-PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning. Inside, the machines did not pause for thought."
-
-BEGIN: First ask: "What are three specific language features Cambridge expects in a speech? List them before you begin writing." Then set the task: write a speech to a town council arguing the factory should be modernised to improve workers' conditions.`},
-
-{label:"Week 9–10: Q3 Summary", focus:"Q3 summary — focused selection, own words only, staying on the specific aspect asked", si:2,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Paper 1 Q3 — finding correct content points, expressing in own words, staying focused on the specific aspect asked, hitting the word limit.
-
-After the student writes:
-1. "Count your distinct content points. Q3 typically has 8–10 creditable points. Did you find enough?"
-2. "Read your second sentence. Find the corresponding line in the passage. How similar are the words?"
-3. "Does every sentence relate to the specific aspect asked, or have you drifted to the passage generally?"
-4. "What is your word count? Is it within the limit?"
-
-PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings. Inside, the machines did not pause for thought. The air tasted of metal and repetition."
-
-BEGIN: Set this task: "Write a summary of what the passage suggests about the ATMOSPHERE of the factory. Write no more than 120 words." Apply all four questions after they write.`},
-
-{label:"Week 11–12: Error elimination", focus:"Targeted error drilling — your specific recurring patterns eliminated before the exam", si:0,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
-
-THIS WEEK: Error elimination — identify the student's top 2–3 persistent error patterns and drill until gone.
-
-APPROACH:
-1. Ask the student to write three paragraphs freely on any topic.
-2. Identify the most persistent error pattern.
-3. Name it: "You have a pattern I want to address: [name]. This appears [X] times in what you just wrote."
-4. Explain the underlying rule ONCE clearly with a concrete example.
-5. Make the student find and correct EVERY instance themselves — correct none for them.
-6. Ask: "Explain back to me why each correction was necessary. I want the rule in your own words."
-7. If the error reappears: "I see our friend is back. You know what to look for."
-
-At session end, generate a one-paragraph progress note suitable for a Cambridge examiner: "This student demonstrates [specific skill] as evidenced by [specific example from today's session]..."
-
-BEGIN: Ask the student to write three paragraphs on any topic they care about. Tell them you will read for patterns, not isolated mistakes.`}
+{label:"Week 1–2: Sentences",focus:"Sentence structure — simple, compound, complex sentences and subject-verb agreement",si:0,
+sys:`You are a Cambridge IGCSE 0500 First Language English Socratic tutor. Student: adult/teenager, first language English. Target A*.
+THIS WEEK: Sentences — simple/compound/complex types; subject-verb agreement; sentence variety.
+RULES: 1. NEVER correct directly — ask Socratic questions. 2. NEVER give model answers. 3. Ask AT LEAST TWO questions after every piece of writing before feedback. 4. When same error appears twice: name it, explain rule ONCE, make student correct every instance. 5. Evaluate against W1/W2/W3/W4. 6. End EVERY response with one specific question or task. 7. Be warm but demanding.
+BEGIN: Ask the student to write one paragraph on any topic, then begin Socratic questioning on sentence structure.`},
+{label:"Week 3–4: Punctuation",focus:"Punctuation as meaning — commas, semicolons, colons, dashes for deliberate effect",si:1,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Punctuation as a tool for meaning — four comma uses, semicolon, colon, dash, paragraph breaks. RULES: 1. Never correct directly. 2. Ask students to justify every punctuation mark. 3. Comma splice: "Read those two clauses aloud. Are they complete sentences?" 4. Focus on W2. 5. End with one specific task. BEGIN: Ask student to write 6–8 sentences then examine every punctuation mark.`},
+{label:"Week 5–6: Vocabulary",focus:"Vocabulary precision — strong verbs, eliminating vague intensifiers, connotation vs denotation",si:2,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Vocabulary — precision over impressiveness; strong verbs; eliminate vague intensifiers (very, really, quite); connotation vs denotation. RULES: 1. Never suggest replacements — ask "Give me three alternatives. Which is most precise?" 2. Target weak verbs: was, went, said, got. 3. Precision over sophistication. 4. Focus W3. 5. End with one task. BEGIN: Ask student to describe a place they know well.`},
+{label:"Week 7–8: Register",focus:"Register consistency — formal, informal, persuasive, informative — maintained throughout",si:3,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Register — formal/informal/persuasive/informative. Consistency throughout is the key skill. RULES: 1. Register slips: "Who is your audience? Would they expect that tone?" 2. Drill all four forms. 3. Register is W4 — top band = maintained throughout. 4. End with one task. BEGIN: Ask student to write to a friend about a problem, then rewrite as formal letter to head teacher.`},
+{label:"Week 9–10: Q1 Reading",focus:"Q1 comprehension — precise evidence selection, explicit vs implicit meaning",si:0,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q1 — precise evidence, explicit vs implicit meaning, writer's effects. After every answer: 1. "Did you select the most precise evidence?" 2. "Explicit or implicit understanding?" 3. "Have you copied language when own words are needed?" 4. "How many marks? Enough points?" Never confirm correct answers. PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings before theirs. Inside, the machines did not pause for thought." BEGIN: Share passage, ask: "What impression does the writer create of the workers' daily experience? Use evidence." [8 marks]`},
+{label:"Week 9–10: Q2 Writing",focus:"Q2 directed writing — register transformation, passage information only",si:3,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q2 — transform passage info into specific form (letter/speech/report), correct register, no invented content. After writing: 1. "Did you use passage info or invent content?" 2. "Is register consistent throughout?" 3. "Does opening establish form?" 4. "Does closing land with impact?" PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning. Inside, the machines did not pause for thought." BEGIN: Ask "What three language features does Cambridge expect in a speech?" Then: write speech to town council arguing factory should be modernised.`},
+{label:"Week 9–10: Q3 Summary",focus:"Q3 summary — focused selection, own words, staying on the specific aspect asked",si:2,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q3 — correct content points, own words, focused on specific aspect, word limit. After writing: 1. "Count distinct content points — did you find 8-10?" 2. "How similar are your words to the passage?" 3. "Does every sentence relate to the specific aspect?" 4. "What is your word count?" PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings. Inside, the machines did not pause for thought. The air tasted of metal and repetition." BEGIN: Task — "Summarise what the passage suggests about the ATMOSPHERE of the factory. Max 120 words."` },
+{label:"Week 11–12: Error elimination",focus:"Targeted error drilling — your specific recurring patterns eliminated before the exam",si:0,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Error elimination — identify top 2–3 persistent patterns, drill until gone. APPROACH: 1. Student writes three paragraphs freely. 2. Identify most persistent error. 3. Name it explicitly, explain rule ONCE. 4. Student corrects ALL instances themselves. 5. "Explain the rule back to me." 6. If error reappears: "I see our friend is back." End each session with a progress note for a Cambridge examiner: "This student demonstrates [skill] as evidenced by [example]..." BEGIN: Ask student to write three paragraphs on any topic they care about.`}
 ];
 
-let messages=[], week=0, loading=false, exchanges=0, errCount=0, errPatterns=[], recording=false, mediaRec=null, chunks=[], tstart=Date.now(), tiv=null;
+let currentUser = null;
+let messages = [], week = 0, loading = false;
+let exchanges = 0, errCount = 0, errPatterns = [];
+let recording = false, mediaRec = null, chunks = [];
+let tstart = null, tiv = null;
 
-tiv = setInterval(()=>{
-  const e = Math.floor((Date.now()-tstart)/1000);
-  document.getElementById('timer').textContent = String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
-}, 1000);
+/* ─── STORAGE HELPERS ─────────────────────────────── */
+function getUD(uid) {
+  try { return JSON.parse(localStorage.getItem('sms_0500_' + uid) || 'null'); } catch(e) { return null; }
+}
+function setUD(uid, data) {
+  try { localStorage.setItem('sms_0500_' + uid, JSON.stringify(data)); } catch(e) {}
+}
+function defaultUD() {
+  return {totalSessions:0, currentWeek:0, errPatterns:[], lastActive:null, transcripts:[]};
+}
+function saveSession() {
+  if (!currentUser) return;
+  const d = getUD(currentUser.id) || defaultUD();
+  d.errPatterns = errPatterns;
+  d.currentWeek = week;
+  d.lastActive = new Date().toLocaleDateString();
+  if (messages.length > 2) {
+    d.transcripts = d.transcripts || [];
+    d.transcripts.push({date: new Date().toLocaleDateString(), week: WEEK_LABELS[week], messages: messages.slice(-20)});
+    if (d.transcripts.length > 10) d.transcripts = d.transcripts.slice(-10);
+  }
+  setUD(currentUser.id, d);
+}
 
+/* ─── LOGIN ───────────────────────────────────────── */
+function refreshLoginStats() {
+  STUDENTS.forEach(s => {
+    const d = getUD(s.id);
+    const el = document.getElementById('stats-' + s.id);
+    if (d && d.totalSessions > 0) {
+      el.textContent = d.totalSessions + ' session' + (d.totalSessions!==1?'s':'') + ' · ' + WEEK_LABELS[d.currentWeek||0];
+    } else {
+      el.textContent = 'Not started yet';
+    }
+  });
+}
+
+function loginStudent(uid) {
+  const student = STUDENTS.find(s => s.id === uid);
+  if (!student) return;
+  currentUser = student;
+  const d = getUD(uid) || defaultUD();
+  week = d.currentWeek || 0;
+  errPatterns = d.errPatterns || [];
+  errCount = errPatterns.length;
+  showScreen('tutorScreen');
+  setupTutorUI();
+  beginSession();
+}
+
+function showPinEntry() {
+  const pc = document.getElementById('pinCard');
+  pc.classList.toggle('visible');
+  if (pc.classList.contains('visible')) {
+    document.getElementById('p0').focus();
+  }
+}
+
+function pinInput(i) {
+  const v = document.getElementById('p' + i).value;
+  if (v && i < 3) document.getElementById('p' + (i+1)).focus();
+}
+function pinKey(e, i) {
+  if (e.key === 'Backspace' && !document.getElementById('p'+i).value && i > 0) {
+    document.getElementById('p'+(i-1)).focus();
+  }
+  if (e.key === 'Enter') checkPin();
+}
+function checkPin() {
+  const pin = [0,1,2,3].map(i => document.getElementById('p'+i).value).join('');
+  if (pin === MENTOR_PIN) {
+    showScreen('mentorScreen');
+    buildDashboard();
+  } else {
+    document.getElementById('pinError').style.display = 'block';
+    [0,1,2,3].forEach(i => { document.getElementById('p'+i).value = ''; });
+    document.getElementById('p0').focus();
+    setTimeout(() => { document.getElementById('pinError').style.display = 'none'; }, 2000);
+  }
+}
+
+function logout() {
+  saveSession();
+  if (tiv) { clearInterval(tiv); tiv = null; }
+  currentUser = null;
+  messages = []; exchanges = 0; errCount = 0; errPatterns = [];
+  document.getElementById('pinCard').classList.remove('visible');
+  [0,1,2,3].forEach(i => { document.getElementById('p'+i).value = ''; });
+  refreshLoginStats();
+  showScreen('loginScreen');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ─── TUTOR UI SETUP ──────────────────────────────── */
+function setupTutorUI() {
+  const d = getUD(currentUser.id) || defaultUD();
+  const pill = document.getElementById('userPill');
+  pill.textContent = currentUser.name;
+  pill.className = 'user-pill ' + currentUser.pillClass;
+  document.getElementById('stotal').textContent = d.totalSessions || 0;
+  document.getElementById('sweek').textContent = WEEK_LABELS[week];
+  document.getElementById('wbadge').textContent = WEEKS[week].label;
+  document.getElementById('focuslabel').textContent = WEEKS[week].focus;
+  const siMap = {0:'si0',1:'si1',2:'si2',3:'si3'};
+  document.querySelectorAll('.side-item').forEach(i => i.classList.remove('on'));
+  const sid = siMap[WEEKS[week].si]; if (sid) document.getElementById(sid).classList.add('on');
+  document.querySelectorAll('.wbtn').forEach((b,i) => b.classList.toggle('on', i===week));
+  renderErrorList();
+  document.getElementById('sexch').textContent = '0';
+  document.getElementById('serr').textContent = errCount;
+  tstart = Date.now();
+  if (tiv) clearInterval(tiv);
+  tiv = setInterval(() => {
+    const e = Math.floor((Date.now()-tstart)/1000);
+    document.getElementById('timer').textContent = String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
+  }, 1000);
+}
+
+function renderErrorList() {
+  const el = document.getElementById('elist');
+  if (!errPatterns.length) {
+    el.innerHTML = '<div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div>';
+    return;
+  }
+  el.innerHTML = errPatterns.map(p =>
+    `<div class="etag"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v3M8 11v.5M2 13h12L8 3z"/></svg>${p}</div>`
+  ).join('');
+}
+
+/* ─── SESSION ─────────────────────────────────────── */
 async function beginSession() {
-  messages = [];
+  messages = []; exchanges = 0;
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('sexch').textContent = '0';
   document.getElementById('coldNote').style.display = 'block';
   addTyping();
   try {
@@ -344,22 +552,25 @@ async function beginSession() {
     messages.push({role:'user', content:'Begin. One sentence intro then give me my first task immediately. No preamble.'});
     messages.push({role:'assistant', content:reply});
     document.getElementById('sdot').className = 'sdot live';
+    const d = getUD(currentUser.id) || defaultUD();
+    d.totalSessions = (d.totalSessions||0) + 1;
+    setUD(currentUser.id, d);
+    document.getElementById('stotal').textContent = d.totalSessions;
   } catch(e) {
     removeTyping();
     document.getElementById('sdot').className = 'sdot err';
-    addMsg('a', 'Could not connect to the tutor backend. Render may be waking up from sleep — wait 30 seconds then click New Session.\n\nError: ' + e.message);
+    document.getElementById('coldNote').style.display = 'none';
+    addMsg('a', 'Could not connect. Render may be waking up — wait 30 seconds and click the refresh icon.\n\nError: ' + e.message);
   }
 }
 
 async function callAPI(msgs) {
   const r = await fetch(API + '/chat', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({messages: msgs, system: WEEKS[week].sys})
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({messages:msgs, system:WEEKS[week].sys})
   });
-  if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Server error ' + r.status); }
-  const d = await r.json();
-  return d.content;
+  if (!r.ok) { const e = await r.json(); throw new Error(e.detail||'Server error '+r.status); }
+  const d = await r.json(); return d.content;
 }
 
 async function send() {
@@ -378,49 +589,38 @@ async function send() {
     addMsg('a', reply, true);
     messages.push({role:'assistant', content:reply});
     scanErrors(reply);
-  } catch(e) {
-    removeTyping();
-    addMsg('a', 'Error: ' + e.message);
-  }
+    saveSession();
+  } catch(e) { removeTyping(); addMsg('a', 'Error: ' + e.message); }
   loading = false;
   document.getElementById('sbtn').disabled = false;
   document.getElementById('tin').focus();
 }
 
-async function callAPI(msgs) {
-  const r = await fetch(API + '/chat', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({messages: msgs, system: WEEKS[week].sys})
-  });
-  if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Server error ' + r.status); }
-  const d = await r.json();
-  return d.content;
-}
-
 function addMsg(role, text, analyse) {
   const c = document.getElementById('msgs');
   const d = document.createElement('div');
-  d.className = 'msg ' + (role==='a' ? 'a' : 'u');
+  d.className = 'msg ' + (role==='a'?'a':'u');
   const av = document.createElement('div');
-  av.className = 'av ' + (role==='a' ? 't' : 'u');
-  av.textContent = role==='a' ? 'T' : 'Y';
+  if (role === 'a') {
+    av.className = 'av t'; av.textContent = 'T';
+  } else {
+    av.className = 'av ' + (currentUser?.id||''); av.textContent = currentUser?.initial||'Y';
+  }
   const bub = document.createElement('div');
-  bub.className = 'bub ' + (role==='a' ? 't' : 'u');
+  bub.className = 'bub ' + (role==='a'?'t':'u');
   bub.innerHTML = fmt(text);
   const wrap = document.createElement('div');
-  wrap.style.cssText = 'display:flex;flex-direction:column;gap:4px;max-width:100%';
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:3px;max-width:100%';
   wrap.appendChild(bub);
-  if (role==='a' && analyse) { const ch = getCritChips(text); if (ch) wrap.appendChild(ch); }
+  if (role==='a' && analyse) { const ch = getCritChips(text); if(ch) wrap.appendChild(ch); }
   d.appendChild(av); d.appendChild(wrap);
-  c.appendChild(d);
-  c.scrollTop = c.scrollHeight;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
 
 function fmt(t) {
   return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/\n\n/g,'</p><p style="margin-top:7px">')
+    .replace(/\n\n/g,'</p><p style="margin-top:6px">')
     .replace(/\n/g,'<br>');
 }
 
@@ -438,22 +638,18 @@ function getCritChips(t) {
 
 function scanErrors(t) {
   const ps = [
-    {r:/comma splice/i, l:'Comma splice'}, {r:/subject.verb/i, l:'Subject-verb agreement'},
-    {r:/fragment/i, l:'Sentence fragment'}, {r:/run.on/i, l:'Run-on sentence'},
-    {r:/vague intensifier|very,|really,/i, l:'Vague intensifiers'},
-    {r:/register.*slip|slip.*register/i, l:'Register slippage'},
-    {r:/copied.*passage|lifting/i, l:'Copying from passage'},
-    {r:/passive/i, l:'Passive overuse'},
+    {r:/comma splice/i,l:'Comma splice'},{r:/subject.verb/i,l:'Subject-verb agreement'},
+    {r:/fragment/i,l:'Sentence fragment'},{r:/run.on/i,l:'Run-on sentence'},
+    {r:/vague intensifier|very,|really,/i,l:'Vague intensifiers'},
+    {r:/register.*slip|slip.*register/i,l:'Register slippage'},
+    {r:/copied.*passage|lifting/i,l:'Copying from passage'},
+    {r:/passive/i,l:'Passive overuse'},
   ];
   ps.forEach(p => {
     if (p.r.test(t) && !errPatterns.includes(p.l)) {
       errPatterns.push(p.l); errCount++;
       document.getElementById('serr').textContent = errCount;
-      const el = document.getElementById('elist');
-      if (errCount===1) el.innerHTML = '';
-      const d = document.createElement('div'); d.className = 'etag';
-      d.innerHTML = `<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v3M8 11v.5M2 13h12L8 3 2 13z"/></svg>${p.l}`;
-      el.appendChild(d);
+      renderErrorList();
     }
   });
 }
@@ -461,18 +657,18 @@ function scanErrors(t) {
 function addTyping() {
   const c = document.getElementById('msgs');
   const d = document.createElement('div'); d.className='msg a'; d.id='typing';
-  d.innerHTML = `<div class="av t">T</div><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+  d.innerHTML = `<div class="av t">T</div><div class="typing-wrap"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
   c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
 function removeTyping() { const t=document.getElementById('typing'); if(t)t.remove(); }
 
 function handleKey(e) {
-  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  if (e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); send(); }
   const ta = document.getElementById('tin');
   ta.style.height = 'auto';
-  ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
+  ta.style.height = Math.min(ta.scrollHeight,110)+'px';
 }
-function countChars() { document.getElementById('cc').textContent = document.getElementById('tin').value.length + ' chars'; }
+function countChars() { document.getElementById('cc').textContent = document.getElementById('tin').value.length+' chars'; }
 
 function setWeek(w, btn) {
   week = w;
@@ -480,68 +676,131 @@ function setWeek(w, btn) {
   btn.classList.add('on');
   document.getElementById('wbadge').textContent = WEEKS[w].label;
   document.getElementById('focuslabel').textContent = WEEKS[w].focus;
+  document.getElementById('sweek').textContent = WEEK_LABELS[w];
   const siMap = {0:'si0',1:'si1',2:'si2',3:'si3'};
   document.querySelectorAll('.side-item').forEach(i => i.classList.remove('on'));
   const sid = siMap[WEEKS[w].si]; if(sid) document.getElementById(sid).classList.add('on');
-  resetStats(); beginSession();
-}
-
-function resetStats() {
-  document.getElementById('msgs').innerHTML = '';
-  messages=[]; exchanges=0; errCount=0; errPatterns=[];
-  document.getElementById('sexch').textContent = '0';
-  document.getElementById('serr').textContent = '0';
-  document.getElementById('elist').innerHTML = '<div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div>';
+  const d = getUD(currentUser.id)||defaultUD(); d.currentWeek=w; setUD(currentUser.id,d);
+  exchanges=0; errCount=errPatterns.length;
+  document.getElementById('sexch').textContent='0';
+  document.getElementById('msgs').innerHTML='';
+  messages=[];
+  beginSession();
 }
 
 function newSession() {
-  if (!confirm('Start a fresh session? Current conversation will be cleared.')) return;
-  resetStats(); beginSession();
+  if (!confirm('Start a fresh session? This conversation will be cleared.')) return;
+  beginSession();
 }
 
 function setMode(m) {
-  document.getElementById('typebtn').classList.toggle('on', m==='type');
-  document.getElementById('voicebtn').classList.toggle('on', m==='voice');
+  document.getElementById('typebtn').classList.toggle('on',m==='type');
+  document.getElementById('voicebtn').classList.toggle('on',m==='voice');
 }
 
 async function toggleVoice() {
   if (recording) { stopRec(); return; }
-  if (!navigator.mediaDevices) { alert('Microphone not available. Use the Type mode instead.'); return; }
+  if (!navigator.mediaDevices) { alert('Microphone not available. Use Type mode.'); return; }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-    mediaRec = new MediaRecorder(stream); chunks = [];
+    mediaRec = new MediaRecorder(stream); chunks=[];
     mediaRec.ondataavailable = e => chunks.push(e.data);
     mediaRec.onstop = processAudio;
-    mediaRec.start(); recording = true;
+    mediaRec.start(); recording=true;
     document.getElementById('voicebtn').classList.add('rec');
-    document.getElementById('vlabel').textContent = 'Stop';
+    document.getElementById('vlabel').textContent='Stop';
     setMode('voice');
-  } catch(e) { alert('Microphone access denied. Please allow microphone access in your browser settings.'); }
+  } catch(e) { alert('Microphone access denied. Use Type mode instead.'); }
 }
-
 function stopRec() {
-  if (mediaRec && recording) {
+  if (mediaRec&&recording) {
     mediaRec.stop(); mediaRec.stream.getTracks().forEach(t=>t.stop());
-    recording = false;
-    document.getElementById('voicebtn').classList.remove('rec');
-    document.getElementById('vlabel').textContent = 'Voice';
+    recording=false; document.getElementById('voicebtn').classList.remove('rec');
+    document.getElementById('vlabel').textContent='Voice';
   }
 }
-
 async function processAudio() {
-  const blob = new Blob(chunks, {type:'audio/webm'});
-  const fd = new FormData(); fd.append('file', blob, 'rec.webm'); fd.append('model', 'whisper-1');
+  const blob=new Blob(chunks,{type:'audio/webm'});
+  const fd=new FormData(); fd.append('file',blob,'rec.webm'); fd.append('model','whisper-1');
   try {
-    const r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method:'POST', headers:{'Authorization':'Bearer REPLACE_WITH_OPENAI_KEY'}, body:fd
-    });
-    if (r.ok) { const d=await r.json(); document.getElementById('tin').value=d.text; }
-    else { document.getElementById('tin').value='[Voice needs OpenAI key — type your response instead]'; }
-  } catch(e) { document.getElementById('tin').value='[Voice unavailable — type your response]'; }
+    const r=await fetch('https://api.openai.com/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer REPLACE_WITH_OPENAI_KEY'},body:fd});
+    document.getElementById('tin').value = r.ok ? (await r.json()).text : '[Voice needs OpenAI key — type instead]';
+  } catch(e) { document.getElementById('tin').value='[Voice unavailable — type instead]'; }
   countChars(); setMode('type');
 }
 
-beginSession();
+/* ─── MENTOR DASHBOARD ────────────────────────────── */
+function buildDashboard() {
+  const dash = document.getElementById('dash');
+  let html = `<div class="dash-header"><h2>Student Progress</h2><p>Overview of all three students — click "View transcripts" to read their Socratic sessions</p></div>`;
+  html += `<div class="student-cards">`;
+  STUDENTS.forEach(s => {
+    const d = getUD(s.id) || defaultUD();
+    const errs = (d.errPatterns||[]);
+    const errHtml = errs.length ? errs.map(e=>`<span class="sc-etag">${e}</span>`).join('') : '<span style="font-size:11px;color:var(--tx4)">None logged</span>';
+    const wk = WEEK_LABELS[d.currentWeek||0];
+    const lastActive = d.lastActive || 'Never';
+    html += `
+    <div class="student-card">
+      <div class="sc-header">
+        <div class="sc-av ${s.avClass}">${s.initial}</div>
+        <div>
+          <div class="sc-name">${s.name}</div>
+          <div class="sc-week">${wk}</div>
+        </div>
+      </div>
+      <div class="sc-stats">
+        <div class="sc-stat"><div class="sc-stat-n">${d.totalSessions||0}</div><div class="sc-stat-l">sessions</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">${(d.currentWeek||0)+1}</div><div class="sc-stat-l">of 8 weeks</div></div>
+        <div class="sc-stat"><div class="sc-stat-n">${errs.length}</div><div class="sc-stat-l">errors</div></div>
+      </div>
+      <div class="sc-errors"><div class="sc-errors-title">Recurring errors</div>${errHtml}</div>
+      <div class="sc-last">Last active: <span>${lastActive}</span></div>
+      <button class="sc-btn" onclick="viewTranscripts('${s.id}','${s.name}')">View session transcripts</button>
+    </div>`;
+  });
+  html += `</div>`;
+  html += `<div class="progress-section">
+    <div class="progress-title">Week progress — all students</div>
+    <div style="display:flex;flex-direction:column;gap:8px">`;
+  STUDENTS.forEach(s => {
+    const d = getUD(s.id)||defaultUD();
+    const cw = d.currentWeek||0;
+    const segs = Array.from({length:8},(_,i)=>`<div class="wp-seg ${i<cw?'done':i===cw?'current':''}"></div>`).join('');
+    html += `<div><div style="font-size:12px;font-weight:500;color:var(--tx3);margin-bottom:4px">${s.name}</div><div class="week-progress">${segs}</div></div>`;
+  });
+  html += `</div></div>`;
+  html += `<div class="transcript-panel" id="transcriptPanel">
+    <div class="tp-header"><div class="tp-title" id="tpTitle">Transcripts</div><span class="tp-close" onclick="document.getElementById('transcriptPanel').classList.remove('visible')">Close</span></div>
+    <div id="tpBody"></div>
+  </div>`;
+  dash.innerHTML = html;
+}
+
+function viewTranscripts(uid, name) {
+  const d = getUD(uid)||defaultUD();
+  const panel = document.getElementById('transcriptPanel');
+  const body = document.getElementById('tpBody');
+  document.getElementById('tpTitle').textContent = name + ' — Session Transcripts';
+  panel.classList.add('visible');
+  const transcripts = d.transcripts||[];
+  if (!transcripts.length) { body.innerHTML='<div class="tp-empty">No sessions recorded yet for '+name+'.</div>'; return; }
+  let html = '';
+  transcripts.slice().reverse().forEach((t,i) => {
+    html += `<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:500;color:var(--tx4);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--bd)">${t.date} · ${t.week}</div>`;
+    (t.messages||[]).forEach(m => {
+      const role = m.role==='assistant'?'Tutor':'${name}';
+      const roleLabel = m.role==='assistant'?'Tutor':name;
+      html += `<div class="tp-entry"><div class="tp-role">${roleLabel}</div><div class="tp-text">${fmt(m.content)}</div></div>`;
+    });
+    html += `</div>`;
+  });
+  body.innerHTML = html;
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+/* ─── INIT ────────────────────────────────────────── */
+refreshLoginStats();
 </script>
 </body>
 </html>
