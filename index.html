@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambridge 0500 Socratic Tutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f9fb;--bg3:#f0f4f8;
+  --bgi:#e6f1fb;--bgs:#e1f5ee;--bgw:#faeeda;--bgd:#fcebeb;
+  --tx:#0e1c2e;--tx2:#2d3f52;--tx3:#5a7080;--tx4:#8fa3b0;
+  --txi:#0c447c;--txs:#085041;--txw:#412402;--txd:#791f1f;
+  --bd:rgba(10,22,40,0.10);--bd2:rgba(10,22,40,0.18);
+  --bdi:rgba(24,95,165,0.25);--bds:rgba(29,158,117,0.25);
+  --r8:8px;--r12:12px;--r20:20px;
+  --sans:'DM Sans',system-ui,sans-serif;--mono:monospace
+}
+body{font-family:var(--sans);background:var(--bg3);color:var(--tx);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.app{display:flex;flex-direction:column;height:100vh}
+nav{background:var(--bg);border-bottom:1px solid var(--bd);padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{font-size:14px;font-weight:500;color:var(--tx)}
+.logo span{color:var(--tx3);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:10px}
+.wbadge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r20);background:var(--bgi);color:var(--txi)}
+.sdot{width:7px;height:7px;border-radius:50%;background:#9FE1CB}
+.sdot.live{background:#1D9E75}
+.sdot.err{background:#E24B4A}
+.timer{font-size:11px;color:var(--tx4)}
+.nbtn{font-size:11px;padding:4px 10px;border-radius:var(--r20);border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:4px}
+.nbtn:hover{background:var(--bg2)}
+.week-bar{background:var(--bg);border-bottom:1px solid var(--bd);padding:7px 12px;display:flex;gap:5px;overflow-x:auto;flex-shrink:0}
+.week-bar::-webkit-scrollbar{height:3px}
+.wbtn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.wbtn:hover{background:var(--bg2);color:var(--tx)}
+.wbtn.on{background:var(--bgi);color:var(--txi);border-color:var(--bdi)}
+.main{display:flex;flex:1;overflow:hidden}
+.side{width:200px;background:var(--bg);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.side-sec{padding:12px 12px 4px;font-size:10px;font-weight:500;color:var(--tx4);letter-spacing:0.1em;text-transform:uppercase}
+.side-item{padding:7px 12px;font-size:12px;color:var(--tx3);cursor:pointer;border-radius:6px;margin:1px 6px;display:flex;align-items:center;gap:8px;transition:all 0.15s}
+.side-item:hover{background:var(--bg2);color:var(--tx)}
+.side-item.on{background:var(--bgi);color:var(--txi)}
+.side-item svg{flex-shrink:0;width:14px;height:14px}
+.sdivider{height:1px;background:var(--bd);margin:6px 12px}
+.stats{padding:8px 12px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stat{background:var(--bg2);border-radius:var(--r8);padding:8px;text-align:center}
+.stat-n{font-size:18px;font-weight:500;color:var(--tx);line-height:1}
+.stat-l{font-size:10px;color:var(--tx4);margin-top:2px}
+.elist{padding:0 6px 8px}
+.etag{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--bgw);color:var(--txw);margin:2px 0;display:flex;align-items:center;gap:4px}
+.crit{padding:0 12px 10px;display:flex;flex-direction:column;gap:4px}
+.crit-r{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--tx3)}
+.chip{font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--r20)}
+.cw1{background:#E1F5EE;color:#085041}.cw2{background:#E6F1FB;color:#0C447C}
+.cw3{background:#EEEDFE;color:#3C3489}.cw4{background:#FAEEDA;color:#412402}
+.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msgs::-webkit-scrollbar{width:4px}
+.msg{display:flex;gap:10px;max-width:88%;animation:fadeUp 0.25s ease}
+.msg.u{align-self:flex-end;flex-direction:row-reverse}
+.msg.a{align-self:flex-start}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px}
+.av.t{background:var(--bgi);color:var(--txi)}
+.av.u{background:var(--bgs);color:var(--txs)}
+.bub{padding:10px 13px;border-radius:var(--r12);font-size:13.5px;line-height:1.65;max-width:100%}
+.bub.t{background:var(--bg);border:1px solid var(--bd);color:var(--tx)}
+.bub.u{background:var(--bgi);color:var(--txi)}
+.chips-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.typing{display:flex;gap:4px;padding:10px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--r12);width:fit-content}
+.td{width:6px;height:6px;border-radius:50%;background:var(--tx4);animation:bounce 1.2s ease infinite}
+.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.inp-area{background:var(--bg);border-top:1px solid var(--bd);padding:12px 14px;flex-shrink:0}
+.focus-bar{font-size:11px;color:var(--tx3);padding:6px 10px;background:var(--bg2);border-radius:var(--r8);margin-bottom:8px;display:flex;align-items:flex-start;gap:6px}
+.focus-bar svg{flex-shrink:0;width:13px;height:13px;color:var(--txi);margin-top:1px}
+.toolbar{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.tlabel{font-size:11px;color:var(--tx4)}
+.mbtn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.15s}
+.mbtn.on{background:var(--bgs);color:var(--txs);border-color:var(--bds)}
+.mbtn.rec{background:var(--bgd);color:var(--txd);border-color:rgba(226,75,74,0.3);animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.mbtn svg{width:12px;height:12px}
+.inp-row{display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;min-height:42px;max-height:120px;padding:10px 12px;border-radius:var(--r12);border:1px solid var(--bd2);background:var(--bg2);color:var(--tx);font-size:13.5px;line-height:1.55;resize:none;font-family:var(--sans);transition:border-color 0.15s}
+textarea:focus{outline:none;border-color:#378ADD}
+.sbtn{width:38px;height:38px;border-radius:var(--r8);background:var(--bgi);color:var(--txi);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.15s}
+.sbtn:hover{opacity:0.8}
+.sbtn:disabled{opacity:0.35;cursor:not-allowed}
+.sbtn svg{width:16px;height:16px}
+.ccount{font-size:11px;color:var(--tx4);margin-left:auto}
+.cold-note{font-size:11px;color:var(--txw);background:var(--bgw);border-radius:var(--r8);padding:6px 10px;margin-bottom:8px;display:none}
+@media(max-width:600px){.side{display:none}.week-bar{padding:6px 8px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<nav>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div class="sdot" id="sdot"></div>
+    <div class="logo">Cambridge 0500 <span>Socratic Tutor</span></div>
+    <span class="wbadge" id="wbadge">Week 1 · Sentences</span>
+  </div>
+  <div class="nav-right">
+    <span class="timer" id="timer">00:00</span>
+    <button class="nbtn" onclick="newSession()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><path d="M13.5 2.5v3h-3"/></svg>
+      New session
+    </button>
+  </div>
+</nav>
+
+<div class="week-bar">
+  <button class="wbtn on" onclick="setWeek(0,this)">Wk 1–2: Sentences</button>
+  <button class="wbtn" onclick="setWeek(1,this)">Wk 3–4: Punctuation</button>
+  <button class="wbtn" onclick="setWeek(2,this)">Wk 5–6: Vocabulary</button>
+  <button class="wbtn" onclick="setWeek(3,this)">Wk 7–8: Register</button>
+  <button class="wbtn" onclick="setWeek(4,this)">Wk 9–10: Q1 Reading</button>
+  <button class="wbtn" onclick="setWeek(5,this)">Wk 9–10: Q2 Writing</button>
+  <button class="wbtn" onclick="setWeek(6,this)">Wk 9–10: Q3 Summary</button>
+  <button class="wbtn" onclick="setWeek(7,this)">Wk 11–12: Errors</button>
+</div>
+
+<div class="main">
+  <div class="side">
+    <div class="side-sec">Focus area</div>
+    <div class="side-item on" id="si0">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
+      Sentences
+    </div>
+    <div class="side-item" id="si1">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="1.5"/><path d="M8 3v2M8 11v2M3 8h2M11 8h2"/></svg>
+      Punctuation
+    </div>
+    <div class="side-item" id="si2">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5c0-1.1.9-2 2-2h6a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h6a2 2 0 0 0 2-2"/></svg>
+      Vocabulary
+    </div>
+    <div class="side-item" id="si3">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 8h5M9 8h5M8 2v5M8 9v5"/></svg>
+      Register
+    </div>
+    <div class="sdivider"></div>
+    <div class="side-sec">This session</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="sexch">0</div><div class="stat-l">exchanges</div></div>
+      <div class="stat"><div class="stat-n" id="serr">0</div><div class="stat-l">errors found</div></div>
+    </div>
+    <div class="sdivider"></div>
+    <div class="side-sec">Errors logged</div>
+    <div class="elist" id="elist">
+      <div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div>
+    </div>
+    <div class="sdivider"></div>
+    <div class="side-sec">Cambridge criteria</div>
+    <div class="crit">
+      <div class="crit-r"><span class="chip cw1">W1</span>Expression</div>
+      <div class="crit-r"><span class="chip cw2">W2</span>Structure</div>
+      <div class="crit-r"><span class="chip cw3">W3</span>Vocabulary</div>
+      <div class="crit-r"><span class="chip cw4">W4</span>Register</div>
+    </div>
+  </div>
+
+  <div class="chat">
+    <div class="msgs" id="msgs"></div>
+    <div class="inp-area">
+      <div class="cold-note" id="coldNote">
+        &#9888; First load may take 30 seconds while Render wakes up. If nothing appears, click New Session.
+      </div>
+      <div class="focus-bar">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2"/></svg>
+        <span id="focuslabel">Week 1–2: Sentence structure — simple, compound, complex sentences and subject-verb agreement</span>
+      </div>
+      <div class="toolbar">
+        <span class="tlabel">Input:</span>
+        <button class="mbtn on" id="typebtn" onclick="setMode('type')">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="14" height="9" rx="1.5"/><path d="M5 8h6M8 6v4"/></svg>
+          Type
+        </button>
+        <button class="mbtn" id="voicebtn" onclick="toggleVoice()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2a2 2 0 0 0-2 2v4a2 2 0 0 0 4 0V4a2 2 0 0 0-2-2z"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2M6 14h4"/></svg>
+          <span id="vlabel">Voice</span>
+        </button>
+        <span class="ccount" id="cc">0 chars</span>
+      </div>
+      <div class="inp-row">
+        <textarea id="tin" placeholder="Write a paragraph, answer a question, or ask for help... (Enter to send, Shift+Enter for new line)" rows="2"
+          onkeydown="handleKey(event)" oninput="countChars()"></textarea>
+        <button class="sbtn" id="sbtn" onclick="send()" aria-label="Send">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const API = 'https://sms-english-tutor.onrender.com';
+
+const WEEKS = [
+{label:"Week 1–2: Sentences", focus:"Sentence structure — simple, compound, complex sentences and subject-verb agreement", si:0,
+sys:`You are a Cambridge IGCSE 0500 First Language English Socratic tutor. Student: adult, first language English, strong spoken English, weak written English. Target A*.
+
+THIS WEEK: Sentences — simple/compound/complex types; subject-verb agreement; sentence variety for deliberate effect.
+
+RULES — never break these:
+1. NEVER correct writing directly. Ask a Socratic question that leads the student to find the error themselves.
+2. NEVER give model answers. Give principles then make the student apply them.
+3. After every piece of writing submitted, ask AT LEAST TWO Socratic questions before any feedback.
+4. When the same error appears twice: name it explicitly, explain the rule ONCE, make the student correct every instance themselves.
+5. Evaluate all writing against W1 (expression), W2 (structure), W3 (vocabulary/sentence variety), W4 (register).
+6. End EVERY response with exactly one specific question or task.
+7. Be warm but demanding. You believe in this student's potential.
+
+BEGIN: Ask the student to write one paragraph on any topic of their choice. After they write, begin the Socratic process on sentence structure.`},
+
+{label:"Week 3–4: Punctuation", focus:"Punctuation as meaning — commas, semicolons, colons, dashes used for deliberate effect", si:1,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Punctuation as a tool for meaning and pace — four legitimate comma uses, the semicolon joining independent clauses, the colon introducing what follows, the dash for emphasis, paragraph breaks as structural decisions.
+
+RULES:
+1. Never correct directly. Always ask Socratic questions.
+2. For every punctuation mark the student uses, ask them to justify their choice.
+3. The comma splice is the most common error. When spotted: "Read those two clauses aloud. Are they complete sentences? What does that tell you about the comma between them?"
+4. Focus primarily on W2 (structure for deliberate effect).
+5. End every response with one specific task.
+
+BEGIN: Ask the student to write a paragraph of 6–8 sentences on any topic, then tell them you will examine every punctuation mark they used.`},
+
+{label:"Week 5–6: Vocabulary", focus:"Vocabulary precision — strong verbs, eliminating vague intensifiers, connotation vs denotation", si:2,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Vocabulary — precision over impressiveness; strong verbs over verb-adverb combinations; eliminating vague intensifiers (very, really, quite); connotation vs denotation; active vocabulary acquisition.
+
+RULES:
+1. Never suggest replacements directly. Ask: "Give me three alternatives for that word. Which is most precise and why?"
+2. Target weak verbs especially: was, went, said, got are almost always upgradeable.
+3. Cambridge rewards ambitious vocabulary WHEN ACCURATE. Precision over sophistication always.
+4. Focus on W3 (vocabulary range appropriate to context).
+5. End every response with one specific vocabulary task.
+
+BEGIN: Ask the student to write a paragraph describing a place they know well. Then identify every vague word and weak verb — through questions, never direct corrections.`},
+
+{label:"Week 7–8: Register", focus:"Register consistency — formal, informal, persuasive, informative — maintained throughout", si:3,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Register — formal (no contractions, impersonal, complex structures), informal (contractions, direct address, colloquial), persuasive (rhetoric, rule of three, inclusive pronouns), informative (precise, sequential, hedging). Consistency throughout is the key skill.
+
+RULES:
+1. When register slips: "Who is your audience? Read this sentence. Would they expect that tone from this writer in this context?"
+2. Drill all four forms: formal letter, informal letter, speech, report.
+3. Register is W4. Top band = maintained throughout, not just attempted.
+4. End every response with one specific task.
+
+BEGIN: Ask the student to write a short paragraph to a friend about a problem. Then ask them to rewrite it as a formal letter to a head teacher. Then begin comparative Socratic questioning.`},
+
+{label:"Week 9–10: Q1 Reading", focus:"Q1 comprehension — precise evidence selection, explicit vs implicit meaning, writer's effects", si:0,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Paper 1 Q1 — precise evidence selection (not copying, not loose paraphrase), explicit vs implicit meaning, writer's language effects.
+
+After the student answers any question:
+1. "Did you select the most precise evidence, or is there a better phrase in the passage?"
+2. "Is your answer showing explicit or implicit understanding? How do you know?"
+3. "Have you copied language when the question asks for your own words?"
+4. "How many marks is this question? Have you given enough distinct points?"
+Never confirm if an answer is correct. Ask: "How confident are you? What in the passage makes you sure?"
+
+PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings before theirs. Inside, the machines did not pause for thought."
+
+BEGIN: Share the passage and set this question: "What impression does the writer create of the workers' daily experience? Use evidence from the passage." [8 marks]`},
+
+{label:"Week 9–10: Q2 Writing", focus:"Q2 directed writing — register transformation, using passage information only, strong form features", si:3,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Paper 1 Q2 — transform passage information into a specific form (letter/speech/report) in the correct register. No invented content. Open and close with impact.
+
+After the student writes:
+1. "Did you use information from the passage or invent content? Point to each claim — where did it come from?"
+2. "Is your register consistent from first sentence to last? Read your third paragraph — has it shifted?"
+3. "Does your opening immediately establish the form?"
+4. "Does your closing land with impact or trail off?"
+
+PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning. Inside, the machines did not pause for thought."
+
+BEGIN: First ask: "What are three specific language features Cambridge expects in a speech? List them before you begin writing." Then set the task: write a speech to a town council arguing the factory should be modernised to improve workers' conditions.`},
+
+{label:"Week 9–10: Q3 Summary", focus:"Q3 summary — focused selection, own words only, staying on the specific aspect asked", si:2,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Paper 1 Q3 — finding correct content points, expressing in own words, staying focused on the specific aspect asked, hitting the word limit.
+
+After the student writes:
+1. "Count your distinct content points. Q3 typically has 8–10 creditable points. Did you find enough?"
+2. "Read your second sentence. Find the corresponding line in the passage. How similar are the words?"
+3. "Does every sentence relate to the specific aspect asked, or have you drifted to the passage generally?"
+4. "What is your word count? Is it within the limit?"
+
+PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings. Inside, the machines did not pause for thought. The air tasted of metal and repetition."
+
+BEGIN: Set this task: "Write a summary of what the passage suggests about the ATMOSPHERE of the factory. Write no more than 120 words." Apply all four questions after they write.`},
+
+{label:"Week 11–12: Error elimination", focus:"Targeted error drilling — your specific recurring patterns eliminated before the exam", si:0,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor.
+
+THIS WEEK: Error elimination — identify the student's top 2–3 persistent error patterns and drill until gone.
+
+APPROACH:
+1. Ask the student to write three paragraphs freely on any topic.
+2. Identify the most persistent error pattern.
+3. Name it: "You have a pattern I want to address: [name]. This appears [X] times in what you just wrote."
+4. Explain the underlying rule ONCE clearly with a concrete example.
+5. Make the student find and correct EVERY instance themselves — correct none for them.
+6. Ask: "Explain back to me why each correction was necessary. I want the rule in your own words."
+7. If the error reappears: "I see our friend is back. You know what to look for."
+
+At session end, generate a one-paragraph progress note suitable for a Cambridge examiner: "This student demonstrates [specific skill] as evidenced by [specific example from today's session]..."
+
+BEGIN: Ask the student to write three paragraphs on any topic they care about. Tell them you will read for patterns, not isolated mistakes.`}
+];
+
+let messages=[], week=0, loading=false, exchanges=0, errCount=0, errPatterns=[], recording=false, mediaRec=null, chunks=[], tstart=Date.now(), tiv=null;
+
+tiv = setInterval(()=>{
+  const e = Math.floor((Date.now()-tstart)/1000);
+  document.getElementById('timer').textContent = String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
+}, 1000);
+
+async function beginSession() {
+  messages = [];
+  document.getElementById('coldNote').style.display = 'block';
+  addTyping();
+  try {
+    const reply = await callAPI([{role:'user', content:'Begin. One sentence intro then give me my first task immediately. No preamble.'}]);
+    removeTyping();
+    document.getElementById('coldNote').style.display = 'none';
+    addMsg('a', reply, true);
+    messages.push({role:'user', content:'Begin. One sentence intro then give me my first task immediately. No preamble.'});
+    messages.push({role:'assistant', content:reply});
+    document.getElementById('sdot').className = 'sdot live';
+  } catch(e) {
+    removeTyping();
+    document.getElementById('sdot').className = 'sdot err';
+    addMsg('a', 'Could not connect to the tutor backend. Render may be waking up from sleep — wait 30 seconds then click New Session.\n\nError: ' + e.message);
+  }
+}
+
+async function callAPI(msgs) {
+  const r = await fetch(API + '/chat', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({messages: msgs, system: WEEKS[week].sys})
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Server error ' + r.status); }
+  const d = await r.json();
+  return d.content;
+}
+
+async function send() {
+  const tin = document.getElementById('tin');
+  const txt = tin.value.trim();
+  if (!txt || loading) return;
+  tin.value = ''; countChars(); tin.style.height = 'auto';
+  addMsg('u', txt);
+  messages.push({role:'user', content:txt});
+  exchanges++; document.getElementById('sexch').textContent = exchanges;
+  addTyping(); loading = true;
+  document.getElementById('sbtn').disabled = true;
+  try {
+    const reply = await callAPI(messages);
+    removeTyping();
+    addMsg('a', reply, true);
+    messages.push({role:'assistant', content:reply});
+    scanErrors(reply);
+  } catch(e) {
+    removeTyping();
+    addMsg('a', 'Error: ' + e.message);
+  }
+  loading = false;
+  document.getElementById('sbtn').disabled = false;
+  document.getElementById('tin').focus();
+}
+
+async function callAPI(msgs) {
+  const r = await fetch(API + '/chat', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({messages: msgs, system: WEEKS[week].sys})
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.detail || 'Server error ' + r.status); }
+  const d = await r.json();
+  return d.content;
+}
+
+function addMsg(role, text, analyse) {
+  const c = document.getElementById('msgs');
+  const d = document.createElement('div');
+  d.className = 'msg ' + (role==='a' ? 'a' : 'u');
+  const av = document.createElement('div');
+  av.className = 'av ' + (role==='a' ? 't' : 'u');
+  av.textContent = role==='a' ? 'T' : 'Y';
+  const bub = document.createElement('div');
+  bub.className = 'bub ' + (role==='a' ? 't' : 'u');
+  bub.innerHTML = fmt(text);
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;gap:4px;max-width:100%';
+  wrap.appendChild(bub);
+  if (role==='a' && analyse) { const ch = getCritChips(text); if (ch) wrap.appendChild(ch); }
+  d.appendChild(av); d.appendChild(wrap);
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function fmt(t) {
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/\n\n/g,'</p><p style="margin-top:7px">')
+    .replace(/\n/g,'<br>');
+}
+
+function getCritChips(t) {
+  const found = [];
+  if (/W1|expression|articulate/i.test(t)) found.push({c:'cw1',l:'W1'});
+  if (/W2|structure|organis/i.test(t)) found.push({c:'cw2',l:'W2'});
+  if (/W3|vocabular|sentence variet/i.test(t)) found.push({c:'cw3',l:'W3'});
+  if (/W4|register|audience|purpose/i.test(t)) found.push({c:'cw4',l:'W4'});
+  if (!found.length) return null;
+  const r = document.createElement('div'); r.className = 'chips-row';
+  found.forEach(f => { const s=document.createElement('span'); s.className='chip '+f.c; s.textContent=f.l; r.appendChild(s); });
+  return r;
+}
+
+function scanErrors(t) {
+  const ps = [
+    {r:/comma splice/i, l:'Comma splice'}, {r:/subject.verb/i, l:'Subject-verb agreement'},
+    {r:/fragment/i, l:'Sentence fragment'}, {r:/run.on/i, l:'Run-on sentence'},
+    {r:/vague intensifier|very,|really,/i, l:'Vague intensifiers'},
+    {r:/register.*slip|slip.*register/i, l:'Register slippage'},
+    {r:/copied.*passage|lifting/i, l:'Copying from passage'},
+    {r:/passive/i, l:'Passive overuse'},
+  ];
+  ps.forEach(p => {
+    if (p.r.test(t) && !errPatterns.includes(p.l)) {
+      errPatterns.push(p.l); errCount++;
+      document.getElementById('serr').textContent = errCount;
+      const el = document.getElementById('elist');
+      if (errCount===1) el.innerHTML = '';
+      const d = document.createElement('div'); d.className = 'etag';
+      d.innerHTML = `<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v3M8 11v.5M2 13h12L8 3 2 13z"/></svg>${p.l}`;
+      el.appendChild(d);
+    }
+  });
+}
+
+function addTyping() {
+  const c = document.getElementById('msgs');
+  const d = document.createElement('div'); d.className='msg a'; d.id='typing';
+  d.innerHTML = `<div class="av t">T</div><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+}
+function removeTyping() { const t=document.getElementById('typing'); if(t)t.remove(); }
+
+function handleKey(e) {
+  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  const ta = document.getElementById('tin');
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
+}
+function countChars() { document.getElementById('cc').textContent = document.getElementById('tin').value.length + ' chars'; }
+
+function setWeek(w, btn) {
+  week = w;
+  document.querySelectorAll('.wbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('wbadge').textContent = WEEKS[w].label;
+  document.getElementById('focuslabel').textContent = WEEKS[w].focus;
+  const siMap = {0:'si0',1:'si1',2:'si2',3:'si3'};
+  document.querySelectorAll('.side-item').forEach(i => i.classList.remove('on'));
+  const sid = siMap[WEEKS[w].si]; if(sid) document.getElementById(sid).classList.add('on');
+  resetStats(); beginSession();
+}
+
+function resetStats() {
+  document.getElementById('msgs').innerHTML = '';
+  messages=[]; exchanges=0; errCount=0; errPatterns=[];
+  document.getElementById('sexch').textContent = '0';
+  document.getElementById('serr').textContent = '0';
+  document.getElementById('elist').innerHTML = '<div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div>';
+}
+
+function newSession() {
+  if (!confirm('Start a fresh session? Current conversation will be cleared.')) return;
+  resetStats(); beginSession();
+}
+
+function setMode(m) {
+  document.getElementById('typebtn').classList.toggle('on', m==='type');
+  document.getElementById('voicebtn').classList.toggle('on', m==='voice');
+}
+
+async function toggleVoice() {
+  if (recording) { stopRec(); return; }
+  if (!navigator.mediaDevices) { alert('Microphone not available. Use the Type mode instead.'); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRec = new MediaRecorder(stream); chunks = [];
+    mediaRec.ondataavailable = e => chunks.push(e.data);
+    mediaRec.onstop = processAudio;
+    mediaRec.start(); recording = true;
+    document.getElementById('voicebtn').classList.add('rec');
+    document.getElementById('vlabel').textContent = 'Stop';
+    setMode('voice');
+  } catch(e) { alert('Microphone access denied. Please allow microphone access in your browser settings.'); }
+}
+
+function stopRec() {
+  if (mediaRec && recording) {
+    mediaRec.stop(); mediaRec.stream.getTracks().forEach(t=>t.stop());
+    recording = false;
+    document.getElementById('voicebtn').classList.remove('rec');
+    document.getElementById('vlabel').textContent = 'Voice';
+  }
+}
+
+async function processAudio() {
+  const blob = new Blob(chunks, {type:'audio/webm'});
+  const fd = new FormData(); fd.append('file', blob, 'rec.webm'); fd.append('model', 'whisper-1');
+  try {
+    const r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method:'POST', headers:{'Authorization':'Bearer REPLACE_WITH_OPENAI_KEY'}, body:fd
+    });
+    if (r.ok) { const d=await r.json(); document.getElementById('tin').value=d.text; }
+    else { document.getElementById('tin').value='[Voice needs OpenAI key — type your response instead]'; }
+  } catch(e) { document.getElementById('tin').value='[Voice unavailable — type your response]'; }
+  countChars(); setMode('type');
+}
+
+beginSession();
+</script>
+</body>
+</html>
