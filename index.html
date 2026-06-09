@@ -3,273 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cambridge 0500 Socratic Tutor</title>
+<title>Cambridge 0500 · Socratic Tutor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#ffffff;--bg2:#f7f9fb;--bg3:#f0f4f8;
-  --bgi:#e6f1fb;--bgs:#e1f5ee;--bgw:#faeeda;--bgd:#fcebeb;--bgp:#eeedfe;
-  --tx:#0e1c2e;--tx2:#2d3f52;--tx3:#5a7080;--tx4:#8fa3b0;
-  --txi:#0c447c;--txs:#085041;--txw:#412402;--txd:#791f1f;--txp:#3c3489;
-  --bd:rgba(10,22,40,0.10);--bd2:rgba(10,22,40,0.20);
-  --bdi:rgba(24,95,165,0.25);--bds:rgba(29,158,117,0.25);
-  --teal:#1D9E75;--blue:#185FA5;--navy:#0a1628;
-  --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  --bg0:#0c0f14;
+  --bg1:#111520;
+  --bg2:#161b28;
+  --bg3:#1c2233;
+  --bg4:#222840;
+  --bg5:#2a3350;
+  --line:#ffffff0f;
+  --line2:#ffffff18;
+  --line3:#ffffff28;
+  --tx0:#f0f4ff;
+  --tx1:#c8d0e8;
+  --tx2:#8892aa;
+  --tx3:#4e5870;
+  --teal:#1fc98e;
+  --teal2:#17a372;
+  --teal-bg:#1fc98e18;
+  --teal-line:#1fc98e40;
+  --blue:#4d8ef5;
+  --blue-bg:#4d8ef518;
+  --amber:#f5a623;
+  --amber-bg:#f5a62318;
+  --purple:#9b8fff;
+  --purple-bg:#9b8fff18;
+  --red:#f56060;
+  --red-bg:#f5606018;
   --sans:'DM Sans',system-ui,sans-serif;
-  --serif:'DM Serif Display',Georgia,serif
+  --serif:'DM Serif Display',Georgia,serif;
+  --r6:6px;--r8:8px;--r12:12px;--r16:16px;--r24:24px;
 }
-body{font-family:var(--sans);background:var(--bg3);color:var(--tx);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--bg0);color:var(--tx1);display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
 
-/* ── SCREEN MANAGER ── */
-.screen{display:none;flex-direction:column;height:100vh}
+/* ── SCREENS ── */
+.screen{display:none;flex-direction:column;height:100vh;overflow:hidden}
 .screen.active{display:flex}
 
-/* ── LOGIN SCREEN ── */
-.login-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:24px}
-.login-header{text-align:center}
-.login-header h1{font-family:var(--serif);font-size:1.9rem;font-weight:400;color:var(--navy);line-height:1.2}
-.login-header h1 em{font-style:italic;color:var(--teal)}
-.login-header p{font-size:13px;color:var(--tx3);margin-top:6px}
-.user-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:520px}
-.user-card{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:20px 16px;text-align:center;cursor:pointer;transition:all 0.18s;position:relative}
-.user-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 16px rgba(29,158,117,0.1)}
-.user-card.mentor-card:hover{border-color:var(--blue);box-shadow:0 4px 16px rgba(24,95,165,0.1)}
-.user-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;margin:0 auto 10px;font-family:var(--serif)}
-.av-david{background:#E1F5EE;color:#085041}
-.av-melusi{background:#E6F1FB;color:#0C447C}
-.av-gerald{background:#EEEDFE;color:#3C3489}
-.av-mentor{background:#FAEEDA;color:#412402}
-.user-name{font-size:14px;font-weight:500;color:var(--tx);margin-bottom:2px}
-.user-role{font-size:11px;color:var(--tx4)}
-.user-stats{font-size:11px;color:var(--teal);margin-top:6px;font-weight:500}
-.mentor-divider{width:100%;max-width:520px;display:flex;align-items:center;gap:10px}
-.mentor-divider span{font-size:11px;color:var(--tx4);white-space:nowrap}
-.mentor-divider::before,.mentor-divider::after{content:'';flex:1;height:1px;background:var(--bd2)}
-.pin-wrap{width:100%;max-width:520px}
-.pin-card{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:20px;display:none}
-.pin-card.visible{display:block}
-.pin-label{font-size:12px;color:var(--tx3);margin-bottom:10px;text-align:center}
-.pin-inputs{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
-.pin-inputs input{width:48px;height:52px;text-align:center;font-size:22px;font-weight:500;border:1.5px solid var(--bd2);border-radius:var(--r8);background:var(--bg2);color:var(--tx);font-family:var(--sans)}
-.pin-inputs input:focus{outline:none;border-color:var(--blue)}
-.pin-error{font-size:11px;color:var(--txd);text-align:center;display:none}
-.pin-btn{width:100%;padding:10px;border-radius:var(--r8);background:var(--bgi);color:var(--txi);border:none;font-size:13px;font-weight:500;cursor:pointer}
-.pin-btn:hover{opacity:0.85}
+/* ════════════════════════════════════════
+   LOGIN SCREEN
+════════════════════════════════════════ */
+#loginScreen{
+  background:var(--bg0);
+  background-image:
+    radial-gradient(ellipse 600px 400px at 20% 50%, #1fc98e0a 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 20%, #4d8ef50a 0%, transparent 70%);
+}
+.login-outer{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;gap:32px}
+.login-brand{text-align:center}
+.login-brand .eyebrow{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+.login-brand h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.4rem);font-weight:400;color:var(--tx0);line-height:1.15}
+.login-brand h1 em{font-style:italic;color:var(--teal)}
+.login-brand p{font-size:13px;color:var(--tx2);margin-top:8px;max-width:320px;margin-left:auto;margin-right:auto;line-height:1.6}
+.student-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:540px}
+.s-card{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r16);padding:22px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.s-card::before{content:'';position:absolute;inset:0;border-radius:var(--r16);opacity:0;transition:opacity .2s}
+.s-card:hover{border-color:var(--line3);transform:translateY(-3px)}
+.s-card:hover::before{opacity:1}
+.sc-david::before{background:radial-gradient(ellipse at 50% 0%,#1fc98e10,transparent 70%)}
+.sc-melusi::before{background:radial-gradient(ellipse at 50% 0%,#4d8ef510,transparent 70%)}
+.sc-gerald::before{background:radial-gradient(ellipse at 50% 0%,#9b8fff10,transparent 70%)}
+.sc-david:hover{border-color:var(--teal-line)}
+.sc-melusi:hover{border-color:#4d8ef540}
+.sc-gerald:hover{border-color:#9b8fff40}
+.s-av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;margin:0 auto 12px;position:relative;z-index:1}
+.av-d{background:linear-gradient(135deg,#0a2e1f,#1a5c3a);color:var(--teal);border:1px solid var(--teal-line)}
+.av-m{background:linear-gradient(135deg,#0d1e3d,#1a3870);color:var(--blue);border:1px solid #4d8ef540}
+.av-g{background:linear-gradient(135deg,#1a1440,#2e2470);color:var(--purple);border:1px solid #9b8fff40}
+.av-mentor{background:linear-gradient(135deg,#2e1a08,#5c3610);color:var(--amber);border:1px solid #f5a62340}
+.s-name{font-size:14px;font-weight:500;color:var(--tx0);margin-bottom:3px;position:relative;z-index:1}
+.s-role{font-size:11px;color:var(--tx3);position:relative;z-index:1}
+.s-stat{font-size:11px;font-weight:500;margin-top:7px;position:relative;z-index:1}
+.stat-teal{color:var(--teal)}.stat-blue{color:var(--blue)}.stat-purple{color:var(--purple)}
+.s-new{color:var(--tx3)}
+.mentor-sep{width:100%;max-width:540px;display:flex;align-items:center;gap:12px}
+.mentor-sep::before,.mentor-sep::after{content:'';flex:1;height:1px;background:var(--line2)}
+.mentor-sep span{font-size:11px;color:var(--tx3);white-space:nowrap;letter-spacing:.04em}
+.mentor-row{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.mentor-btn{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r12);padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;width:100%;text-align:left}
+.mentor-btn:hover{border-color:#f5a62340;background:var(--bg3)}
+.mentor-btn .s-av{margin:0;width:40px;height:40px;font-size:17px;flex-shrink:0}
+.mentor-btn .text .s-name{font-size:13px}
+.mentor-btn .text .s-role{font-size:11px}
+.pin-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r12);padding:20px;display:none}
+.pin-panel.open{display:block}
+.pin-label{font-size:12px;color:var(--tx2);text-align:center;margin-bottom:12px}
+.pin-row{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.pin-row input{width:50px;height:54px;text-align:center;font-size:24px;font-weight:500;border:1px solid var(--line3);border-radius:var(--r8);background:var(--bg3);color:var(--tx0);font-family:var(--sans);transition:border-color .15s;-webkit-text-security:disc}
+.pin-row input:focus{outline:none;border-color:var(--amber)}
+.pin-err{font-size:11px;color:var(--red);text-align:center;height:16px;margin-bottom:8px}
+.pin-go{width:100%;padding:11px;border-radius:var(--r8);background:var(--amber-bg);color:var(--amber);border:1px solid #f5a62340;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.pin-go:hover{background:#f5a62328}
 
-/* ── TOP NAV ── */
-nav{background:var(--bg);border-bottom:1px solid var(--bd);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.logo{font-size:13px;font-weight:500;color:var(--tx)}
-.logo span{color:var(--tx3);font-weight:400}
-.nav-right{display:flex;align-items:center;gap:8px}
-.wbadge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:var(--r20);background:var(--bgi);color:var(--txi)}
-.user-pill{font-size:11px;font-weight:500;padding:2px 9px;border-radius:var(--r20);display:flex;align-items:center;gap:5px}
-.up-david{background:#E1F5EE;color:#085041}
-.up-melusi{background:#E6F1FB;color:#0C447C}
-.up-gerald{background:#EEEDFE;color:#3C3489}
-.up-mentor{background:#FAEEDA;color:#412402}
-.sdot{width:6px;height:6px;border-radius:50%;background:#9FE1CB}
-.sdot.live{background:var(--teal)}
-.sdot.err{background:#E24B4A}
-.timer{font-size:11px;color:var(--tx4)}
-.icon-btn{width:30px;height:30px;border-radius:var(--r8);border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
-.icon-btn:hover{background:var(--bg2);color:var(--tx)}
-.icon-btn svg{width:14px;height:14px}
+/* ════════════════════════════════════════
+   APP CHROME (shared nav + week bar)
+════════════════════════════════════════ */
+.topnav{background:var(--bg1);border-bottom:1px solid var(--line);padding:0 16px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-logo{font-family:var(--serif);font-size:14px;color:var(--tx0);font-weight:400}
+.nav-logo span{color:var(--tx3);font-family:var(--sans);font-size:12px;font-weight:400;margin-left:4px}
+.wk-badge{font-size:10px;font-weight:500;padding:2px 9px;border-radius:20px;background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-line);letter-spacing:.02em}
+.nav-right{display:flex;align-items:center;gap:7px}
+.u-pill{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid}
+.up-d{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-line)}
+.up-m{background:var(--blue-bg);color:var(--blue);border-color:#4d8ef540}
+.up-g{background:var(--purple-bg);color:var(--purple);border-color:#9b8fff40}
+.up-mentor{background:var(--amber-bg);color:var(--amber);border-color:#f5a62340}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--tx3);flex-shrink:0}
+.dot.live{background:var(--teal);box-shadow:0 0 6px var(--teal)}
+.dot.err{background:var(--red)}
+.nav-timer{font-size:11px;color:var(--tx3);font-variant-numeric:tabular-nums;min-width:36px}
+.nav-btn{width:28px;height:28px;border-radius:var(--r6);border:1px solid var(--line2);background:transparent;color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav-btn:hover{background:var(--bg3);color:var(--tx1);border-color:var(--line3)}
+.nav-btn svg{width:13px;height:13px}
 
-/* ── WEEK BAR ── */
-.week-bar{background:var(--bg);border-bottom:1px solid var(--bd);padding:6px 12px;display:flex;gap:5px;overflow-x:auto;flex-shrink:0}
-.week-bar::-webkit-scrollbar{height:3px}
-.wbtn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;transition:all 0.15s}
-.wbtn:hover{background:var(--bg2);color:var(--tx)}
-.wbtn.on{background:var(--bgi);color:var(--txi);border-color:var(--bdi)}
+.week-bar{background:var(--bg1);border-bottom:1px solid var(--line);padding:6px 14px;display:flex;gap:5px;overflow-x:auto;flex-shrink:0}
+.week-bar::-webkit-scrollbar{height:2px}
+.week-bar::-webkit-scrollbar-thumb{background:var(--bg5)}
+.wbtn{font-size:11px;font-weight:400;padding:4px 11px;border-radius:20px;border:1px solid transparent;background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;transition:all .15s;font-family:var(--sans)}
+.wbtn:hover{background:var(--bg3);color:var(--tx1)}
+.wbtn.on{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-line)}
 
-/* ── MAIN LAYOUT ── */
-.main{display:flex;flex:1;overflow:hidden}
+/* ════════════════════════════════════════
+   TUTOR SCREEN — LAYOUT
+════════════════════════════════════════ */
+.main-body{display:flex;flex:1;overflow:hidden}
 
-/* ── SIDEBAR ── */
-.side{width:188px;background:var(--bg);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
-.side-sec{padding:10px 12px 3px;font-size:10px;font-weight:500;color:var(--tx4);letter-spacing:0.09em;text-transform:uppercase}
-.side-item{padding:6px 12px;font-size:12px;color:var(--tx3);cursor:pointer;border-radius:6px;margin:1px 5px;display:flex;align-items:center;gap:7px;transition:all 0.15s}
-.side-item:hover{background:var(--bg2);color:var(--tx)}
-.side-item.on{background:var(--bgi);color:var(--txi)}
-.side-item svg{flex-shrink:0;width:13px;height:13px}
-.sdivider{height:1px;background:var(--bd);margin:5px 12px}
-.stats{padding:7px 10px;display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.stat{background:var(--bg2);border-radius:var(--r8);padding:7px;text-align:center}
-.stat-n{font-size:16px;font-weight:500;color:var(--tx);line-height:1}
-.stat-l{font-size:10px;color:var(--tx4);margin-top:2px}
-.elist{padding:0 5px 6px}
-.etag{font-size:10px;padding:3px 7px;border-radius:4px;background:var(--bgw);color:var(--txw);margin:2px 0;display:flex;align-items:center;gap:3px}
-.crit{padding:0 12px 8px;display:flex;flex-direction:column;gap:3px}
-.crit-r{display:flex;gap:5px;align-items:center;font-size:11px;color:var(--tx3)}
-.chip{font-size:10px;font-weight:500;padding:2px 6px;border-radius:var(--r20)}
-.cw1{background:#E1F5EE;color:#085041}.cw2{background:#E6F1FB;color:#0C447C}
-.cw3{background:#EEEDFE;color:#3C3489}.cw4{background:#FAEEDA;color:#412402}
+/* SIDEBAR */
+.sidebar{width:190px;background:var(--bg1);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:0}
+.sb-sec{padding:12px 12px 4px;font-size:10px;font-weight:500;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase}
+.sb-item{padding:7px 12px;font-size:12px;color:var(--tx2);cursor:pointer;border-radius:6px;margin:1px 5px;display:flex;align-items:center;gap:8px;transition:all .15s}
+.sb-item svg{width:13px;height:13px;flex-shrink:0;opacity:.7}
+.sb-item:hover{background:var(--bg3);color:var(--tx1)}
+.sb-item.on{background:var(--teal-bg);color:var(--teal)}
+.sb-item.on svg{opacity:1}
+.sb-div{height:1px;background:var(--line);margin:5px 12px}
+.sb-stats{padding:6px 10px;display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.sb-stat{background:var(--bg2);border-radius:var(--r8);padding:8px;text-align:center;border:1px solid var(--line)}
+.sbn{font-size:17px;font-weight:500;color:var(--tx0);line-height:1}
+.sbl{font-size:10px;color:var(--tx3);margin-top:2px}
+.err-list{padding:0 5px 6px}
+.etag{font-size:10px;padding:3px 8px;border-radius:4px;background:var(--amber-bg);color:var(--amber);margin:2px 0;display:flex;align-items:center;gap:4px;border:1px solid #f5a62320}
+.etag svg{width:9px;height:9px;flex-shrink:0}
+.crit-list{padding:0 12px 10px;display:flex;flex-direction:column;gap:4px}
+.crit-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--tx2)}
+.ck{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px}
+.ck1{background:#1fc98e20;color:var(--teal);border:1px solid #1fc98e30}
+.ck2{background:var(--blue-bg);color:var(--blue);border:1px solid #4d8ef530}
+.ck3{background:var(--purple-bg);color:var(--purple);border:1px solid #9b8fff30}
+.ck4{background:var(--amber-bg);color:var(--amber);border:1px solid #f5a62330}
 
-/* ── CHAT ── */
-.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.msgs::-webkit-scrollbar{width:4px}
-.msg{display:flex;gap:8px;max-width:90%;animation:fadeUp 0.25s ease}
-.msg.u{align-self:flex-end;flex-direction:row-reverse}
+/* CHAT */
+.chat-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;background:var(--bg0)}
+.msgs-wrap{flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.msgs-wrap::-webkit-scrollbar{width:4px}
+.msgs-wrap::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
+
+.msg{display:flex;gap:10px;max-width:86%;animation:msgIn .25s ease}
 .msg.a{align-self:flex-start}
-@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:2px}
-.av.t{background:var(--bgi);color:var(--txi)}
-.av.david{background:#E1F5EE;color:#085041}
-.av.melusi{background:#E6F1FB;color:#0C447C}
-.av.gerald{background:#EEEDFE;color:#3C3489}
-.bub{padding:9px 12px;border-radius:var(--r12);font-size:13px;line-height:1.65;max-width:100%}
-.bub.t{background:var(--bg);border:1px solid var(--bd);color:var(--tx)}
-.bub.u{background:var(--bgi);color:var(--txi)}
-.chips-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
-.typing-wrap{display:flex;gap:4px;padding:9px 12px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--r12);width:fit-content}
-.td{width:5px;height:5px;border-radius:50%;background:var(--tx4);animation:bounce 1.2s ease infinite}
+.msg.u{align-self:flex-end;flex-direction:row-reverse}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px;font-family:var(--serif)}
+.av-tutor{background:linear-gradient(135deg,#0a2e1f,#1a5c3a);color:var(--teal);border:1px solid var(--teal-line)}
+.av-ud{background:linear-gradient(135deg,#0a2e1f,#1a5c3a);color:var(--teal);border:1px solid var(--teal-line)}
+.av-um{background:linear-gradient(135deg,#0d1e3d,#1a3870);color:var(--blue);border:1px solid #4d8ef540}
+.av-ug{background:linear-gradient(135deg,#1a1440,#2e2470);color:var(--purple);border:1px solid #9b8fff40}
+
+.bubble{padding:10px 14px;border-radius:var(--r12);font-size:13.5px;line-height:1.68;max-width:100%}
+.bubble.t{background:var(--bg2);border:1px solid var(--line2);color:var(--tx1)}
+.bubble.u{background:var(--bg4);border:1px solid var(--line2);color:var(--tx0)}
+.bubble strong{color:var(--tx0);font-weight:500}
+.bubble em{color:var(--teal);font-style:italic}
+
+.msg-meta{display:flex;flex-direction:column;gap:4px;max-width:100%}
+.chip-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+
+.typing-bubble{display:flex;gap:4px;padding:10px 14px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r12)}
+.td{width:5px;height:5px;border-radius:50%;background:var(--tx3);animation:tdot 1.3s ease infinite}
 .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
 
-/* ── INPUT AREA ── */
-.inp-area{background:var(--bg);border-top:1px solid var(--bd);padding:10px 14px;flex-shrink:0}
-.focus-bar{font-size:11px;color:var(--tx3);padding:5px 10px;background:var(--bg2);border-radius:var(--r8);margin-bottom:8px;display:flex;align-items:flex-start;gap:5px}
-.focus-bar svg{flex-shrink:0;width:12px;height:12px;color:var(--txi);margin-top:2px}
-.toolbar{display:flex;gap:5px;margin-bottom:7px;align-items:center}
-.tlabel{font-size:11px;color:var(--tx4)}
-.mbtn{font-size:11px;font-weight:500;padding:3px 9px;border-radius:var(--r20);border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:3px;transition:all 0.15s}
-.mbtn.on{background:var(--bgs);color:var(--txs);border-color:var(--bds)}
-.mbtn.rec{background:var(--bgd);color:var(--txd);border-color:rgba(226,75,74,.3);animation:pulse 1s ease infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.mbtn svg{width:12px;height:12px}
-.inp-row{display:flex;gap:7px;align-items:flex-end}
-textarea{flex:1;min-height:38px;max-height:110px;padding:9px 11px;border-radius:var(--r12);border:1px solid var(--bd2);background:var(--bg2);color:var(--tx);font-size:13px;line-height:1.55;resize:none;font-family:var(--sans);transition:border-color .15s}
-textarea:focus{outline:none;border-color:var(--blue)}
-.sbtn{width:36px;height:36px;border-radius:var(--r8);background:var(--bgi);color:var(--txi);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
-.sbtn:hover{opacity:.8}.sbtn:disabled{opacity:.35;cursor:not-allowed}
-.sbtn svg{width:15px;height:15px}
-.ccount{font-size:11px;color:var(--tx4);margin-left:auto}
-.cold-note{font-size:11px;color:var(--txw);background:var(--bgw);border-radius:var(--r8);padding:5px 10px;margin-bottom:7px;display:none}
+/* INPUT AREA */
+.inp-area{background:var(--bg1);border-top:1px solid var(--line);padding:12px 16px;flex-shrink:0}
+.focus-pill{display:flex;align-items:flex-start;gap:7px;padding:6px 11px;background:var(--bg2);border:1px solid var(--line);border-radius:var(--r8);margin-bottom:10px}
+.focus-pill svg{width:12px;height:12px;flex-shrink:0;margin-top:2px;color:var(--teal);opacity:.7}
+.focus-pill span{font-size:11px;color:var(--tx2);line-height:1.5}
+.inp-toolbar{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.tlabel{font-size:11px;color:var(--tx3)}
+.mode-btn{font-size:11px;font-weight:400;padding:3px 10px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;font-family:var(--sans)}
+.mode-btn svg{width:11px;height:11px}
+.mode-btn:hover{background:var(--bg3);color:var(--tx1)}
+.mode-btn.on{background:#1fc98e20;color:var(--teal);border-color:var(--teal-line)}
+.mode-btn.rec{background:var(--red-bg);color:var(--red);border-color:#f5606030;animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.char-count{font-size:11px;color:var(--tx3);margin-left:auto}
+.inp-row{display:flex;gap:8px;align-items:flex-end}
+textarea{flex:1;min-height:40px;max-height:120px;padding:10px 13px;border-radius:var(--r12);border:1px solid var(--line2);background:var(--bg2);color:var(--tx0);font-size:13px;line-height:1.55;resize:none;font-family:var(--sans);transition:border-color .15s;caret-color:var(--teal)}
+textarea::placeholder{color:var(--tx3)}
+textarea:focus{outline:none;border-color:var(--teal-line)}
+.send-btn{width:38px;height:38px;border-radius:var(--r8);background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-line);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.send-btn:hover{background:#1fc98e30;border-color:var(--teal)}
+.send-btn:disabled{opacity:.3;cursor:not-allowed}
+.send-btn svg{width:15px;height:15px}
+.cold-bar{font-size:11px;color:var(--amber);background:var(--amber-bg);border:1px solid #f5a62320;border-radius:var(--r8);padding:6px 11px;margin-bottom:9px;display:none}
 
-/* ── MENTOR DASHBOARD ── */
-.dash{flex:1;overflow-y:auto;padding:20px}
-.dash-header{margin-bottom:20px}
-.dash-header h2{font-family:var(--serif);font-size:1.4rem;font-weight:400;color:var(--navy);margin-bottom:4px}
-.dash-header p{font-size:12px;color:var(--tx3)}
-.student-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
-.student-card{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:18px;transition:all .15s}
-.student-card:hover{border-color:var(--bd2);box-shadow:0 2px 12px rgba(0,0,0,0.06)}
-.sc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.sc-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;font-family:var(--serif)}
-.sc-name{font-size:14px;font-weight:500;color:var(--tx)}
-.sc-week{font-size:11px;color:var(--tx4);margin-top:1px}
-.sc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px}
-.sc-stat{background:var(--bg2);border-radius:var(--r8);padding:7px;text-align:center}
-.sc-stat-n{font-size:15px;font-weight:500;color:var(--tx);line-height:1}
-.sc-stat-l{font-size:10px;color:var(--tx4);margin-top:2px}
-.sc-errors{margin-bottom:12px}
-.sc-errors-title{font-size:11px;color:var(--tx4);margin-bottom:5px}
-.sc-etag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--bgw);color:var(--txw);display:inline-block;margin:2px 2px 0 0}
-.sc-last{font-size:11px;color:var(--tx4)}
-.sc-last span{color:var(--tx3)}
-.sc-btn{width:100%;margin-top:10px;padding:7px;border-radius:var(--r8);border:1px solid var(--bd2);background:transparent;color:var(--tx3);font-size:12px;cursor:pointer;transition:all .15s}
-.sc-btn:hover{background:var(--bg2);color:var(--tx)}
-.transcript-panel{background:var(--bg);border:1px solid var(--bd2);border-radius:var(--r16);padding:18px;display:none}
-.transcript-panel.visible{display:block}
-.tp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.tp-title{font-size:13px;font-weight:500;color:var(--tx)}
-.tp-close{font-size:11px;color:var(--tx3);cursor:pointer;padding:3px 8px;border-radius:var(--r20);border:1px solid var(--bd2)}
-.tp-close:hover{background:var(--bg2)}
-.tp-entry{padding:10px 0;border-bottom:1px solid var(--bd)}
-.tp-entry:last-child{border-bottom:none}
-.tp-role{font-size:10px;font-weight:500;color:var(--tx4);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em}
-.tp-text{font-size:12px;color:var(--tx2);line-height:1.6}
-.tp-empty{font-size:12px;color:var(--tx4);text-align:center;padding:24px}
-.progress-section{margin-bottom:24px}
-.progress-title{font-size:12px;font-weight:500;color:var(--tx3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
-.week-progress{display:flex;gap:4px}
-.wp-seg{height:6px;flex:1;border-radius:3px;background:var(--bg3)}
-.wp-seg.done{background:var(--teal)}
-.wp-seg.current{background:#9FE1CB}
-.wp-labels{display:flex;justify-content:space-between;margin-top:4px}
-.wp-label{font-size:10px;color:var(--tx4)}
+/* ════════════════════════════════════════
+   MENTOR DASHBOARD
+════════════════════════════════════════ */
+.dash-wrap{flex:1;overflow-y:auto;padding:24px;background:var(--bg0)}
+.dash-wrap::-webkit-scrollbar{width:4px}
+.dash-wrap::-webkit-scrollbar-thumb{background:var(--bg4)}
+.dash-hero{margin-bottom:24px}
+.dash-hero h2{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--tx0);margin-bottom:4px}
+.dash-hero p{font-size:13px;color:var(--tx2)}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:28px}
+.d-card{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r16);padding:20px;transition:border-color .2s}
+.d-card:hover{border-color:var(--line3)}
+.dc-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.dc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;flex-shrink:0}
+.dc-name{font-size:14px;font-weight:500;color:var(--tx0)}
+.dc-week{font-size:11px;color:var(--tx3);margin-top:2px}
+.dc-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:14px}
+.dc-num{background:var(--bg3);border-radius:var(--r8);padding:8px;text-align:center;border:1px solid var(--line)}
+.dc-n{font-size:16px;font-weight:500;color:var(--tx0);line-height:1}
+.dc-l{font-size:10px;color:var(--tx3);margin-top:2px}
+.dc-errs-title{font-size:10px;color:var(--tx3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.06em}
+.dc-etag{font-size:10px;padding:2px 8px;border-radius:4px;background:var(--amber-bg);color:var(--amber);display:inline-block;margin:2px 2px 0 0;border:1px solid #f5a62320}
+.dc-last{font-size:11px;color:var(--tx3);margin-top:10px}
+.dc-last span{color:var(--tx2)}
+.dc-btn{width:100%;margin-top:12px;padding:8px;border-radius:var(--r8);border:1px solid var(--line2);background:transparent;color:var(--tx2);font-size:12px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.dc-btn:hover{background:var(--bg3);color:var(--tx1);border-color:var(--line3)}
 
-@media(max-width:580px){.side{display:none}.user-grid{grid-template-columns:1fr 1fr}}
+.progress-block{margin-bottom:28px}
+.pb-title{font-size:11px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.pb-rows{display:flex;flex-direction:column;gap:10px}
+.pb-row{display:flex;align-items:center;gap:12px}
+.pb-name{font-size:12px;color:var(--tx2);width:60px;flex-shrink:0}
+.pb-track{flex:1;display:flex;gap:3px}
+.pb-seg{height:6px;flex:1;border-radius:3px;background:var(--bg4)}
+.pb-seg.done{background:var(--teal)}
+.pb-seg.cur{background:#1fc98e60}
+.pb-pct{font-size:11px;color:var(--tx3);width:32px;text-align:right;flex-shrink:0}
+
+.transcript-block{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r16);padding:20px;display:none}
+.transcript-block.open{display:block}
+.tb-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.tb-title{font-size:13px;font-weight:500;color:var(--tx0)}
+.tb-close{font-size:11px;color:var(--tx3);cursor:pointer;padding:3px 10px;border-radius:20px;border:1px solid var(--line2);transition:all .15s}
+.tb-close:hover{background:var(--bg3);color:var(--tx1)}
+.t-session{margin-bottom:18px}
+.t-session-hdr{font-size:10px;color:var(--tx3);padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.t-msg{padding:8px 0;border-bottom:1px solid var(--line)}
+.t-msg:last-child{border-bottom:none}
+.t-role{font-size:10px;font-weight:500;color:var(--tx3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
+.t-role.tutor{color:var(--teal)}
+.t-text{font-size:12px;color:var(--tx1);line-height:1.6}
+.t-empty{font-size:12px;color:var(--tx3);text-align:center;padding:28px}
+
+@media(max-width:580px){
+  .sidebar{display:none}
+  .student-grid{grid-template-columns:1fr 1fr}
+  .cards-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 1 — LOGIN
-═══════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen active" id="loginScreen">
-  <div class="login-wrap">
-    <div class="login-header">
+  <div class="login-outer">
+    <div class="login-brand">
+      <div class="eyebrow">Symbiotic Mobility Systems</div>
       <h1>Cambridge 0500<br><em>Socratic Tutor</em></h1>
-      <p>Select your profile to begin</p>
+      <p>Select your profile to begin today's session</p>
     </div>
 
-    <div class="user-grid">
-      <div class="user-card" onclick="loginStudent('david')">
-        <div class="user-avatar av-david">D</div>
-        <div class="user-name">David</div>
-        <div class="user-role">Student</div>
-        <div class="user-stats" id="stats-david">—</div>
+    <div class="student-grid">
+      <div class="s-card sc-david" onclick="loginStudent('david')">
+        <div class="s-av av-d">D</div>
+        <div class="s-name">David</div>
+        <div class="s-role">Student</div>
+        <div class="s-stat stat-teal" id="stat-david">—</div>
       </div>
-      <div class="user-card" onclick="loginStudent('melusi')">
-        <div class="user-avatar av-melusi">M</div>
-        <div class="user-name">Melusi</div>
-        <div class="user-role">Student</div>
-        <div class="user-stats" id="stats-melusi">—</div>
+      <div class="s-card sc-melusi" onclick="loginStudent('melusi')">
+        <div class="s-av av-m">M</div>
+        <div class="s-name">Melusi</div>
+        <div class="s-role">Student</div>
+        <div class="s-stat stat-blue" id="stat-melusi">—</div>
       </div>
-      <div class="user-card" onclick="loginStudent('gerald')">
-        <div class="user-avatar av-gerald">G</div>
-        <div class="user-name">Gerald</div>
-        <div class="user-role">Student</div>
-        <div class="user-stats" id="stats-gerald">—</div>
+      <div class="s-card sc-gerald" onclick="loginStudent('gerald')">
+        <div class="s-av av-g">G</div>
+        <div class="s-name">Gerald</div>
+        <div class="s-role">Student</div>
+        <div class="s-stat stat-purple" id="stat-gerald">—</div>
       </div>
     </div>
 
-    <div class="mentor-divider"><span>Mentor access</span></div>
+    <div class="mentor-sep"><span>Mentor access</span></div>
 
-    <div class="pin-wrap">
-      <div class="user-card mentor-card" onclick="showPinEntry()" style="max-width:100%;display:flex;align-items:center;gap:14px;text-align:left;padding:14px 18px">
-        <div class="user-avatar av-mentor" style="margin:0;flex-shrink:0;width:40px;height:40px;font-size:16px">D</div>
-        <div>
-          <div class="user-name">David</div>
-          <div class="user-role">Programme Director · Mentor view</div>
+    <div class="mentor-row">
+      <div class="mentor-btn" onclick="togglePin()">
+        <div class="s-av av-mentor" style="width:40px;height:40px;font-size:17px;margin:0">D</div>
+        <div class="text">
+          <div class="s-name">David</div>
+          <div class="s-role">Programme Director · Mentor dashboard</div>
         </div>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="margin-left:auto;color:var(--tx3)" id="pinChevron"><path d="M4 6l4 4 4-4"/></svg>
       </div>
-      <div class="pin-card" id="pinCard">
+      <div class="pin-panel" id="pinPanel">
         <div class="pin-label">Enter your 4-digit PIN</div>
-        <div class="pin-inputs">
-          <input type="password" maxlength="1" id="p0" oninput="pinInput(0)" onkeydown="pinKey(event,0)">
-          <input type="password" maxlength="1" id="p1" oninput="pinInput(1)" onkeydown="pinKey(event,1)">
-          <input type="password" maxlength="1" id="p2" oninput="pinInput(2)" onkeydown="pinKey(event,2)">
-          <input type="password" maxlength="1" id="p3" oninput="pinInput(3)" onkeydown="pinKey(event,3)">
+        <div class="pin-row">
+          <input type="tel" maxlength="1" id="p0" oninput="pinInp(0)" onkeydown="pinKD(event,0)">
+          <input type="tel" maxlength="1" id="p1" oninput="pinInp(1)" onkeydown="pinKD(event,1)">
+          <input type="tel" maxlength="1" id="p2" oninput="pinInp(2)" onkeydown="pinKD(event,2)">
+          <input type="tel" maxlength="1" id="p3" oninput="pinInp(3)" onkeydown="pinKD(event,3)">
         </div>
-        <div class="pin-error" id="pinError">Incorrect PIN. Try again.</div>
-        <button class="pin-btn" onclick="checkPin()">Enter mentor dashboard</button>
+        <div class="pin-err" id="pinErr"></div>
+        <button class="pin-go" onclick="checkPin()">Enter mentor dashboard</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 2 — TUTOR
-═══════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen" id="tutorScreen">
-  <nav>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div class="sdot" id="sdot"></div>
-      <div class="logo">Cambridge 0500 <span>Socratic Tutor</span></div>
-      <span class="wbadge" id="wbadge">Week 1 · Sentences</span>
+  <nav class="topnav">
+    <div class="nav-left">
+      <div class="dot" id="sdot"></div>
+      <div class="nav-logo">0500 <span>Socratic Tutor</span></div>
+      <span class="wk-badge" id="wkBadge">Wk 1–2 · Sentences</span>
     </div>
     <div class="nav-right">
-      <span class="user-pill" id="userPill"></span>
-      <span class="timer" id="timer">00:00</span>
-      <button class="icon-btn" onclick="newSession()" title="New session">
+      <span class="u-pill" id="uPill"></span>
+      <span class="nav-timer" id="navTimer">00:00</span>
+      <button class="nav-btn" onclick="newSession()" title="New session">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><path d="M13.5 2.5v3h-3"/></svg>
       </button>
-      <button class="icon-btn" onclick="logout()" title="Switch user">
+      <button class="nav-btn" onclick="doLogout()" title="Switch user">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
       </button>
     </div>
@@ -280,67 +361,77 @@ textarea:focus{outline:none;border-color:var(--blue)}
     <button class="wbtn" onclick="setWeek(1,this)">Wk 3–4: Punctuation</button>
     <button class="wbtn" onclick="setWeek(2,this)">Wk 5–6: Vocabulary</button>
     <button class="wbtn" onclick="setWeek(3,this)">Wk 7–8: Register</button>
-    <button class="wbtn" onclick="setWeek(4,this)">Wk 9–10: Q1 Reading</button>
-    <button class="wbtn" onclick="setWeek(5,this)">Wk 9–10: Q2 Writing</button>
-    <button class="wbtn" onclick="setWeek(6,this)">Wk 9–10: Q3 Summary</button>
+    <button class="wbtn" onclick="setWeek(4,this)">Wk 9–10: Q1</button>
+    <button class="wbtn" onclick="setWeek(5,this)">Wk 9–10: Q2</button>
+    <button class="wbtn" onclick="setWeek(6,this)">Wk 9–10: Q3</button>
     <button class="wbtn" onclick="setWeek(7,this)">Wk 11–12: Errors</button>
   </div>
 
-  <div class="main">
-    <div class="side">
-      <div class="side-sec">Focus</div>
-      <div class="side-item on" id="si0"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>Sentences</div>
-      <div class="side-item" id="si1"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="12" r="1"/><circle cx="8" cy="4" r="1"/></svg>Punctuation</div>
-      <div class="side-item" id="si2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5c0-1.1.9-2 2-2h6a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h6"/></svg>Vocabulary</div>
-      <div class="side-item" id="si3"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 8h5M9 8h5M8 2v5M8 9v5"/></svg>Register</div>
-      <div class="sdivider"></div>
-      <div class="side-sec">Session</div>
-      <div class="stats">
-        <div class="stat"><div class="stat-n" id="sexch">0</div><div class="stat-l">exchanges</div></div>
-        <div class="stat"><div class="stat-n" id="serr">0</div><div class="stat-l">errors found</div></div>
+  <div class="main-body">
+    <div class="sidebar">
+      <div class="sb-sec">Focus</div>
+      <div class="sb-item on" id="si0">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h10"/></svg>Sentences
       </div>
-      <div class="sdivider"></div>
-      <div class="side-sec">Total sessions</div>
-      <div class="stats">
-        <div class="stat"><div class="stat-n" id="stotal">0</div><div class="stat-l">all time</div></div>
-        <div class="stat"><div class="stat-n" id="sweek">Wk 1</div><div class="stat-l">current</div></div>
+      <div class="sb-item" id="si1">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="5" cy="12" r="1.2"/><circle cx="8" cy="4" r="1.2"/></svg>Punctuation
       </div>
-      <div class="sdivider"></div>
-      <div class="side-sec">Errors logged</div>
-      <div class="elist" id="elist"><div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div></div>
-      <div class="sdivider"></div>
-      <div class="side-sec">Criteria</div>
-      <div class="crit">
-        <div class="crit-r"><span class="chip cw1">W1</span>Expression</div>
-        <div class="crit-r"><span class="chip cw2">W2</span>Structure</div>
-        <div class="crit-r"><span class="chip cw3">W3</span>Vocabulary</div>
-        <div class="crit-r"><span class="chip cw4">W4</span>Register</div>
+      <div class="sb-item" id="si2">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 5c0-1.1.9-2 2-2h6a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h6"/></svg>Vocabulary
+      </div>
+      <div class="sb-item" id="si3">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 5h12M2 11h8M2 8h5"/></svg>Register
+      </div>
+
+      <div class="sb-div"></div>
+      <div class="sb-sec">Session</div>
+      <div class="sb-stats">
+        <div class="sb-stat"><div class="sbn" id="sbExch">0</div><div class="sbl">exchanges</div></div>
+        <div class="sb-stat"><div class="sbn" id="sbErr">0</div><div class="sbl">errors</div></div>
+      </div>
+      <div class="sb-stats" style="padding-top:0">
+        <div class="sb-stat"><div class="sbn" id="sbTotal">0</div><div class="sbl">total sessions</div></div>
+        <div class="sb-stat"><div class="sbn" id="sbWk" style="font-size:12px">Wk 1</div><div class="sbl">current</div></div>
+      </div>
+
+      <div class="sb-div"></div>
+      <div class="sb-sec">Errors logged</div>
+      <div class="err-list" id="errList"><div style="font-size:11px;color:var(--tx3);padding:4px 7px">None yet</div></div>
+
+      <div class="sb-div"></div>
+      <div class="sb-sec">Criteria</div>
+      <div class="crit-list">
+        <div class="crit-row"><span class="ck ck1">W1</span>Expression</div>
+        <div class="crit-row"><span class="ck ck2">W2</span>Structure</div>
+        <div class="crit-row"><span class="ck ck3">W3</span>Vocabulary</div>
+        <div class="crit-row"><span class="ck ck4">W4</span>Register</div>
       </div>
     </div>
 
-    <div class="chat">
-      <div class="msgs" id="msgs"></div>
+    <div class="chat-col">
+      <div class="msgs-wrap" id="msgsWrap"></div>
       <div class="inp-area">
-        <div class="cold-note" id="coldNote">First load may take 30 seconds while Render wakes up. If nothing appears, click the refresh icon.</div>
-        <div class="focus-bar">
+        <div class="cold-bar" id="coldBar">Connecting to tutor — Render may take up to 30 seconds on first load. Please wait...</div>
+        <div class="focus-pill">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2"/></svg>
-          <span id="focuslabel">Week 1–2: Sentence structure — simple, compound, complex sentences and subject-verb agreement</span>
+          <span id="focusLabel">Week 1–2: Sentence structure — simple, compound, complex sentences and subject-verb agreement</span>
         </div>
-        <div class="toolbar">
-          <span class="tlabel">Input:</span>
-          <button class="mbtn on" id="typebtn" onclick="setMode('type')">
+        <div class="inp-toolbar">
+          <span class="tlabel">Input</span>
+          <button class="mode-btn on" id="typeBtn" onclick="setMode('type')">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="14" height="9" rx="1.5"/></svg>Type
           </button>
-          <button class="mbtn" id="voicebtn" onclick="toggleVoice()">
+          <button class="mode-btn" id="voiceBtn" onclick="toggleVoice()">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2a2 2 0 0 0-2 2v4a2 2 0 0 0 4 0V4a2 2 0 0 0-2-2z"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg>
-            <span id="vlabel">Voice</span>
+            <span id="vLabel">Voice</span>
           </button>
-          <span class="ccount" id="cc">0 chars</span>
+          <span class="char-count" id="charCount">0</span>
         </div>
         <div class="inp-row">
-          <textarea id="tin" placeholder="Write a paragraph, answer a question, or ask for help... (Enter to send)" rows="2" onkeydown="handleKey(event)" oninput="countChars()"></textarea>
-          <button class="sbtn" id="sbtn" onclick="send()" aria-label="Send">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
+          <textarea id="msgInput" placeholder="Write a paragraph, answer a Socratic question, or ask for help... (Enter to send)" rows="2"
+            onkeydown="handleKey(event)" oninput="onInput()"></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendMsg()" aria-label="Send">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
           </button>
         </div>
       </div>
@@ -348,296 +439,253 @@ textarea:focus{outline:none;border-color:var(--blue)}
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 3 — MENTOR DASHBOARD
-═══════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen" id="mentorScreen">
-  <nav>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div class="logo">Cambridge 0500 <span>Mentor Dashboard</span></div>
+  <nav class="topnav">
+    <div class="nav-left">
+      <div class="nav-logo">0500 <span>Mentor Dashboard</span></div>
     </div>
     <div class="nav-right">
-      <span class="user-pill up-mentor">David · Mentor</span>
-      <button class="icon-btn" onclick="logout()" title="Sign out">
+      <span class="u-pill up-mentor">David · Mentor</span>
+      <button class="nav-btn" onclick="doLogout()" title="Sign out">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
       </button>
     </div>
   </nav>
-  <div class="dash" id="dash"></div>
+  <div class="dash-wrap" id="dashWrap"></div>
 </div>
 
 <script>
-const API = 'https://sms-english-tutor.onrender.com';
-const MENTOR_PIN = '2445';
-const STUDENTS = [
-  {id:'david', name:'David', initial:'D', avClass:'av-david', pillClass:'up-david'},
-  {id:'melusi', name:'Melusi', initial:'M', avClass:'av-melusi', pillClass:'up-melusi'},
-  {id:'gerald', name:'Gerald', initial:'G', avClass:'av-gerald', pillClass:'up-gerald'}
+const API='https://sms-english-tutor.onrender.com';
+const PIN='2445';
+const STUDENTS=[
+  {id:'david',name:'David',init:'D',avClass:'av-d',pillClass:'up-d',siClass:'av-ud'},
+  {id:'melusi',name:'Melusi',init:'M',avClass:'av-m',pillClass:'up-m',siClass:'av-um'},
+  {id:'gerald',name:'Gerald',init:'G',avClass:'av-g',pillClass:'up-g',siClass:'av-ug'}
 ];
-const WEEK_LABELS = ['Wk 1–2','Wk 3–4','Wk 5–6','Wk 7–8','Wk 9–10 Q1','Wk 9–10 Q2','Wk 9–10 Q3','Wk 11–12'];
+const WK_LABELS=['Wk 1–2','Wk 3–4','Wk 5–6','Wk 7–8','Wk 9–10 Q1','Wk 9–10 Q2','Wk 9–10 Q3','Wk 11–12'];
 
-const WEEKS = [
-{label:"Week 1–2: Sentences",focus:"Sentence structure — simple, compound, complex sentences and subject-verb agreement",si:0,
-sys:`You are a Cambridge IGCSE 0500 First Language English Socratic tutor. Student: adult/teenager, first language English. Target A*.
-THIS WEEK: Sentences — simple/compound/complex types; subject-verb agreement; sentence variety.
-RULES: 1. NEVER correct directly — ask Socratic questions. 2. NEVER give model answers. 3. Ask AT LEAST TWO questions after every piece of writing before feedback. 4. When same error appears twice: name it, explain rule ONCE, make student correct every instance. 5. Evaluate against W1/W2/W3/W4. 6. End EVERY response with one specific question or task. 7. Be warm but demanding.
-BEGIN: Ask the student to write one paragraph on any topic, then begin Socratic questioning on sentence structure.`},
-{label:"Week 3–4: Punctuation",focus:"Punctuation as meaning — commas, semicolons, colons, dashes for deliberate effect",si:1,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Punctuation as a tool for meaning — four comma uses, semicolon, colon, dash, paragraph breaks. RULES: 1. Never correct directly. 2. Ask students to justify every punctuation mark. 3. Comma splice: "Read those two clauses aloud. Are they complete sentences?" 4. Focus on W2. 5. End with one specific task. BEGIN: Ask student to write 6–8 sentences then examine every punctuation mark.`},
-{label:"Week 5–6: Vocabulary",focus:"Vocabulary precision — strong verbs, eliminating vague intensifiers, connotation vs denotation",si:2,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Vocabulary — precision over impressiveness; strong verbs; eliminate vague intensifiers (very, really, quite); connotation vs denotation. RULES: 1. Never suggest replacements — ask "Give me three alternatives. Which is most precise?" 2. Target weak verbs: was, went, said, got. 3. Precision over sophistication. 4. Focus W3. 5. End with one task. BEGIN: Ask student to describe a place they know well.`},
-{label:"Week 7–8: Register",focus:"Register consistency — formal, informal, persuasive, informative — maintained throughout",si:3,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Register — formal/informal/persuasive/informative. Consistency throughout is the key skill. RULES: 1. Register slips: "Who is your audience? Would they expect that tone?" 2. Drill all four forms. 3. Register is W4 — top band = maintained throughout. 4. End with one task. BEGIN: Ask student to write to a friend about a problem, then rewrite as formal letter to head teacher.`},
-{label:"Week 9–10: Q1 Reading",focus:"Q1 comprehension — precise evidence selection, explicit vs implicit meaning",si:0,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q1 — precise evidence, explicit vs implicit meaning, writer's effects. After every answer: 1. "Did you select the most precise evidence?" 2. "Explicit or implicit understanding?" 3. "Have you copied language when own words are needed?" 4. "How many marks? Enough points?" Never confirm correct answers. PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings before theirs. Inside, the machines did not pause for thought." BEGIN: Share passage, ask: "What impression does the writer create of the workers' daily experience? Use evidence." [8 marks]`},
-{label:"Week 9–10: Q2 Writing",focus:"Q2 directed writing — register transformation, passage information only",si:3,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q2 — transform passage info into specific form (letter/speech/report), correct register, no invented content. After writing: 1. "Did you use passage info or invent content?" 2. "Is register consistent throughout?" 3. "Does opening establish form?" 4. "Does closing land with impact?" PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning. Inside, the machines did not pause for thought." BEGIN: Ask "What three language features does Cambridge expect in a speech?" Then: write speech to town council arguing factory should be modernised.`},
-{label:"Week 9–10: Q3 Summary",focus:"Q3 summary — focused selection, own words, staying on the specific aspect asked",si:2,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q3 — correct content points, own words, focused on specific aspect, word limit. After writing: 1. "Count distinct content points — did you find 8-10?" 2. "How similar are your words to the passage?" 3. "Does every sentence relate to the specific aspect?" 4. "What is your word count?" PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings. Inside, the machines did not pause for thought. The air tasted of metal and repetition." BEGIN: Task — "Summarise what the passage suggests about the ATMOSPHERE of the factory. Max 120 words."` },
-{label:"Week 11–12: Error elimination",focus:"Targeted error drilling — your specific recurring patterns eliminated before the exam",si:0,
-sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Error elimination — identify top 2–3 persistent patterns, drill until gone. APPROACH: 1. Student writes three paragraphs freely. 2. Identify most persistent error. 3. Name it explicitly, explain rule ONCE. 4. Student corrects ALL instances themselves. 5. "Explain the rule back to me." 6. If error reappears: "I see our friend is back." End each session with a progress note for a Cambridge examiner: "This student demonstrates [skill] as evidenced by [example]..." BEGIN: Ask student to write three paragraphs on any topic they care about.`}
+const WEEKS=[
+{label:'Wk 1–2 · Sentences',focus:'Sentence structure — simple, compound, complex sentences and subject-verb agreement',si:0,
+sys:`You are a Cambridge IGCSE 0500 First Language English Socratic tutor. Student: adult/teenager, first language English, strong spoken English, weak written English. Target A*.
+THIS WEEK: Sentences — simple/compound/complex; subject-verb agreement; sentence variety.
+RULES: 1.NEVER correct directly — ask Socratic questions only. 2.NEVER give model answers. 3.After every piece of writing ask AT LEAST TWO questions before feedback. 4.When same error appears twice: name it, explain rule ONCE, make student correct all instances. 5.Evaluate against W1/W2/W3/W4. 6.End EVERY response with one specific question or task. 7.Be warm but demanding.
+BEGIN: Ask the student to write one paragraph on any topic, then begin Socratic process on sentence structure.`},
+{label:'Wk 3–4 · Punctuation',focus:'Punctuation as meaning — commas, semicolons, colons, dashes for deliberate effect',si:1,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Punctuation as a tool — four comma uses, semicolon, colon, dash, paragraph breaks. RULES: 1.Never correct directly. 2.Ask student to justify every mark. 3.Comma splice: "Read those two clauses aloud. Are they complete sentences?" 4.Focus W2. 5.End with one task. BEGIN: Ask student to write 6–8 sentences then examine every punctuation mark.`},
+{label:'Wk 5–6 · Vocabulary',focus:'Vocabulary precision — strong verbs, eliminating vague intensifiers, connotation vs denotation',si:2,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Vocabulary — precision over impressiveness; strong verbs; eliminate vague intensifiers; connotation vs denotation. RULES: 1.Never suggest replacements — ask "Give me three alternatives. Which is most precise?" 2.Target weak verbs: was/went/said/got. 3.Cambridge rewards ambitious vocabulary WHEN ACCURATE. 4.Focus W3. 5.End with one task. BEGIN: Ask student to describe a place they know well.`},
+{label:'Wk 7–8 · Register',focus:'Register consistency — formal, informal, persuasive, informative — maintained throughout',si:3,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Register — formal/informal/persuasive/informative. Consistency throughout. RULES: 1.Register slips: "Who is your audience? Would they expect that tone?" 2.Drill all four forms. 3.Register is W4 — top band = maintained throughout. 4.End with one task. BEGIN: Write to a friend about a problem, then rewrite as formal letter to head teacher. Compare.`},
+{label:'Wk 9–10 · Q1',focus:'Q1 comprehension — precise evidence selection, explicit vs implicit meaning, writer\'s effects',si:0,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q1 — precise evidence, explicit vs implicit meaning, writer's effects. After every answer: 1."Most precise evidence?" 2."Explicit or implicit?" 3."Copied language?" 4."Enough points for marks?" Never confirm correct answers. PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings before theirs. Inside, the machines did not pause for thought." BEGIN: Share passage. Ask: "What impression does the writer create of the workers' daily experience? Use evidence." [8 marks]`},
+{label:'Wk 9–10 · Q2',focus:'Q2 directed writing — register transformation, passage information only, strong form features',si:3,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q2 — transform passage into specific form, correct register, no invented content. After writing: 1."Used passage info or invented?" 2."Register consistent?" 3."Opening establishes form?" 4."Closing lands?" PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning. Inside, the machines did not pause for thought." BEGIN: Ask "What three language features does Cambridge expect in a speech?" Then: write speech to town council arguing factory should be modernised.`},
+{label:'Wk 9–10 · Q3',focus:'Q3 summary — focused selection, own words only, staying on the specific aspect asked',si:2,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Q3 — correct content points, own words, focused on specific aspect, word limit. After writing: 1."Count distinct content points — 8-10?" 2."How similar to passage words?" 3."Every sentence on specific aspect?" 4."Word count within limit?" PASSAGE: "The factory stood at the edge of town, its tall chimneys exhaling grey patience into a sky that had forgotten blue. Workers filed through iron gates each morning, their boots finding the familiar grooves worn into the path by a thousand identical mornings. Inside, the machines did not pause for thought. The air tasted of metal and repetition." BEGIN: Task — "Summarise what the passage suggests about the ATMOSPHERE of the factory. Max 120 words."`},
+{label:'Wk 11–12 · Errors',focus:'Targeted error drilling — your specific recurring patterns eliminated before the exam',si:0,
+sys:`You are a Cambridge IGCSE 0500 Socratic tutor. THIS WEEK: Error elimination — top 2–3 persistent patterns drilled until gone. APPROACH: 1.Student writes three paragraphs freely. 2.Identify most persistent error. 3.Name it, explain rule ONCE. 4.Student corrects ALL instances themselves. 5."Explain the rule back to me." 6.If reappears: "I see our friend is back." End each session with progress note for Cambridge examiner: "This student demonstrates [skill] as evidenced by [example]..." BEGIN: Ask student to write three paragraphs on any topic they care about.`}
 ];
 
-let currentUser = null;
-let messages = [], week = 0, loading = false;
-let exchanges = 0, errCount = 0, errPatterns = [];
-let recording = false, mediaRec = null, chunks = [];
-let tstart = null, tiv = null;
+let CU=null, msgs=[], week=0, loading=false;
+let exch=0, errCnt=0, errPats=[];
+let recording=false, mRec=null, aChunks=[];
+let tstart=null, tiv=null;
 
-/* ─── STORAGE HELPERS ─────────────────────────────── */
-function getUD(uid) {
-  try { return JSON.parse(localStorage.getItem('sms_0500_' + uid) || 'null'); } catch(e) { return null; }
-}
-function setUD(uid, data) {
-  try { localStorage.setItem('sms_0500_' + uid, JSON.stringify(data)); } catch(e) {}
-}
-function defaultUD() {
-  return {totalSessions:0, currentWeek:0, errPatterns:[], lastActive:null, transcripts:[]};
-}
-function saveSession() {
-  if (!currentUser) return;
-  const d = getUD(currentUser.id) || defaultUD();
-  d.errPatterns = errPatterns;
-  d.currentWeek = week;
-  d.lastActive = new Date().toLocaleDateString();
-  if (messages.length > 2) {
-    d.transcripts = d.transcripts || [];
-    d.transcripts.push({date: new Date().toLocaleDateString(), week: WEEK_LABELS[week], messages: messages.slice(-20)});
-    if (d.transcripts.length > 10) d.transcripts = d.transcripts.slice(-10);
+/* ── STORAGE ── */
+function gUD(id){try{return JSON.parse(localStorage.getItem('sms0500_'+id)||'null');}catch(e){return null;}}
+function sUD(id,d){try{localStorage.setItem('sms0500_'+id,JSON.stringify(d));}catch(e){}}
+function dUD(){return{totalSessions:0,currentWeek:0,errPats:[],lastActive:null,transcripts:[]};}
+function saveNow(){
+  if(!CU)return;
+  const d=gUD(CU.id)||dUD();
+  d.errPats=errPats; d.currentWeek=week; d.lastActive=new Date().toLocaleDateString();
+  if(msgs.length>2){
+    d.transcripts=d.transcripts||[];
+    d.transcripts.push({date:new Date().toLocaleDateString(),week:WK_LABELS[week],messages:msgs.slice(-20)});
+    if(d.transcripts.length>10)d.transcripts=d.transcripts.slice(-10);
   }
-  setUD(currentUser.id, d);
+  sUD(CU.id,d);
 }
 
-/* ─── LOGIN ───────────────────────────────────────── */
-function refreshLoginStats() {
-  STUDENTS.forEach(s => {
-    const d = getUD(s.id);
-    const el = document.getElementById('stats-' + s.id);
-    if (d && d.totalSessions > 0) {
-      el.textContent = d.totalSessions + ' session' + (d.totalSessions!==1?'s':'') + ' · ' + WEEK_LABELS[d.currentWeek||0];
-    } else {
-      el.textContent = 'Not started yet';
-    }
+/* ── LOGIN ── */
+function refreshStats(){
+  STUDENTS.forEach(s=>{
+    const d=gUD(s.id);
+    const el=document.getElementById('stat-'+s.id);
+    if(d&&d.totalSessions>0){el.textContent=d.totalSessions+' session'+(d.totalSessions!==1?'s':'')+' · '+WK_LABELS[d.currentWeek||0];}
+    else{el.textContent='Not started yet';el.className='s-stat s-new';}
   });
 }
-
-function loginStudent(uid) {
-  const student = STUDENTS.find(s => s.id === uid);
-  if (!student) return;
-  currentUser = student;
-  const d = getUD(uid) || defaultUD();
-  week = d.currentWeek || 0;
-  errPatterns = d.errPatterns || [];
-  errCount = errPatterns.length;
+function loginStudent(id){
+  const s=STUDENTS.find(x=>x.id===id); if(!s)return;
+  CU=s;
+  const d=gUD(id)||dUD();
+  week=d.currentWeek||0; errPats=d.errPats||[]; errCnt=errPats.length;
   showScreen('tutorScreen');
   setupTutorUI();
   beginSession();
 }
-
-function showPinEntry() {
-  const pc = document.getElementById('pinCard');
-  pc.classList.toggle('visible');
-  if (pc.classList.contains('visible')) {
+function togglePin(){
+  const p=document.getElementById('pinPanel');
+  p.classList.toggle('open');
+  const ch=document.getElementById('pinChevron');
+  ch.style.transform=p.classList.contains('open')?'rotate(180deg)':'';
+  if(p.classList.contains('open'))document.getElementById('p0').focus();
+}
+function pinInp(i){const v=document.getElementById('p'+i).value;if(v&&i<3)document.getElementById('p'+(i+1)).focus();}
+function pinKD(e,i){
+  if(e.key==='Backspace'&&!document.getElementById('p'+i).value&&i>0)document.getElementById('p'+(i-1)).focus();
+  if(e.key==='Enter')checkPin();
+}
+function checkPin(){
+  const pin=[0,1,2,3].map(i=>document.getElementById('p'+i).value).join('');
+  if(pin===PIN){showScreen('mentorScreen');buildDash();}
+  else{
+    document.getElementById('pinErr').textContent='Incorrect PIN. Try again.';
+    [0,1,2,3].forEach(i=>{document.getElementById('p'+i).value='';});
     document.getElementById('p0').focus();
+    setTimeout(()=>{document.getElementById('pinErr').textContent='';},2500);
   }
 }
-
-function pinInput(i) {
-  const v = document.getElementById('p' + i).value;
-  if (v && i < 3) document.getElementById('p' + (i+1)).focus();
-}
-function pinKey(e, i) {
-  if (e.key === 'Backspace' && !document.getElementById('p'+i).value && i > 0) {
-    document.getElementById('p'+(i-1)).focus();
-  }
-  if (e.key === 'Enter') checkPin();
-}
-function checkPin() {
-  const pin = [0,1,2,3].map(i => document.getElementById('p'+i).value).join('');
-  if (pin === MENTOR_PIN) {
-    showScreen('mentorScreen');
-    buildDashboard();
-  } else {
-    document.getElementById('pinError').style.display = 'block';
-    [0,1,2,3].forEach(i => { document.getElementById('p'+i).value = ''; });
-    document.getElementById('p0').focus();
-    setTimeout(() => { document.getElementById('pinError').style.display = 'none'; }, 2000);
-  }
-}
-
-function logout() {
-  saveSession();
-  if (tiv) { clearInterval(tiv); tiv = null; }
-  currentUser = null;
-  messages = []; exchanges = 0; errCount = 0; errPatterns = [];
-  document.getElementById('pinCard').classList.remove('visible');
-  [0,1,2,3].forEach(i => { document.getElementById('p'+i).value = ''; });
-  refreshLoginStats();
+function doLogout(){
+  saveNow();
+  if(tiv){clearInterval(tiv);tiv=null;}
+  CU=null; msgs=[]; exch=0; errCnt=0; errPats=[];
+  document.getElementById('pinPanel').classList.remove('open');
+  [0,1,2,3].forEach(i=>{document.getElementById('p'+i).value='';});
+  refreshStats();
   showScreen('loginScreen');
 }
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ─── TUTOR UI SETUP ──────────────────────────────── */
-function setupTutorUI() {
-  const d = getUD(currentUser.id) || defaultUD();
-  const pill = document.getElementById('userPill');
-  pill.textContent = currentUser.name;
-  pill.className = 'user-pill ' + currentUser.pillClass;
-  document.getElementById('stotal').textContent = d.totalSessions || 0;
-  document.getElementById('sweek').textContent = WEEK_LABELS[week];
-  document.getElementById('wbadge').textContent = WEEKS[week].label;
-  document.getElementById('focuslabel').textContent = WEEKS[week].focus;
-  const siMap = {0:'si0',1:'si1',2:'si2',3:'si3'};
-  document.querySelectorAll('.side-item').forEach(i => i.classList.remove('on'));
-  const sid = siMap[WEEKS[week].si]; if (sid) document.getElementById(sid).classList.add('on');
-  document.querySelectorAll('.wbtn').forEach((b,i) => b.classList.toggle('on', i===week));
-  renderErrorList();
-  document.getElementById('sexch').textContent = '0';
-  document.getElementById('serr').textContent = errCount;
-  tstart = Date.now();
-  if (tiv) clearInterval(tiv);
-  tiv = setInterval(() => {
-    const e = Math.floor((Date.now()-tstart)/1000);
-    document.getElementById('timer').textContent = String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
-  }, 1000);
+/* ── TUTOR SETUP ── */
+function setupTutorUI(){
+  const d=gUD(CU.id)||dUD();
+  const pill=document.getElementById('uPill');
+  pill.textContent=CU.name; pill.className='u-pill '+CU.pillClass;
+  document.getElementById('sbTotal').textContent=d.totalSessions||0;
+  document.getElementById('sbWk').textContent=WK_LABELS[week];
+  document.getElementById('wkBadge').textContent=WEEKS[week].label;
+  document.getElementById('focusLabel').textContent=WEEKS[week].focus;
+  const siMap={0:'si0',1:'si1',2:'si2',3:'si3'};
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
+  const sid=siMap[WEEKS[week].si]; if(sid)document.getElementById(sid).classList.add('on');
+  document.querySelectorAll('.wbtn').forEach((b,i)=>b.classList.toggle('on',i===week));
+  renderErrList();
+  document.getElementById('sbExch').textContent='0';
+  document.getElementById('sbErr').textContent=errCnt;
+  tstart=Date.now();
+  if(tiv)clearInterval(tiv);
+  tiv=setInterval(()=>{
+    const e=Math.floor((Date.now()-tstart)/1000);
+    document.getElementById('navTimer').textContent=String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
+  },1000);
+}
+function renderErrList(){
+  const el=document.getElementById('errList');
+  if(!errPats.length){el.innerHTML='<div style="font-size:11px;color:var(--tx3);padding:4px 7px">None yet</div>';return;}
+  el.innerHTML=errPats.map(p=>`<div class="etag"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v3M8 11v.5M2 13h12L8 3z"/></svg>${p}</div>`).join('');
 }
 
-function renderErrorList() {
-  const el = document.getElementById('elist');
-  if (!errPatterns.length) {
-    el.innerHTML = '<div style="font-size:11px;color:var(--tx4);padding:4px 6px">None yet</div>';
-    return;
-  }
-  el.innerHTML = errPatterns.map(p =>
-    `<div class="etag"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6v3M8 11v.5M2 13h12L8 3z"/></svg>${p}</div>`
-  ).join('');
-}
-
-/* ─── SESSION ─────────────────────────────────────── */
-async function beginSession() {
-  messages = []; exchanges = 0;
-  document.getElementById('msgs').innerHTML = '';
-  document.getElementById('sexch').textContent = '0';
-  document.getElementById('coldNote').style.display = 'block';
+/* ── SESSION ── */
+async function beginSession(){
+  msgs=[];exch=0;
+  document.getElementById('msgsWrap').innerHTML='';
+  document.getElementById('sbExch').textContent='0';
+  document.getElementById('coldBar').style.display='block';
   addTyping();
-  try {
-    const reply = await callAPI([{role:'user', content:'Begin. One sentence intro then give me my first task immediately. No preamble.'}]);
+  try{
+    const r=await callAPI([{role:'user',content:'Begin. One sentence intro then give me my first task immediately. No preamble.'}]);
     removeTyping();
-    document.getElementById('coldNote').style.display = 'none';
-    addMsg('a', reply, true);
-    messages.push({role:'user', content:'Begin. One sentence intro then give me my first task immediately. No preamble.'});
-    messages.push({role:'assistant', content:reply});
-    document.getElementById('sdot').className = 'sdot live';
-    const d = getUD(currentUser.id) || defaultUD();
-    d.totalSessions = (d.totalSessions||0) + 1;
-    setUD(currentUser.id, d);
-    document.getElementById('stotal').textContent = d.totalSessions;
-  } catch(e) {
+    document.getElementById('coldBar').style.display='none';
+    addMsg('a',r,true);
+    msgs.push({role:'user',content:'Begin. One sentence intro then give me my first task immediately. No preamble.'});
+    msgs.push({role:'assistant',content:r});
+    document.getElementById('sdot').className='dot live';
+    const d=gUD(CU.id)||dUD();
+    d.totalSessions=(d.totalSessions||0)+1;
+    sUD(CU.id,d);
+    document.getElementById('sbTotal').textContent=d.totalSessions;
+  }catch(e){
     removeTyping();
-    document.getElementById('sdot').className = 'sdot err';
-    document.getElementById('coldNote').style.display = 'none';
-    addMsg('a', 'Could not connect. Render may be waking up — wait 30 seconds and click the refresh icon.\n\nError: ' + e.message);
+    document.getElementById('sdot').className='dot err';
+    document.getElementById('coldBar').style.display='none';
+    addMsg('a','Could not connect to the tutor backend. Render may be waking up — wait 30 seconds then click the refresh icon above.\n\nError: '+e.message);
   }
 }
 
-async function callAPI(msgs) {
-  const r = await fetch(API + '/chat', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({messages:msgs, system:WEEKS[week].sys})
-  });
-  if (!r.ok) { const e = await r.json(); throw new Error(e.detail||'Server error '+r.status); }
-  const d = await r.json(); return d.content;
+async function callAPI(m){
+  const r=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:m,system:WEEKS[week].sys})});
+  if(!r.ok){const e=await r.json();throw new Error(e.detail||'Server error '+r.status);}
+  return(await r.json()).content;
 }
 
-async function send() {
-  const tin = document.getElementById('tin');
-  const txt = tin.value.trim();
-  if (!txt || loading) return;
-  tin.value = ''; countChars(); tin.style.height = 'auto';
-  addMsg('u', txt);
-  messages.push({role:'user', content:txt});
-  exchanges++; document.getElementById('sexch').textContent = exchanges;
-  addTyping(); loading = true;
-  document.getElementById('sbtn').disabled = true;
-  try {
-    const reply = await callAPI(messages);
+async function sendMsg(){
+  const ti=document.getElementById('msgInput');
+  const txt=ti.value.trim();
+  if(!txt||loading)return;
+  ti.value='';ti.style.height='auto';
+  document.getElementById('charCount').textContent='0';
+  addMsg('u',txt);
+  msgs.push({role:'user',content:txt});
+  exch++;document.getElementById('sbExch').textContent=exch;
+  addTyping();loading=true;document.getElementById('sendBtn').disabled=true;
+  try{
+    const r=await callAPI(msgs);
     removeTyping();
-    addMsg('a', reply, true);
-    messages.push({role:'assistant', content:reply});
-    scanErrors(reply);
-    saveSession();
-  } catch(e) { removeTyping(); addMsg('a', 'Error: ' + e.message); }
-  loading = false;
-  document.getElementById('sbtn').disabled = false;
-  document.getElementById('tin').focus();
+    addMsg('a',r,true);
+    msgs.push({role:'assistant',content:r});
+    scanErrors(r);saveNow();
+  }catch(e){removeTyping();addMsg('a','Error: '+e.message);}
+  loading=false;document.getElementById('sendBtn').disabled=false;
+  document.getElementById('msgInput').focus();
 }
 
-function addMsg(role, text, analyse) {
-  const c = document.getElementById('msgs');
-  const d = document.createElement('div');
-  d.className = 'msg ' + (role==='a'?'a':'u');
-  const av = document.createElement('div');
-  if (role === 'a') {
-    av.className = 'av t'; av.textContent = 'T';
-  } else {
-    av.className = 'av ' + (currentUser?.id||''); av.textContent = currentUser?.initial||'Y';
-  }
-  const bub = document.createElement('div');
-  bub.className = 'bub ' + (role==='a'?'t':'u');
-  bub.innerHTML = fmt(text);
-  const wrap = document.createElement('div');
-  wrap.style.cssText = 'display:flex;flex-direction:column;gap:3px;max-width:100%';
+function addMsg(role,text,analyse){
+  const c=document.getElementById('msgsWrap');
+  const d=document.createElement('div');
+  d.className='msg '+(role==='a'?'a':'u');
+  const av=document.createElement('div');
+  av.className='av '+(role==='a'?'av-tutor':(CU?.siClass||'av-ud'));
+  av.textContent=role==='a'?'T':(CU?.init||'Y');
+  const bub=document.createElement('div');
+  bub.className='bubble '+(role==='a'?'t':'u');
+  bub.innerHTML=fmt(text);
+  const wrap=document.createElement('div');
+  wrap.className='msg-meta';
   wrap.appendChild(bub);
-  if (role==='a' && analyse) { const ch = getCritChips(text); if(ch) wrap.appendChild(ch); }
-  d.appendChild(av); d.appendChild(wrap);
-  c.appendChild(d); c.scrollTop = c.scrollHeight;
+  if(role==='a'&&analyse){const ch=getCritChips(text);if(ch)wrap.appendChild(ch);}
+  d.appendChild(av);d.appendChild(wrap);
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
 
-function fmt(t) {
+function fmt(t){
   return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/\n\n/g,'</p><p style="margin-top:6px">')
+    .replace(/\n\n/g,'</p><p style="margin-top:7px">')
     .replace(/\n/g,'<br>');
 }
 
-function getCritChips(t) {
-  const found = [];
-  if (/W1|expression|articulate/i.test(t)) found.push({c:'cw1',l:'W1'});
-  if (/W2|structure|organis/i.test(t)) found.push({c:'cw2',l:'W2'});
-  if (/W3|vocabular|sentence variet/i.test(t)) found.push({c:'cw3',l:'W3'});
-  if (/W4|register|audience|purpose/i.test(t)) found.push({c:'cw4',l:'W4'});
-  if (!found.length) return null;
-  const r = document.createElement('div'); r.className = 'chips-row';
-  found.forEach(f => { const s=document.createElement('span'); s.className='chip '+f.c; s.textContent=f.l; r.appendChild(s); });
+function getCritChips(t){
+  const found=[];
+  if(/W1|expression|articulate/i.test(t))found.push({c:'ck1',l:'W1'});
+  if(/W2|structure|organis/i.test(t))found.push({c:'ck2',l:'W2'});
+  if(/W3|vocabular|sentence variet/i.test(t))found.push({c:'ck3',l:'W3'});
+  if(/W4|register|audience|purpose/i.test(t))found.push({c:'ck4',l:'W4'});
+  if(!found.length)return null;
+  const r=document.createElement('div');r.className='chip-row';
+  found.forEach(f=>{const s=document.createElement('span');s.className='ck '+f.c;s.textContent=f.l;r.appendChild(s);});
   return r;
 }
 
-function scanErrors(t) {
-  const ps = [
+function scanErrors(t){
+  const ps=[
     {r:/comma splice/i,l:'Comma splice'},{r:/subject.verb/i,l:'Subject-verb agreement'},
     {r:/fragment/i,l:'Sentence fragment'},{r:/run.on/i,l:'Run-on sentence'},
     {r:/vague intensifier|very,|really,/i,l:'Vague intensifiers'},
@@ -645,162 +693,142 @@ function scanErrors(t) {
     {r:/copied.*passage|lifting/i,l:'Copying from passage'},
     {r:/passive/i,l:'Passive overuse'},
   ];
-  ps.forEach(p => {
-    if (p.r.test(t) && !errPatterns.includes(p.l)) {
-      errPatterns.push(p.l); errCount++;
-      document.getElementById('serr').textContent = errCount;
-      renderErrorList();
+  ps.forEach(p=>{
+    if(p.r.test(t)&&!errPats.includes(p.l)){
+      errPats.push(p.l);errCnt++;
+      document.getElementById('sbErr').textContent=errCnt;
+      renderErrList();
     }
   });
 }
 
-function addTyping() {
-  const c = document.getElementById('msgs');
-  const d = document.createElement('div'); d.className='msg a'; d.id='typing';
-  d.innerHTML = `<div class="av t">T</div><div class="typing-wrap"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
-  c.appendChild(d); c.scrollTop = c.scrollHeight;
+function addTyping(){
+  const c=document.getElementById('msgsWrap');
+  const d=document.createElement('div');d.className='msg a';d.id='typing';
+  d.innerHTML=`<div class="av av-tutor">T</div><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
 }
-function removeTyping() { const t=document.getElementById('typing'); if(t)t.remove(); }
+function removeTyping(){const t=document.getElementById('typing');if(t)t.remove();}
 
-function handleKey(e) {
-  if (e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); send(); }
-  const ta = document.getElementById('tin');
-  ta.style.height = 'auto';
-  ta.style.height = Math.min(ta.scrollHeight,110)+'px';
+function handleKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}
+  const ta=document.getElementById('msgInput');
+  ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,120)+'px';
 }
-function countChars() { document.getElementById('cc').textContent = document.getElementById('tin').value.length+' chars'; }
+function onInput(){
+  document.getElementById('charCount').textContent=document.getElementById('msgInput').value.length;
+}
 
-function setWeek(w, btn) {
-  week = w;
-  document.querySelectorAll('.wbtn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('wbadge').textContent = WEEKS[w].label;
-  document.getElementById('focuslabel').textContent = WEEKS[w].focus;
-  document.getElementById('sweek').textContent = WEEK_LABELS[w];
-  const siMap = {0:'si0',1:'si1',2:'si2',3:'si3'};
-  document.querySelectorAll('.side-item').forEach(i => i.classList.remove('on'));
-  const sid = siMap[WEEKS[w].si]; if(sid) document.getElementById(sid).classList.add('on');
-  const d = getUD(currentUser.id)||defaultUD(); d.currentWeek=w; setUD(currentUser.id,d);
-  exchanges=0; errCount=errPatterns.length;
-  document.getElementById('sexch').textContent='0';
-  document.getElementById('msgs').innerHTML='';
-  messages=[];
+function setWeek(w,btn){
+  week=w;
+  document.querySelectorAll('.wbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.getElementById('wkBadge').textContent=WEEKS[w].label;
+  document.getElementById('focusLabel').textContent=WEEKS[w].focus;
+  document.getElementById('sbWk').textContent=WK_LABELS[w];
+  const siMap={0:'si0',1:'si1',2:'si2',3:'si3'};
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
+  const sid=siMap[WEEKS[w].si];if(sid)document.getElementById(sid).classList.add('on');
+  const d=gUD(CU.id)||dUD();d.currentWeek=w;sUD(CU.id,d);
+  exch=0;document.getElementById('sbExch').textContent='0';
+  document.getElementById('msgsWrap').innerHTML='';msgs=[];
   beginSession();
 }
 
-function newSession() {
-  if (!confirm('Start a fresh session? This conversation will be cleared.')) return;
+function newSession(){
+  if(!confirm('Start a fresh session? This conversation will be cleared.'))return;
   beginSession();
 }
 
-function setMode(m) {
-  document.getElementById('typebtn').classList.toggle('on',m==='type');
-  document.getElementById('voicebtn').classList.toggle('on',m==='voice');
+function setMode(m){
+  document.getElementById('typeBtn').classList.toggle('on',m==='type');
+  document.getElementById('voiceBtn').classList.toggle('on',m==='voice');
 }
-
-async function toggleVoice() {
-  if (recording) { stopRec(); return; }
-  if (!navigator.mediaDevices) { alert('Microphone not available. Use Type mode.'); return; }
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-    mediaRec = new MediaRecorder(stream); chunks=[];
-    mediaRec.ondataavailable = e => chunks.push(e.data);
-    mediaRec.onstop = processAudio;
-    mediaRec.start(); recording=true;
-    document.getElementById('voicebtn').classList.add('rec');
-    document.getElementById('vlabel').textContent='Stop';
-    setMode('voice');
-  } catch(e) { alert('Microphone access denied. Use Type mode instead.'); }
+async function toggleVoice(){
+  if(recording){stopRec();return;}
+  if(!navigator.mediaDevices){alert('Microphone not available. Use Type mode.');return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mRec=new MediaRecorder(stream);aChunks=[];
+    mRec.ondataavailable=e=>aChunks.push(e.data);
+    mRec.onstop=processAudio;mRec.start();recording=true;
+    document.getElementById('voiceBtn').classList.add('rec');
+    document.getElementById('vLabel').textContent='Stop';setMode('voice');
+  }catch(e){alert('Microphone access denied. Use Type mode.');}
 }
-function stopRec() {
-  if (mediaRec&&recording) {
-    mediaRec.stop(); mediaRec.stream.getTracks().forEach(t=>t.stop());
-    recording=false; document.getElementById('voicebtn').classList.remove('rec');
-    document.getElementById('vlabel').textContent='Voice';
-  }
+function stopRec(){
+  if(mRec&&recording){mRec.stop();mRec.stream.getTracks().forEach(t=>t.stop());
+  recording=false;document.getElementById('voiceBtn').classList.remove('rec');
+  document.getElementById('vLabel').textContent='Voice';}
 }
-async function processAudio() {
-  const blob=new Blob(chunks,{type:'audio/webm'});
-  const fd=new FormData(); fd.append('file',blob,'rec.webm'); fd.append('model','whisper-1');
-  try {
+async function processAudio(){
+  const blob=new Blob(aChunks,{type:'audio/webm'});
+  const fd=new FormData();fd.append('file',blob,'r.webm');fd.append('model','whisper-1');
+  try{
     const r=await fetch('https://api.openai.com/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer REPLACE_WITH_OPENAI_KEY'},body:fd});
-    document.getElementById('tin').value = r.ok ? (await r.json()).text : '[Voice needs OpenAI key — type instead]';
-  } catch(e) { document.getElementById('tin').value='[Voice unavailable — type instead]'; }
-  countChars(); setMode('type');
+    document.getElementById('msgInput').value=r.ok?(await r.json()).text:'[Voice needs OpenAI key — type instead]';
+  }catch(e){document.getElementById('msgInput').value='[Voice unavailable — type instead]';}
+  onInput();setMode('type');
 }
 
-/* ─── MENTOR DASHBOARD ────────────────────────────── */
-function buildDashboard() {
-  const dash = document.getElementById('dash');
-  let html = `<div class="dash-header"><h2>Student Progress</h2><p>Overview of all three students — click "View transcripts" to read their Socratic sessions</p></div>`;
-  html += `<div class="student-cards">`;
-  STUDENTS.forEach(s => {
-    const d = getUD(s.id) || defaultUD();
-    const errs = (d.errPatterns||[]);
-    const errHtml = errs.length ? errs.map(e=>`<span class="sc-etag">${e}</span>`).join('') : '<span style="font-size:11px;color:var(--tx4)">None logged</span>';
-    const wk = WEEK_LABELS[d.currentWeek||0];
-    const lastActive = d.lastActive || 'Never';
-    html += `
-    <div class="student-card">
-      <div class="sc-header">
-        <div class="sc-av ${s.avClass}">${s.initial}</div>
-        <div>
-          <div class="sc-name">${s.name}</div>
-          <div class="sc-week">${wk}</div>
-        </div>
+/* ── MENTOR DASHBOARD ── */
+function buildDash(){
+  const w=document.getElementById('dashWrap');
+  let h=`<div class="dash-hero"><h2>Student Progress</h2><p>Live overview of all three students · Click "View transcripts" to read Socratic sessions</p></div>`;
+  h+=`<div class="cards-grid">`;
+  STUDENTS.forEach(s=>{
+    const d=gUD(s.id)||dUD();
+    const errs=d.errPats||[];
+    const errH=errs.length?errs.map(e=>`<span class="dc-etag">${e}</span>`).join(''):'<span style="font-size:11px;color:var(--tx3)">None logged</span>';
+    h+=`<div class="d-card">
+      <div class="dc-head"><div class="dc-av ${s.avClass}">${s.init}</div><div><div class="dc-name">${s.name}</div><div class="dc-week">${WK_LABELS[d.currentWeek||0]}</div></div></div>
+      <div class="dc-nums">
+        <div class="dc-num"><div class="dc-n">${d.totalSessions||0}</div><div class="dc-l">sessions</div></div>
+        <div class="dc-num"><div class="dc-n">${(d.currentWeek||0)+1}/8</div><div class="dc-l">weeks</div></div>
+        <div class="dc-num"><div class="dc-n">${errs.length}</div><div class="dc-l">errors</div></div>
       </div>
-      <div class="sc-stats">
-        <div class="sc-stat"><div class="sc-stat-n">${d.totalSessions||0}</div><div class="sc-stat-l">sessions</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">${(d.currentWeek||0)+1}</div><div class="sc-stat-l">of 8 weeks</div></div>
-        <div class="sc-stat"><div class="sc-stat-n">${errs.length}</div><div class="sc-stat-l">errors</div></div>
-      </div>
-      <div class="sc-errors"><div class="sc-errors-title">Recurring errors</div>${errHtml}</div>
-      <div class="sc-last">Last active: <span>${lastActive}</span></div>
-      <button class="sc-btn" onclick="viewTranscripts('${s.id}','${s.name}')">View session transcripts</button>
+      <div class="dc-errs-title">Recurring errors</div>${errH}
+      <div class="dc-last">Last active: <span>${d.lastActive||'Never'}</span></div>
+      <button class="dc-btn" onclick="viewTx('${s.id}','${s.name}')">View session transcripts</button>
     </div>`;
   });
-  html += `</div>`;
-  html += `<div class="progress-section">
-    <div class="progress-title">Week progress — all students</div>
-    <div style="display:flex;flex-direction:column;gap:8px">`;
-  STUDENTS.forEach(s => {
-    const d = getUD(s.id)||defaultUD();
-    const cw = d.currentWeek||0;
-    const segs = Array.from({length:8},(_,i)=>`<div class="wp-seg ${i<cw?'done':i===cw?'current':''}"></div>`).join('');
-    html += `<div><div style="font-size:12px;font-weight:500;color:var(--tx3);margin-bottom:4px">${s.name}</div><div class="week-progress">${segs}</div></div>`;
+  h+=`</div>`;
+  h+=`<div class="progress-block"><div class="pb-title">Week progress</div><div class="pb-rows">`;
+  STUDENTS.forEach(s=>{
+    const d=gUD(s.id)||dUD();const cw=d.currentWeek||0;
+    const segs=Array.from({length:8},(_,i)=>`<div class="pb-seg${i<cw?' done':i===cw?' cur':''}"></div>`).join('');
+    const pct=Math.round(((cw)/8)*100);
+    h+=`<div class="pb-row"><div class="pb-name">${s.name}</div><div class="pb-track">${segs}</div><div class="pb-pct">${pct}%</div></div>`;
   });
-  html += `</div></div>`;
-  html += `<div class="transcript-panel" id="transcriptPanel">
-    <div class="tp-header"><div class="tp-title" id="tpTitle">Transcripts</div><span class="tp-close" onclick="document.getElementById('transcriptPanel').classList.remove('visible')">Close</span></div>
-    <div id="tpBody"></div>
+  h+=`</div></div>`;
+  h+=`<div class="transcript-block" id="txBlock">
+    <div class="tb-head"><div class="tb-title" id="txTitle">Transcripts</div><span class="tb-close" onclick="document.getElementById('txBlock').classList.remove('open')">Close</span></div>
+    <div id="txBody"></div>
   </div>`;
-  dash.innerHTML = html;
+  w.innerHTML=h;
 }
 
-function viewTranscripts(uid, name) {
-  const d = getUD(uid)||defaultUD();
-  const panel = document.getElementById('transcriptPanel');
-  const body = document.getElementById('tpBody');
-  document.getElementById('tpTitle').textContent = name + ' — Session Transcripts';
-  panel.classList.add('visible');
-  const transcripts = d.transcripts||[];
-  if (!transcripts.length) { body.innerHTML='<div class="tp-empty">No sessions recorded yet for '+name+'.</div>'; return; }
-  let html = '';
-  transcripts.slice().reverse().forEach((t,i) => {
-    html += `<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:500;color:var(--tx4);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--bd)">${t.date} · ${t.week}</div>`;
-    (t.messages||[]).forEach(m => {
-      const role = m.role==='assistant'?'Tutor':'${name}';
-      const roleLabel = m.role==='assistant'?'Tutor':name;
-      html += `<div class="tp-entry"><div class="tp-role">${roleLabel}</div><div class="tp-text">${fmt(m.content)}</div></div>`;
+function viewTx(uid,name){
+  const d=gUD(uid)||dUD();
+  const blk=document.getElementById('txBlock');
+  const body=document.getElementById('txBody');
+  document.getElementById('txTitle').textContent=name+' — Session Transcripts';
+  blk.classList.add('open');
+  const txs=d.transcripts||[];
+  if(!txs.length){body.innerHTML=`<div class="t-empty">No sessions recorded yet for ${name}.</div>`;blk.scrollIntoView({behavior:'smooth'});return;}
+  let h='';
+  txs.slice().reverse().forEach(t=>{
+    h+=`<div class="t-session"><div class="t-session-hdr">${t.date} · ${t.week}</div>`;
+    (t.messages||[]).forEach(m=>{
+      const label=m.role==='assistant'?'Tutor':name;
+      const rc=m.role==='assistant'?'tutor':'';
+      h+=`<div class="t-msg"><div class="t-role ${rc}">${label}</div><div class="t-text">${fmt(m.content)}</div></div>`;
     });
-    html += `</div>`;
+    h+=`</div>`;
   });
-  body.innerHTML = html;
-  panel.scrollIntoView({behavior:'smooth'});
+  body.innerHTML=h;blk.scrollIntoView({behavior:'smooth'});
 }
 
-/* ─── INIT ────────────────────────────────────────── */
-refreshLoginStats();
+refreshStats();
 </script>
 </body>
 </html>
