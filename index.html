@@ -761,15 +761,25 @@ function stopRec(){
   document.getElementById('vLabel').textContent='Voice';}
 }
 async function processAudio(){
-  const blob=new Blob(aChunks,{type:'audio/webm'});
-  const fd=new FormData();fd.append('file',blob,'r.webm');fd.append('model','whisper-1');
-  try{
-    const r=await fetch('https://api.openai.com/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer REPLACE_WITH_OPENAI_KEY'},body:fd});
-    document.getElementById('msgInput').value=r.ok?(await r.json()).text:'[Voice needs OpenAI key — type instead]';
-  }catch(e){document.getElementById('msgInput').value='[Voice unavailable — type instead]';}
-  onInput();setMode('type');
+  const blob = new Blob(aChunks, {type:'audio/webm'});
+  const fd = new FormData();
+  fd.append('audio', blob, 'recording.webm');
+  try {
+    const r = await fetch('https://sms-english-tutor.onrender.com/transcribe', {
+      method: 'POST',
+      body: fd
+    });
+    if (r.ok) {
+      const d = await r.json();
+      document.getElementById('msgInput').value = d.text;
+    } else {
+      document.getElementById('msgInput').value = '[Transcription failed — type your response]';
+    }
+  } catch(e) {
+    document.getElementById('msgInput').value = '[Voice unavailable — type your response]';
+  }
+  onInput(); setMode('type');
 }
-
 /* ── MENTOR DASHBOARD ── */
 function buildDash(){
   const w=document.getElementById('dashWrap');
