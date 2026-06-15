@@ -601,7 +601,7 @@ textarea.voc-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size
       <button class="nav-btn" onclick="goPaper()" title="Past paper practice">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="1" width="10" height="13" rx="1"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
       </button>
-      <button class="nav-btn" onclick="goVocab()" title="Vocabulary bank">
+      <button class="nav-btn" onclick="goVocab()" title="Vocabulary bank" id="vocabNavBtn" style="border-color:var(--purple-line);color:var(--purple)">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h8M4 10h5"/><rect x="2" y="2" width="12" height="12" rx="2"/></svg>
       </button>
       <button class="nav-btn" onclick="goProgress()" title="My progress">
@@ -632,7 +632,7 @@ textarea.voc-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size
     <button class="tk-btn tk-g" onclick="setTrack(0,this)"><div class="tk-dot"></div>Grammar</button>
     <button class="tk-btn tk-r" onclick="setTrack(1,this)"><div class="tk-dot"></div>Reading</button>
     <button class="tk-btn tk-w" onclick="setTrack(2,this)"><div class="tk-dot"></div>Writing</button>
-    <button class="tk-btn tk-v" onclick="setTrack(3,this)"><div class="tk-dot"></div>Vocabulary</button>
+    <button class="tk-btn tk-v" onclick="goVocab()"><div class="tk-dot"></div>Vocabulary</button>
     <button class="tk-btn tk-p" onclick="setTrack(4,this)"><div class="tk-dot"></div>Past Paper</button>
   </div>
 
@@ -699,6 +699,15 @@ textarea.voc-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size
       <div class="sb-div"></div>
       <div class="sb-sec">Errors logged</div>
       <div class="err-list" id="errList"><div style="font-size:11px;color:var(--tx3);padding:4px 7px">None yet</div></div>
+
+      <div class="sb-div"></div>
+      <div style="padding:6px 9px 10px">
+        <button onclick="goVocab()" style="width:100%;padding:8px 10px;border-radius:var(--r8);background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-line);font-size:11px;font-weight:500;cursor:pointer;font-family:var(--sans);display:flex;align-items:center;gap:7px">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h8M4 10h5"/><rect x="2" y="2" width="12" height="12" rx="2"/></svg>
+          Vocabulary Bank
+          <span id="sbVocabMast" style="margin-left:auto;font-size:9px;opacity:.7"></span>
+        </button>
+      </div>
     </div>
 
     <div class="chat-col">
@@ -2152,6 +2161,8 @@ function updateVocabStats(){
   const dueCount=VOCAB_WORDS.filter(function(w){return isDue(vd,w.id);}).length;
   const db=document.getElementById('dueBtn');
   if(db)db.textContent='Due'+(dueCount?' ('+dueCount+')':'');
+  const sbvm=document.getElementById('sbVocabMast');
+  if(sbvm)sbvm.textContent=counts[3]+'/120 mastered';
 }
 
 function filterVocab(cat,btn){
