@@ -404,6 +404,87 @@ textarea.q-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size:1
 .timer-start-btn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:6px 14px;border-radius:var(--r8);background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line);cursor:pointer;font-family:var(--sans);transition:all .15s;margin-bottom:10px}
 .timer-start-btn:hover{background:#f5a62328}
 .timer-start-btn svg{width:12px;height:12px}
+
+/* ── VOCABULARY SYSTEM ──────────────────────────────── */
+.vocab-screen-wrap{flex:1;display:flex;overflow:hidden}
+.vocab-left{width:260px;background:var(--bg1);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.vocab-hero{padding:14px 14px 10px;border-bottom:1px solid var(--line)}
+.vocab-hero h2{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--tx0);margin-bottom:3px}
+.vocab-hero p{font-size:11px;color:var(--tx3);line-height:1.5}
+.vocab-stat-row{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;gap:6px}
+.vocab-stat{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:7px;text-align:center}
+.vstat-n{font-size:16px;font-weight:500;color:var(--tx0);font-family:var(--serif);line-height:1}
+.vstat-l{font-size:9px;color:var(--tx3);margin-top:2px}
+.vocab-cats{padding:8px 8px 0;display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.vcat-btn{font-size:10px;padding:3px 9px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--tx3);cursor:pointer;font-family:var(--sans);transition:all .15s}
+.vcat-btn:hover{background:var(--bg2);color:var(--tx1)}
+.vcat-btn.on{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-line)}
+.vocab-list{flex:1;overflow-y:auto;padding:6px 6px}
+.vocab-list::-webkit-scrollbar{width:0}
+.vword-item{padding:8px 9px;border-radius:var(--r8);cursor:pointer;transition:all .15s;margin-bottom:3px;border:1px solid transparent;display:flex;align-items:center;gap:8px}
+.vword-item:hover{background:var(--bg2);border-color:var(--line2)}
+.vword-item.active{background:var(--bg2);border-color:var(--teal-line)}
+.vword-item.due{border-color:var(--amber-line);background:var(--amber-bg)}
+.vword-stage{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.vstage-0{background:var(--tx3)}
+.vstage-1{background:var(--blue)}
+.vstage-2{background:var(--amber)}
+.vstage-3{background:var(--teal)}
+.vword-text{font-size:12px;color:var(--tx0);font-weight:500;flex:1}
+.vword-cat{font-size:9.5px;color:var(--tx3)}
+.vword-due{font-size:9px;font-weight:500;color:var(--amber);background:var(--amber-bg);padding:1px 5px;border-radius:10px;border:1px solid var(--amber-line)}
+/* Right panel */
+.vocab-right{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg0)}
+.no-word{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.no-word svg{width:36px;height:36px;opacity:.25}
+.no-word p{font-size:12px;color:var(--tx3)}
+.word-panel{display:none;flex-direction:column;flex:1;overflow:hidden}
+.word-header{padding:16px 20px;border-bottom:1px solid var(--line);flex-shrink:0}
+.word-main{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.word-title{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--tx0);line-height:1}
+.word-pos{font-size:12px;color:var(--tx3);margin-top:4px}
+.word-stage-badge{margin-left:auto;flex-shrink:0}
+.wsb{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px}
+.wsb-0{background:var(--bg3);color:var(--tx3);border:1px solid var(--line2)}
+.wsb-1{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-line)}
+.wsb-2{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line)}
+.wsb-3{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-line)}
+.word-def{font-size:13px;color:var(--tx1);line-height:1.6;margin-bottom:8px}
+.word-connote{font-size:12px;color:var(--tx2);line-height:1.5;padding:8px 12px;background:var(--bg2);border-radius:var(--r8);border-left:2px solid var(--purple);margin-bottom:8px}
+.word-connote-label{font-size:9.5px;font-weight:500;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.word-example{font-size:12.5px;color:var(--tx2);line-height:1.6;font-style:italic;padding:8px 12px;background:var(--bg2);border-radius:var(--r8);border-left:2px solid var(--blue)}
+.word-example-label{font-size:9.5px;font-weight:500;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;font-style:normal}
+.word-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.word-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--bg3);color:var(--tx3);border:1px solid var(--line2)}
+/* Practice area */
+.word-practice{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.word-practice::-webkit-scrollbar{width:3px}
+.word-practice::-webkit-scrollbar-thumb{background:var(--bg4)}
+.practice-prompt{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r12);padding:14px 16px}
+.pp-label{font-size:9.5px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.pp-task{font-size:13px;color:var(--tx0);line-height:1.6;margin-bottom:10px}
+.pp-constraints{font-size:11.5px;color:var(--tx2);line-height:1.5;margin-bottom:12px;padding:7px 10px;background:var(--bg3);border-radius:var(--r8);border-left:2px solid var(--teal)}
+textarea.voc-ans{width:100%;min-height:70px;max-height:160px;padding:9px 12px;border-radius:var(--r8);border:1px solid var(--line2);background:var(--bg3);color:var(--tx0);font-size:13px;line-height:1.6;resize:vertical;font-family:Georgia,serif;transition:border-color .15s;caret-color:var(--teal)}
+textarea.voc-ans:focus{outline:none;border-color:var(--teal-line)}
+textarea.voc-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size:12px}
+.voc-footer{display:flex;align-items:center;gap:8px;margin-top:7px}
+.vwc{font-size:10px;color:var(--tx3)}
+.voc-submit{font-size:12px;font-weight:500;padding:6px 14px;border-radius:var(--r8);background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-line);cursor:pointer;font-family:var(--sans);transition:all .15s}
+.voc-submit:hover{background:#1fc98e28}
+.voc-submit:disabled{opacity:.3;cursor:not-allowed}
+/* History */
+.word-history{margin-top:4px}
+.wh-title{font-size:9.5px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.wh-entry{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:10px 12px;margin-bottom:6px}
+.whe-date{font-size:9px;color:var(--tx3);margin-bottom:4px}
+.whe-sent{font-size:12px;color:var(--tx1);line-height:1.6;margin-bottom:4px;font-style:italic}
+.whe-fb{font-size:11.5px;color:var(--tx2);line-height:1.55}
+/* Due words banner */
+.due-banner{background:var(--amber-bg);border-bottom:1px solid var(--amber-line);padding:7px 14px;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.due-tag{font-size:9.5px;font-weight:500;padding:2px 7px;border-radius:20px;background:var(--amber);color:#000;white-space:nowrap}
+.due-text{font-size:11.5px;color:var(--amber);flex:1}
+.due-dismiss{font-size:10.5px;color:var(--amber);cursor:pointer;padding:2px 7px;border-radius:20px;border:1px solid var(--amber-line);flex-shrink:0;transition:all .15s;background:transparent}
+.due-dismiss:hover{background:#f5a62318}
 @media(max-width:580px){.sidebar{display:none}.student-grid{grid-template-columns:1fr 1fr}.cards-grid{grid-template-columns:1fr}}
 
 /* ── READING ENGINE ─────────────────── */
@@ -519,6 +600,9 @@ textarea.q-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size:1
       </button>
       <button class="nav-btn" onclick="goPaper()" title="Past paper practice">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="1" width="10" height="13" rx="1"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+      </button>
+      <button class="nav-btn" onclick="goVocab()" title="Vocabulary bank">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h8M4 10h5"/><rect x="2" y="2" width="12" height="12" rx="2"/></svg>
       </button>
       <button class="nav-btn" onclick="goProgress()" title="My progress">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12l4-4 3 3 4-6"/><path d="M14 5h-3V2"/></svg>
@@ -715,6 +799,71 @@ textarea.q-ans::placeholder{color:var(--tx3);font-family:var(--sans);font-size:1
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VOCABULARY SYSTEM -->
+<div class="screen" id="vocabScreen">
+  <nav class="topnav">
+    <div class="nav-left">
+      <div class="nav-logo">0500 <span>Vocabulary Bank</span></div>
+      <span class="ph-badge" style="background:var(--purple-bg);color:var(--purple);border-color:var(--purple-line)">AO4 · Precision</span>
+    </div>
+    <div class="nav-right">
+      <span class="u-pill" id="vocabUserPill"></span>
+      <button class="nav-btn" onclick="goTutorFromVocab()" title="Back to tutor">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 8h8M6 5l-4 3 4 3"/></svg>
+      </button>
+      <button class="nav-btn" onclick="doLogout()" title="Switch user">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="vocab-screen-wrap">
+    <div class="vocab-left">
+      <div class="vocab-hero">
+        <h2>Vocabulary Bank</h2>
+        <p>120 precision words across five categories. Write one sentence per word to advance its stage. Master all four stages.</p>
+      </div>
+      <div class="vocab-stat-row">
+        <div class="vocab-stat"><div class="vstat-n" id="vstNew">0</div><div class="vstat-l">new</div></div>
+        <div class="vocab-stat"><div class="vstat-n" id="vstSeen">0</div><div class="vstat-l">seen</div></div>
+        <div class="vocab-stat"><div class="vstat-n" id="vstPrac">0</div><div class="vstat-l">practised</div></div>
+        <div class="vocab-stat"><div class="vstat-n" id="vstMast" style="color:var(--teal)">0</div><div class="vstat-l">mastered</div></div>
+      </div>
+      <div class="vocab-cats" id="vocabCats">
+        <button class="vcat-btn on" onclick="filterVocab(null,this)">All</button>
+        <button class="vcat-btn" onclick="filterVocab('verb',this)">Verbs</button>
+        <button class="vcat-btn" onclick="filterVocab('emotion',this)">Emotion</button>
+        <button class="vcat-btn" onclick="filterVocab('analysis',this)">Analysis</button>
+        <button class="vcat-btn" onclick="filterVocab('register',this)">Register</button>
+        <button class="vcat-btn" onclick="filterVocab('connective',this)">Connectives</button>
+        <button class="vcat-btn" onclick="filterVocab('due',this)" id="dueBtn">Due</button>
+      </div>
+      <div class="vocab-list" id="vocabList"></div>
+    </div>
+    <div class="vocab-right">
+      <div class="no-word" id="noWord">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M4 6h8M4 10h5"/><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M14 10l6 6M20 10l-6 6"/></svg>
+        <p>Select a word to practise</p>
+      </div>
+      <div class="word-panel" id="wordPanel">
+        <div class="word-header">
+          <div class="word-main">
+            <div>
+              <div class="word-title" id="wTitle"></div>
+              <div class="word-pos" id="wPos"></div>
+            </div>
+            <div class="word-stage-badge"><span class="wsb" id="wStageBadge">New</span></div>
+          </div>
+          <div class="word-def" id="wDef"></div>
+          <div class="word-connote"><div class="word-connote-label">Connotation note</div><div id="wConnote"></div></div>
+          <div class="word-example"><div class="word-example-label">Example in context</div><div id="wExample"></div></div>
+          <div class="word-tags" id="wTags"></div>
+        </div>
+        <div class="word-practice" id="wordPractice"></div>
       </div>
     </div>
   </div>
@@ -1961,7 +2110,187 @@ buildDash=function(){
   w.innerHTML+=h;
 };
 
+// ── VOCABULARY SYSTEM ────────────────────────────────────────────────────────
+const VOCAB_WORDS = JSON.parse('[{"id": "v01", "word": "scrutinise", "pos": "verb", "cat": "verb", "def": "To examine something very carefully and critically.", "connote": "Implies not just looking but searching for flaws or details; suggests suspicion or rigour.", "example": "She scrutinised every sentence of her essay, searching for words that could be more precise.", "tags": ["AO2", "AO4", "formal"]}, {"id": "v02", "word": "amble", "pos": "verb", "cat": "verb", "def": "To walk at a slow, relaxed pace.", "connote": "Suggests ease, lack of urgency; contrasts with hurrying. Conveys mood as much as movement.", "example": "He ambled through the market as though he had all the time in the world.", "tags": ["AO3", "AO4", "descriptive"]}, {"id": "v03", "word": "pervade", "pos": "verb", "cat": "verb", "def": "To spread through and be perceived in every part of something.", "connote": "Implies something inescapable, all-encompassing; often used for atmosphere or mood.", "example": "A sense of unease pervaded the empty streets.", "tags": ["AO2", "AO4", "atmosphere"]}, {"id": "v04", "word": "relinquish", "pos": "verb", "cat": "verb", "def": "To voluntarily give up or surrender something.", "connote": "Stronger and more deliberate than \'give up\'; implies a conscious, possibly painful decision.", "example": "She refused to relinquish the belief that things could improve.", "tags": ["AO4", "formal", "precise"]}, {"id": "v05", "word": "lament", "pos": "verb", "cat": "verb", "def": "To express grief, regret, or deep disappointment.", "connote": "More formal and literary than \'complain\'; carries weight of genuine sorrow.", "example": "The writer laments the disappearance of independent bookshops.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v06", "word": "meander", "pos": "verb", "cat": "verb", "def": "To follow a winding, indirect course.", "connote": "Suggests lack of urgency or direction; can be peaceful or aimless depending on context.", "example": "The river meanders through the valley, indifferent to the speed of modern life.", "tags": ["AO4", "descriptive", "nature"]}, {"id": "v07", "word": "encapsulate", "pos": "verb", "cat": "verb", "def": "To express the essential features of something concisely.", "connote": "Implies compression and precision; useful for analytical writing about writers.", "example": "This single image encapsulates the writer\'s central argument about loss.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v08", "word": "undermine", "pos": "verb", "cat": "verb", "def": "To weaken or damage something, often gradually or covertly.", "connote": "Suggests a hidden or cumulative process; stronger than \'weaken\'.", "example": "The repeated use of irony undermines the speaker\'s apparent confidence.", "tags": ["AO2", "AO4", "persuasive"]}, {"id": "v09", "word": "illuminate", "pos": "verb", "cat": "verb", "def": "To help clarify or explain something; to shed light on.", "connote": "Positive connotation, implies revelation and understanding; used for writers who show us something new.", "example": "The passage illuminates the hidden costs of urban development.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v10", "word": "oscillate", "pos": "verb", "cat": "verb", "def": "To move back and forth between two points or states.", "connote": "Suggests indecision, tension, or rhythm; precise alternative to \'alternate\'.", "example": "The writer\'s tone oscillates between hope and resignation throughout the passage.", "tags": ["AO2", "AO4", "precise"]}, {"id": "v11", "word": "elicit", "pos": "verb", "cat": "verb", "def": "To draw out a response or reaction from someone.", "connote": "Implies deliberate intention; the writer elicits a reaction on purpose.", "example": "The opening paragraph elicits sympathy through its precise, restrained description.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v12", "word": "traverse", "pos": "verb", "cat": "verb", "def": "To travel across or through a place or area.", "connote": "More formal and literary than \'cross\'; suggests difficulty or expanse.", "example": "He traversed the empty warehouse without looking back.", "tags": ["AO4", "descriptive", "formal"]}, {"id": "v13", "word": "consolidate", "pos": "verb", "cat": "verb", "def": "To combine several things into a single more effective unit; to make stronger.", "connote": "Implies deliberate strength-building; useful in argument writing.", "example": "These examples consolidate the writer\'s central claim about community resilience.", "tags": ["AO3", "AO4", "argument"]}, {"id": "v14", "word": "juxtapose", "pos": "verb", "cat": "verb", "def": "To place two things side by side, especially for contrast.", "connote": "Implies a deliberate authorial choice; naming the technique shows analytical awareness.", "example": "The writer juxtaposes the factory\'s noise with the silence of the surrounding fields.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v15", "word": "reverberate", "pos": "verb", "cat": "verb", "def": "To be repeated or have a prolonged effect; to echo.", "connote": "Suggests lasting impact; implies something resonates beyond its immediate moment.", "example": "The consequences of the decision still reverberate through the community today.", "tags": ["AO4", "persuasive", "formal"]}, {"id": "v16", "word": "coerce", "pos": "verb", "cat": "verb", "def": "To persuade someone to do something by force or threats.", "connote": "Stronger than \'pressure\' or \'force\'; implies an abuse of power.", "example": "The writer suggests that the workers were coerced into accepting unsafe conditions.", "tags": ["AO4", "argument", "social"]}, {"id": "v17", "word": "glean", "pos": "verb", "cat": "verb", "def": "To gather information gradually from various sources.", "connote": "Implies careful, patient accumulation rather than sudden discovery.", "example": "From the writer\'s careful descriptions, we can glean a great deal about her relationship with the place.", "tags": ["AO1", "AO4", "analytical"]}, {"id": "v18", "word": "falter", "pos": "verb", "cat": "verb", "def": "To start to lose strength or purpose; to hesitate.", "connote": "Suggests vulnerability and wavering; useful for character and argument analysis.", "example": "His confidence faltered when he reached the door, and for a moment he did not move.", "tags": ["AO4", "descriptive", "character"]}, {"id": "v19", "word": "perpetuate", "pos": "verb", "cat": "verb", "def": "To cause something to continue indefinitely.", "connote": "Often used negatively; implies complicity in maintaining something harmful.", "example": "The writer argues that such policies perpetuate inequality rather than address it.", "tags": ["AO3", "AO4", "argument", "formal"]}, {"id": "v20", "word": "resonate", "pos": "verb", "cat": "verb", "def": "To evoke a feeling of shared emotion; to produce a lasting effect.", "connote": "Implies emotional truth; something resonates when it feels universally real.", "example": "The final image resonates long after the passage ends.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v21", "word": "dispel", "pos": "verb", "cat": "verb", "def": "To make a doubt, fear, or belief disappear.", "connote": "Implies active effort to remove something previously present.", "example": "The evidence in the final paragraph dispels any doubt about the writer\'s central argument.", "tags": ["AO3", "AO4", "argument"]}, {"id": "v22", "word": "convey", "pos": "verb", "cat": "verb", "def": "To communicate a meaning, feeling, or idea successfully.", "connote": "Neutral but precise; implies successful transmission from writer to reader.", "example": "The metaphor conveys a sense of irreversible loss that a literal description could not achieve.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v23", "word": "invoke", "pos": "verb", "cat": "verb", "def": "To call upon or cite; to evoke.", "connote": "Implies deliberate use of something, an image, an idea, an authority.", "example": "By invoking childhood memory, the writer makes the loss feel universal.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "v24", "word": "contend", "pos": "verb", "cat": "verb", "def": "To assert something as a position in an argument.", "connote": "More formal than \'argue\' or \'say\'; implies the claim is open to debate.", "example": "The writer contends that efficiency, pursued without restraint, diminishes us.", "tags": ["AO3", "AO4", "argument", "formal"]}, {"id": "e01", "word": "wistful", "pos": "adjective", "cat": "emotion", "def": "Having a feeling of vague or regretful longing.", "connote": "Softer than grief; implies yearning for something past or unattainable, with acceptance.", "example": "She looked at the old photographs with a wistful expression that said more than words could.", "tags": ["AO4", "descriptive", "character"]}, {"id": "e02", "word": "indignant", "pos": "adjective", "cat": "emotion", "def": "Feeling or showing anger about something unfair or wrong.", "connote": "More principled than \'angry\'; implies the person believes their cause is just.", "example": "The writer\'s indignant tone makes clear that she considers the policy a moral failure.", "tags": ["AO2", "AO4", "persuasive"]}, {"id": "e03", "word": "apprehensive", "pos": "adjective", "cat": "emotion", "def": "Anxious or fearful about something that might happen.", "connote": "Implies anticipation of something bad; forward-looking anxiety rather than present fear.", "example": "He stood at the entrance, apprehensive in a way he could not entirely explain.", "tags": ["AO4", "descriptive", "character"]}, {"id": "e04", "word": "despondent", "pos": "adjective", "cat": "emotion", "def": "In low spirits from loss of hope or courage.", "connote": "Deeper than \'sad\'; implies a collapse of belief that things will improve.", "example": "After reading the automation notice, Mossop felt despondent in a way he had not expected.", "tags": ["AO4", "descriptive", "character"]}, {"id": "e05", "word": "elated", "pos": "adjective", "cat": "emotion", "def": "Extremely happy and excited, often about a success.", "connote": "Implies a peak emotional state; often short-lived and connected to a specific cause.", "example": "She felt elated the moment she found the letter in the sixth folder.", "tags": ["AO4", "descriptive", "character"]}, {"id": "e06", "word": "ambivalent", "pos": "adjective", "cat": "emotion", "def": "Having mixed or contradictory feelings about something.", "connote": "Not neutrality but the presence of opposing emotions simultaneously.", "example": "The writer\'s tone is ambivalent; she admires the landscape but grieves for what it has lost.", "tags": ["AO2", "AO4", "analytical", "character"]}, {"id": "e07", "word": "sardonic", "pos": "adjective", "cat": "emotion", "def": "Grimly mocking or cynical.", "connote": "More bitter than \'ironic\'; implies scorn beneath the humour.", "example": "His sardonic response suggested he had long stopped expecting anything to change.", "tags": ["AO2", "AO4", "register", "character"]}, {"id": "e08", "word": "reverent", "pos": "adjective", "cat": "emotion", "def": "Feeling or showing deep respect and veneration.", "connote": "Suggests something sacred or deeply valued; the opposite of casual.", "example": "She handled the archive documents with reverent care, as though they were still alive.", "tags": ["AO4", "descriptive", "formal"]}, {"id": "e09", "word": "bittersweet", "pos": "adjective", "cat": "emotion", "def": "Evoking both pleasure and sadness simultaneously.", "connote": "Implies complexity; not simply good or bad, but both at once.", "example": "The memory of the lighthouse was bittersweet: beautiful and also the thing he had lost.", "tags": ["AO4", "descriptive", "analytical"]}, {"id": "e10", "word": "contemptuous", "pos": "adjective", "cat": "emotion", "def": "Showing or feeling strong disrespect.", "connote": "Stronger and more active than \'dismissive\'; implies the object is beneath consideration.", "example": "His contemptuous tone towards the council\'s decision signals deep frustration.", "tags": ["AO2", "AO4", "analytical", "persuasive"]}, {"id": "e11", "word": "resigned", "pos": "adjective", "cat": "emotion", "def": "Accepting an unpleasant situation as inevitable.", "connote": "Implies passive acceptance rather than active defeat; dignity in loss.", "example": "She spoke about the closure in a resigned tone that was somehow harder to hear than anger.", "tags": ["AO4", "descriptive", "character"]}, {"id": "e12", "word": "melancholy", "pos": "noun/adjective", "cat": "emotion", "def": "A feeling of pensive sadness, typically with no obvious cause.", "connote": "More literary than \'sadness\'; implies a reflective, deep, and somewhat pleasurable quality.", "example": "The piece ends in a mood of quiet melancholy that lingers in the reader\'s mind.", "tags": ["AO2", "AO4", "atmosphere", "descriptive"]}, {"id": "e13", "word": "buoyant", "pos": "adjective", "cat": "emotion", "def": "Cheerfully optimistic; tending to rise.", "connote": "Implies a lightness that is slightly effortful; buoyant things float against natural weight.", "example": "Her buoyant tone in the opening contrasts sharply with the grief that follows.", "tags": ["AO2", "AO4", "analytical", "character"]}, {"id": "e14", "word": "pensive", "pos": "adjective", "cat": "emotion", "def": "Engaged in deep or serious thought.", "connote": "Implies interiority and reflection; often associated with mild sadness.", "example": "He stood at the window in a pensive silence that seemed to fill the whole room.", "tags": ["AO4", "descriptive", "character"]}, {"id": "e15", "word": "exasperated", "pos": "adjective", "cat": "emotion", "def": "Intensely irritated and frustrated.", "connote": "Implies the frustration has been building; the final stage before giving up.", "example": "The writer\'s exasperated tone suggests this is not the first time she has made this argument.", "tags": ["AO2", "AO4", "analytical", "persuasive"]}, {"id": "e16", "word": "tenacious", "pos": "adjective", "cat": "emotion", "def": "Holding firmly to a purpose, belief, or course of action.", "connote": "Implies strength and refusal to yield; positive connotation of determined resistance.", "example": "What the writer admires in these communities is their tenacious commitment to survival.", "tags": ["AO4", "argument", "character"]}, {"id": "e17", "word": "disquieting", "pos": "adjective", "cat": "emotion", "def": "Inducing feelings of anxiety or unease.", "connote": "Implies the source of the unease is unnamed or indirect; more literary than \'alarming\'.", "example": "There is something disquieting about the writer\'s final image that is difficult to name.", "tags": ["AO2", "AO4", "atmosphere", "analytical"]}, {"id": "e18", "word": "nostalgic", "pos": "adjective", "cat": "emotion", "def": "Feeling a sentimental longing for the past.", "connote": "Can be positive (fond memory) or negative (implying inability to move forward).", "example": "The writer\'s nostalgic tone risks romanticising a past that was not straightforwardly better.", "tags": ["AO2", "AO4", "analytical", "critical"]}, {"id": "e19", "word": "serene", "pos": "adjective", "cat": "emotion", "def": "Calm, peaceful, and untroubled.", "connote": "Implies an active quality of peace, not just the absence of disturbance.", "example": "Despite everything that had happened, she felt oddly serene as she closed the door.", "tags": ["AO4", "descriptive", "atmosphere"]}, {"id": "e20", "word": "rueful", "pos": "adjective", "cat": "emotion", "def": "Expressing regret in a gentle or humorous way.", "connote": "Implies self-awareness about the mistake; gentler and more accepting than \'regretful\'.", "example": "He recounted the failure with rueful honesty that made it easier to hear.", "tags": ["AO4", "character", "descriptive"]}, {"id": "e21", "word": "bemused", "pos": "adjective", "cat": "emotion", "def": "Puzzled and confused; mildly baffled.", "connote": "Lighter than \'confused\'; implies an intellectual rather than emotional disorientation.", "example": "The writer\'s bemused tone when describing the council\'s decision implies she cannot take it seriously.", "tags": ["AO2", "AO4", "analytical", "character"]}, {"id": "e22", "word": "unnerving", "pos": "adjective", "cat": "emotion", "def": "Causing one to feel disturbed, unsettled, or fearful.", "connote": "Implies a specific and physical quality of disturbance, not just abstract worry.", "example": "The writer creates an unnerving calm before the passage\'s central revelation.", "tags": ["AO2", "AO4", "atmosphere", "analytical"]}, {"id": "e23", "word": "forlorn", "pos": "adjective", "cat": "emotion", "def": "Pitifully sad and abandoned; seemingly beyond hope.", "connote": "Implies visible sadness, often combined with isolation; has a literary weight.", "example": "The empty lighthouse looked forlorn against the winter sky.", "tags": ["AO4", "descriptive", "atmosphere"]}, {"id": "e24", "word": "ebullient", "pos": "adjective", "cat": "emotion", "def": "Cheerful and full of energy; bubbling over with enthusiasm.", "connote": "Implies an outward expression of inner joy; sometimes used ironically.", "example": "Her ebullient response to the news was difficult to sustain once the reality became clear.", "tags": ["AO4", "character", "contrast"]}, {"id": "a01", "word": "implies", "pos": "verb", "cat": "analysis", "def": "To suggest something without saying it directly.", "connote": "Essential for AO2; always says what the writer suggests rather than states.", "example": "The writer implies that the council\'s decision reflects deeper indifference to cultural heritage.", "tags": ["AO2", "AO4", "analytical", "essential"]}, {"id": "a02", "word": "evokes", "pos": "verb", "cat": "analysis", "def": "To bring a feeling, memory, or image to mind.", "connote": "Implies the writer creates an emotional or sensory response rather than simply describing.", "example": "The image of the locked door evokes a feeling of exclusion that runs through the whole passage.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "a03", "word": "reinforces", "pos": "verb", "cat": "analysis", "def": "To strengthen or support an idea already present.", "connote": "Implies the technique is not standalone but contributes to a larger effect.", "example": "The repetition reinforces the writer\'s argument that change is inevitable.", "tags": ["AO2", "AO4", "analytical"]}, {"id": "a04", "word": "foreshadows", "pos": "verb", "cat": "analysis", "def": "To be a warning or indication of a future event.", "connote": "Implies deliberate authorial control; the writer has placed this here intentionally.", "example": "The grey sky in the opening paragraph foreshadows the loss described in the final section.", "tags": ["AO2", "AO4", "analytical", "structure"]}, {"id": "a05", "word": "contrasts", "pos": "verb", "cat": "analysis", "def": "To differ noticeably when compared with something else.", "connote": "Implies a deliberate pairing; naming it shows structural awareness.", "example": "The writer contrasts Mossop\'s careful routine with the sudden arbitrariness of the automation notice.", "tags": ["AO2", "AO4", "analytical", "structure"]}, {"id": "a06", "word": "subverts", "pos": "verb", "cat": "analysis", "def": "To undermine or overturn an established expectation.", "connote": "Implies the writer is playing with what the reader expects; sophisticated critical vocabulary.", "example": "The writer subverts our expectation that memory is always a gift.", "tags": ["AO2", "AO4", "analytical", "critical"]}, {"id": "a07", "word": "juxtaposition", "pos": "noun", "cat": "analysis", "def": "The fact of placing two contrasting things side by side.", "connote": "Naming the device shows analytical sophistication; implies awareness of deliberate craft.", "example": "The juxtaposition of the market\'s noise with the single heron\'s silence creates unexpected beauty.", "tags": ["AO2", "AO4", "analytical", "technique"]}, {"id": "a08", "word": "motif", "pos": "noun", "cat": "analysis", "def": "A distinctive element or idea that recurs throughout a piece of writing.", "connote": "Implies pattern and deliberate repetition; structural awareness.", "example": "The motif of silence runs through the entire passage, growing heavier with each appearance.", "tags": ["AO2", "AO4", "analytical", "structure"]}, {"id": "a09", "word": "personification", "pos": "noun", "cat": "analysis", "def": "The attribution of human qualities to a non-human thing.", "connote": "Naming the technique is only the beginning; the effect must be analysed.", "example": "The personification of the river as having \'moods\' invites the reader to treat it as a character.", "tags": ["AO2", "AO4", "analytical", "technique"]}, {"id": "a10", "word": "irony", "pos": "noun", "cat": "analysis", "def": "A contrast between what is expected and what actually occurs.", "connote": "Requires care; distinguish dramatic irony, verbal irony, and situational irony.", "example": "There is a quiet irony in the fact that Mossop\'s log would outlast his role.", "tags": ["AO2", "AO4", "analytical", "technique"]}, {"id": "a11", "word": "ambiguity", "pos": "noun", "cat": "analysis", "def": "The quality of having more than one possible interpretation.", "connote": "Praising ambiguity implies the writer is sophisticated enough to leave meaning open.", "example": "The writer leaves the ending in deliberate ambiguity; we do not know whether she returns.", "tags": ["AO2", "AO4", "analytical", "critical"]}, {"id": "a12", "word": "tone", "pos": "noun", "cat": "analysis", "def": "The general character or attitude of a piece of writing.", "connote": "Different from \'mood\'; tone is the writer\'s attitude, mood is the reader\'s response.", "example": "The tone throughout is melancholy but never maudlin, which prevents the reader from distancing.", "tags": ["AO2", "AO4", "analytical", "essential"]}, {"id": "a13", "word": "perspective", "pos": "noun", "cat": "analysis", "def": "A particular point of view or way of regarding something.", "connote": "Implies an awareness that other views are possible; nuanced critical thinking.", "example": "The passage offers a first-person perspective that makes the statistics feel personal.", "tags": ["AO2", "AO4", "analytical", "structure"]}, {"id": "a14", "word": "register", "pos": "noun", "cat": "analysis", "def": "The form of language used for a particular purpose or social setting.", "connote": "Cambridge AO3/AO4 term; awareness of register is essential for both reading and writing.", "example": "The formal register of the letter establishes authority before the argument even begins.", "tags": ["AO2", "AO3", "AO4", "analytical", "essential"]}, {"id": "a15", "word": "semantic field", "pos": "noun", "cat": "analysis", "def": "A group of words related to the same subject or concept.", "connote": "Shows awareness of how writers choose vocabulary systematically, not randomly.", "example": "The writer uses a semantic field of decay throughout the passage to build a sense of inevitable loss.", "tags": ["AO2", "AO4", "analytical", "technique"]}, {"id": "a16", "word": "euphemism", "pos": "noun", "cat": "analysis", "def": "A mild or indirect word substituted for one too harsh or blunt.", "connote": "Identifying euphemism shows awareness of what is being avoided and why.", "example": "The phrase \'service optimisation\' is a euphemism that the writer deliberately exposes.", "tags": ["AO2", "AO4", "analytical", "technique"]}, {"id": "a17", "word": "syntax", "pos": "noun", "cat": "analysis", "def": "The arrangement of words and phrases to create well-formed sentences.", "connote": "Syntax analysis goes beyond word choice to sentence structure and rhythm.", "example": "The writer\'s short, declarative syntax in the final paragraph creates a sense of finality.", "tags": ["AO2", "AO4", "analytical", "structure"]}, {"id": "a18", "word": "pathos", "pos": "noun", "cat": "analysis", "def": "A quality that evokes sadness or sympathy.", "connote": "Classical rhetorical term; implies the effect is deliberately created.", "example": "The image of the couple holding hands throughout the appointment is the passage\'s most powerful moment of pathos.", "tags": ["AO2", "AO4", "analytical", "rhetoric"]}, {"id": "a19", "word": "connotation", "pos": "noun", "cat": "analysis", "def": "An idea or feeling a word invokes in addition to its literal meaning.", "connote": "The most important analytical vocabulary for AO2; every word choice analysis is about connotation.", "example": "The connotations of \'surveillance\' are far darker than \'monitoring\', which is precisely why the writer chooses it.", "tags": ["AO2", "AO4", "analytical", "essential"]}, {"id": "a20", "word": "rhetoric", "pos": "noun", "cat": "analysis", "def": "Language designed to persuade or impress, especially using specific techniques.", "connote": "Neutral or positive; great rhetoric is effective communication.", "example": "The speech relies on classical rhetoric: rule of three, rhetorical question, and emotional appeal.", "tags": ["AO2", "AO3", "AO4", "analytical", "persuasive"]}, {"id": "a21", "word": "nuance", "pos": "noun", "cat": "analysis", "def": "A subtle difference in meaning, expression, or sound.", "connote": "Implies sophistication; to notice nuance is to read carefully.", "example": "The writer captures the nuance of Maria\'s expression; it is not simply pride.", "tags": ["AO2", "AO4", "analytical", "critical"]}, {"id": "a22", "word": "paradox", "pos": "noun", "cat": "analysis", "def": "A seemingly contradictory statement that reveals a deeper truth.", "connote": "Naming a paradox shows awareness that the writer is holding two truths simultaneously.", "example": "The writer presents a paradox: the archive preserves what it cannot restore.", "tags": ["AO2", "AO4", "analytical", "critical"]}, {"id": "a23", "word": "diction", "pos": "noun", "cat": "analysis", "def": "The choice and use of words and phrases in speech or writing.", "connote": "Critical term for deliberate vocabulary selection; the writer chose these words.", "example": "The elevated diction of the passage\'s final paragraph marks a shift from description to elegy.", "tags": ["AO2", "AO4", "analytical", "technique"]}, {"id": "a24", "word": "verisimilitude", "pos": "noun", "cat": "analysis", "def": "The appearance of being true or real.", "connote": "High-level critical term; implies aware reading of how reality effects are constructed.", "example": "The specific details create a sense of verisimilitude that makes the imagined scene feel witnessed.", "tags": ["AO2", "AO4", "analytical", "critical"]}, {"id": "r01", "word": "hitherto", "pos": "adverb", "cat": "register", "def": "Until now or until the point in time under discussion.", "connote": "Formal; slightly archaic. Signals very high register in academic and literary contexts.", "example": "A hitherto unknown aspect of the case has come to light.", "tags": ["AO3", "AO4", "formal", "register"]}, {"id": "r02", "word": "nevertheless", "pos": "adverb", "cat": "register", "def": "In spite of what has just been said or done.", "connote": "Formal connective; more measured than \'but\'; implies reasoned persistence.", "example": "The evidence is limited; nevertheless, the conclusion is clear.", "tags": ["AO3", "AO4", "formal", "connective", "register"]}, {"id": "r03", "word": "judicious", "pos": "adjective", "cat": "register", "def": "Having or showing good judgement; wise.", "connote": "Formal and positive; implies careful weighing of evidence before acting.", "example": "A judicious use of evidence strengthens the argument without overstating the case.", "tags": ["AO3", "AO4", "formal", "argument"]}, {"id": "r04", "word": "imperative", "pos": "adjective/noun", "cat": "register", "def": "Of vital importance; essential. Or: a thing that is necessary.", "connote": "Formal; implies urgency without being alarmist; raises stakes without hysteria.", "example": "It is imperative that the council acts before the remaining building deteriorates further.", "tags": ["AO3", "AO4", "formal", "persuasive", "speech"]}, {"id": "r05", "word": "candid", "pos": "adjective", "cat": "register", "def": "Truthful and straightforward; frank.", "connote": "Implies honest directness; slight implication that candour is unusual or brave here.", "example": "To be candid, the evidence for this policy\'s success is limited at best.", "tags": ["AO3", "AO4", "formal", "argument"]}, {"id": "r06", "word": "forthright", "pos": "adjective", "cat": "register", "def": "Direct and outspoken; straightforward and confident.", "connote": "Positive connotation; implies honest directness without aggression.", "example": "Her forthright assessment of the problem surprised those who had expected diplomacy.", "tags": ["AO3", "AO4", "formal", "character"]}, {"id": "r07", "word": "whilst", "pos": "conjunction", "cat": "register", "def": "During the time that; at the same time as.", "connote": "More formal than \'while\'; British English formal register marker.", "example": "Whilst the evidence supports this claim, further research is required.", "tags": ["AO3", "AO4", "formal", "register"]}, {"id": "r08", "word": "endeavour", "pos": "verb", "cat": "register", "def": "To try hard to do or achieve something.", "connote": "Formal British English; more measured and determined than \'try\'.", "example": "We must endeavour to preserve what little remains of this irreplaceable heritage.", "tags": ["AO3", "AO4", "formal", "persuasive"]}, {"id": "r09", "word": "deem", "pos": "verb", "cat": "register", "def": "To regard or consider in a specified way.", "connote": "Very formal; often used in official or professional contexts.", "example": "If you deem it appropriate, I would welcome an opportunity to discuss the matter further.", "tags": ["AO3", "AO4", "formal", "letter"]}, {"id": "r10", "word": "acknowledge", "pos": "verb", "cat": "register", "def": "To accept or admit the existence or truth of something.", "connote": "Formal and measured; implies fairness; acknowledging a point before countering it.", "example": "I acknowledge that the decision was not taken lightly; however, the consequences remain unacceptable.", "tags": ["AO3", "AO4", "formal", "argument", "letter"]}, {"id": "r11", "word": "expedient", "pos": "adjective", "cat": "register", "def": "Convenient and practical, though possibly improper.", "connote": "Slightly negative; implies short-term practicality at the expense of principle.", "example": "Closing the library may be expedient, but it represents a failure of long-term vision.", "tags": ["AO3", "AO4", "formal", "argument", "persuasive"]}, {"id": "r12", "word": "repercussion", "pos": "noun", "cat": "register", "def": "An unintended consequence occurring some time after an event.", "connote": "Formal; implies consequences were not predicted and may be serious.", "example": "The repercussions of this decision will be felt for a generation.", "tags": ["AO3", "AO4", "formal", "argument", "speech"]}, {"id": "r13", "word": "paramount", "pos": "adjective", "cat": "register", "def": "More important than anything else; supreme.", "connote": "Formal superlative; reserves the word for the single most important thing.", "example": "The safety of the community is paramount; all other considerations are secondary.", "tags": ["AO3", "AO4", "formal", "persuasive", "speech"]}, {"id": "r14", "word": "I write to", "pos": "phrase", "cat": "register", "def": "Standard opening formula for formal letters.", "connote": "Signals formal letter register immediately; expected by Cambridge examiners.", "example": "I write to express my concern regarding the proposed closure of Gull Point Lighthouse.", "tags": ["AO3", "AO4", "formal", "letter", "register"]}, {"id": "r15", "word": "Yours faithfully", "pos": "phrase", "cat": "register", "def": "Formal letter close when salutation is Dear Sir or Madam.", "connote": "AO3 form feature; missing this signals unfamiliarity with formal letter conventions.", "example": "I trust you will give this matter your full consideration. Yours faithfully, [Name]", "tags": ["AO3", "AO4", "formal", "letter", "register"]}, {"id": "r16", "word": "Yours sincerely", "pos": "phrase", "cat": "register", "def": "Formal letter close when salutation uses a named recipient.", "connote": "AO3 form feature; Dear Mr Smith closes with Yours sincerely, not Yours faithfully.", "example": "I look forward to hearing from you at your earliest convenience. Yours sincerely, [Name]", "tags": ["AO3", "AO4", "formal", "letter", "register"]}, {"id": "r17", "word": "colloquial", "pos": "adjective", "cat": "register", "def": "Used in ordinary or familiar conversation; not formal.", "connote": "Describing language as colloquial shows register awareness.", "example": "The writer\'s shift to colloquial language in the final paragraph signals a change of audience.", "tags": ["AO2", "AO3", "AO4", "register", "analytical"]}, {"id": "r18", "word": "rhetorical question", "pos": "noun", "cat": "register", "def": "A question asked for effect rather than requiring an answer.", "connote": "Names a specific persuasive technique; used for both Q1b analysis and Q2 production.", "example": "Are we really willing to let this building disappear? The rhetorical question demands no answer but admits none.", "tags": ["AO2", "AO3", "AO4", "persuasive", "technique", "register"]}, {"id": "r19", "word": "rule of three", "pos": "noun", "cat": "register", "def": "A writing principle that groups of three have greater impact than other groupings.", "connote": "Rhetorical technique; naming it shows awareness of deliberate craft.", "example": "The writer\'s use of the rule of three gives the sentence weight and rhythm.", "tags": ["AO2", "AO3", "AO4", "persuasive", "technique", "register"]}, {"id": "r20", "word": "inclusive pronoun", "pos": "noun", "cat": "register", "def": "The word \'we\' used to create a sense of shared identity with the reader.", "connote": "Persuasive technique; marks speech and article registers, draws the reader in.", "example": "We cannot afford to lose what these buildings represent; the inclusive pronoun demands the reader take ownership.", "tags": ["AO3", "AO4", "persuasive", "technique", "register", "speech"]}, {"id": "r21", "word": "anecdote", "pos": "noun", "cat": "register", "def": "A short personal account used to illustrate a point.", "connote": "Common in speeches and magazine articles; makes abstract arguments feel human.", "example": "The writer opens with an anecdote about her father that immediately draws the reader in.", "tags": ["AO3", "AO4", "technique", "register", "speech", "article"]}, {"id": "r22", "word": "direct address", "pos": "noun", "cat": "register", "def": "Speaking or writing to the audience using \'you\'.", "connote": "Creates immediacy and involves the reader; essential feature of speech register.", "example": "Direct address places the reader inside the argument before they have had time to resist.", "tags": ["AO3", "AO4", "persuasive", "technique", "register", "speech"]}, {"id": "r23", "word": "notwithstanding", "pos": "preposition", "cat": "register", "def": "In spite of; despite.", "connote": "Very formal; implies a significant concession is being acknowledged but not accepted.", "example": "Notwithstanding the committee\'s objections, the building deserves protection.", "tags": ["AO3", "AO4", "formal", "connective", "argument"]}, {"id": "r24", "word": "heed", "pos": "verb", "cat": "register", "def": "To pay careful attention to advice or a warning.", "connote": "Slightly formal and literary; implies the advice should not be ignored.", "example": "The council would do well to heed the concerns of local residents.", "tags": ["AO3", "AO4", "formal", "persuasive"]}, {"id": "c01", "word": "consequently", "pos": "adverb", "cat": "connective", "def": "As a result; therefore.", "connote": "Formal; implies a logical chain: one thing causes another.", "example": "The library closed; consequently, the community lost its only meeting place.", "tags": ["AO3", "AO4", "formal", "argument", "connective"]}, {"id": "c02", "word": "furthermore", "pos": "adverb", "cat": "connective", "def": "In addition; moreover.", "connote": "Adds another point in the same direction; used to build argument, not contrast.", "example": "The evidence is compelling; furthermore, it is supported by independent research.", "tags": ["AO3", "AO4", "formal", "argument", "connective"]}, {"id": "c03", "word": "paradoxically", "pos": "adverb", "cat": "connective", "def": "In a way that seems contradictory but is or may be true.", "connote": "Signals sophisticated thinking; the writer has noticed something counterintuitive.", "example": "Paradoxically, the closure of the market has made the town more visible nationally.", "tags": ["AO3", "AO4", "analytical", "connective", "critical"]}, {"id": "c04", "word": "nonetheless", "pos": "adverb", "cat": "connective", "def": "In spite of what has just been mentioned.", "connote": "More formal than \'but\'; implies the concession has been noted but not accepted.", "example": "The challenges are significant; nonetheless, the case for action remains strong.", "tags": ["AO3", "AO4", "formal", "argument", "connective"]}, {"id": "c05", "word": "albeit", "pos": "conjunction", "cat": "connective", "def": "Although; even though.", "connote": "Formal; introduces a concession without losing momentum; more elegant than \'though\'.", "example": "Progress has been made, albeit slowly and at considerable cost.", "tags": ["AO3", "AO4", "formal", "argument", "connective"]}, {"id": "c06", "word": "conversely", "pos": "adverb", "cat": "connective", "def": "In a way that introduces something that contrasts with what has just been mentioned.", "connote": "Signals deliberate contrast; more precise than \'on the other hand\'.", "example": "The data suggests improvement in urban areas; conversely, rural communities have seen decline.", "tags": ["AO3", "AO4", "formal", "argument", "connective"]}, {"id": "c07", "word": "simultaneously", "pos": "adverb", "cat": "connective", "def": "At the same time.", "connote": "Implies two things happening together; useful for showing complex or layered situations.", "example": "The passage simultaneously celebrates and mourns the same place.", "tags": ["AO4", "analytical", "connective"]}, {"id": "c08", "word": "thereby", "pos": "adverb", "cat": "connective", "def": "By that means; as a result of that.", "connote": "Formal; connects a means with its consequence; shows causal thinking.", "example": "The writer uses simple sentence structure in the final paragraph, thereby creating emphasis.", "tags": ["AO3", "AO4", "formal", "connective", "analytical"]}, {"id": "c09", "word": "indeed", "pos": "adverb", "cat": "connective", "def": "Used to emphasise a statement or to add something that reinforces it.", "connote": "Formal intensifier; often signals that what follows is the strongest point.", "example": "The evidence is clear; indeed, it is overwhelming.", "tags": ["AO3", "AO4", "formal", "connective", "persuasive"]}, {"id": "c10", "word": "notwithstanding", "pos": "preposition", "cat": "connective", "def": "In spite of; despite.", "connote": "Very formal; implies a significant concession is acknowledged but not accepted.", "example": "Notwithstanding the committee\'s objections, the building deserves protection.", "tags": ["AO3", "AO4", "formal", "connective", "argument"]}, {"id": "c11", "word": "on balance", "pos": "phrase", "cat": "connective", "def": "When all the advantages and disadvantages are considered.", "connote": "Signals a measured conclusion after weighing evidence; appropriate for formal argument.", "example": "On balance, the evidence suggests that the costs outweigh the benefits.", "tags": ["AO3", "AO4", "formal", "connective", "argument"]}, {"id": "c12", "word": "in light of", "pos": "phrase", "cat": "connective", "def": "Taking a fact into consideration.", "connote": "Formal; implies that new information changes or clarifies a situation.", "example": "In light of this evidence, the original assessment must be reconsidered.", "tags": ["AO3", "AO4", "formal", "connective", "argument"]}, {"id": "c13", "word": "moreover", "pos": "adverb", "cat": "connective", "def": "As a further matter; besides.", "connote": "Adds a point that extends the argument; more formal than \'also\'.", "example": "The evidence is strong; moreover, it comes from independent sources.", "tags": ["AO3", "AO4", "formal", "connective", "argument"]}, {"id": "c14", "word": "in essence", "pos": "phrase", "cat": "connective", "def": "When the most important aspects are considered.", "connote": "Signals a summary or distillation; useful for Q3 and argument conclusions.", "example": "In essence, the writer argues that forgetting is a choice, not an inevitability.", "tags": ["AO3", "AO4", "connective", "summary", "analytical"]}, {"id": "c15", "word": "by extension", "pos": "phrase", "cat": "connective", "def": "Carrying the argument or idea a step further.", "connote": "Implies the argument can be generalised beyond the specific case.", "example": "This is not just about one market; by extension, it is about what kind of city we choose to be.", "tags": ["AO3", "AO4", "connective", "analytical", "argument"]}, {"id": "c16", "word": "with this in mind", "pos": "phrase", "cat": "connective", "def": "Considering what has just been said.", "connote": "Signals that previous evidence is now being applied to a conclusion.", "example": "With this in mind, it becomes clear why the writer returns to the image of the locked door.", "tags": ["AO3", "AO4", "connective", "analytical"]}, {"id": "c17", "word": "to this end", "pos": "phrase", "cat": "connective", "def": "With the aim of doing this; for this purpose.", "connote": "Formal; signals that the following action is directed toward a stated goal.", "example": "To this end, we urge the council to commission an independent review.", "tags": ["AO3", "AO4", "formal", "connective", "persuasive", "speech"]}, {"id": "c18", "word": "not least", "pos": "phrase", "cat": "connective", "def": "Especially; above all.", "connote": "Implies the point that follows is among the most significant.", "example": "Many things have been lost, not least the sense of community that the market created.", "tags": ["AO3", "AO4", "connective", "persuasive"]}, {"id": "c19", "word": "in particular", "pos": "phrase", "cat": "connective", "def": "Especially; above others.", "connote": "Signals that a specific example is being selected from a broader group.", "example": "The language in the final paragraph is, in particular, worthy of close analysis.", "tags": ["AO3", "AO4", "connective", "analytical"]}, {"id": "c20", "word": "it follows that", "pos": "phrase", "cat": "connective", "def": "As a logical consequence.", "connote": "Very formal; signals a deductive step; one thing leads inevitably to another.", "example": "If we accept that the building has historical significance, it follows that its loss would be irreversible.", "tags": ["AO3", "AO4", "formal", "connective", "argument"]}, {"id": "c21", "word": "insofar as", "pos": "phrase", "cat": "connective", "def": "To the extent that.", "connote": "Very formal; used for precise qualifications; signals careful analytical thinking.", "example": "The policy succeeded insofar as it reduced costs, but it failed to address the root problem.", "tags": ["AO3", "AO4", "formal", "argument", "connective"]}, {"id": "c22", "word": "by contrast", "pos": "phrase", "cat": "connective", "def": "When compared with something else mentioned.", "connote": "Formal counterpart to \'in contrast\'; used to highlight differences explicitly.", "example": "By contrast, the final paragraph is stripped of all ornament.", "tags": ["AO3", "AO4", "analytical", "connective"]}, {"id": "c23", "word": "as a result", "pos": "phrase", "cat": "connective", "def": "Consequently; because of this.", "connote": "Clear causal connective; appropriate for formal argument and analytical writing.", "example": "The factory closed; as a result, an entire generation of workers lost not just income but identity.", "tags": ["AO3", "AO4", "connective", "argument"]}, {"id": "c24", "word": "in contrast", "pos": "phrase", "cat": "connective", "def": "As an opposite or counterpart.", "connote": "Signals deliberate comparison; more formal than \'but\' or \'however\'.", "example": "In contrast to the market\'s noise, the single heron stood in perfect stillness.", "tags": ["AO3", "AO4", "analytical", "connective"]}]');
+const VOCAB_SYS_TMPL = JSON.parse("\"You are a Cambridge IGCSE 0500 vocabulary tutor. The student has written a sentence using a specific word. Your role is to give precise, constructive feedback on whether the word is used with precision, correct connotation, and appropriate register.\\n\\nWORD: {WORD}\\nPART OF SPEECH: {POS}\\nDEFINITION: {DEF}\\nCONNOTATION NOTE: {CONNOTE}\\nCATEGORY: {CAT}\\nTASK: {TASK}\\n\\nYOUR FEEDBACK MUST:\\n1. Say whether the word is used CORRECTLY in terms of grammar and meaning (yes/no, with specific reference to the sentence).\\n2. Evaluate the CONNOTATION: does the context match what the word implies? Is the register appropriate?\\n3. Identify the single most precise thing the student can improve, not a general point but a specific change.\\n4. End with one Socratic question about the word's connotation or challenging the student to use it in a different context.\\n\\nRULES:\\n- Never simply say 'well done'. Analyse precisely.\\n- If the word is used incorrectly, explain the error clearly and ask the student to try again.\\n- If correct but unsophisticated, push the student to consider the connotation more deeply.\\n- If the sentence is excellent, award the word Mastered status by ending your response with [MASTERED].\\n- Keep feedback to 3-4 sentences plus the Socratic question.\"");
+const VOCAB_CATS = ['verb','emotion','analysis','register','connective'];
+const VOCAB_CAT_LABELS = {verb:'Precision Verbs',emotion:'Emotional Precision',analysis:'Analytical Vocabulary',register:'Register Markers',connective:'Connectives'};
+const STAGE_LABELS = ['New','Seen','Practised','Mastered'];
+const STAGE_CLASSES = ['wsb-0','wsb-1','wsb-2','wsb-3'];
+const STAGE_DOTS = ['vstage-0','vstage-1','vstage-2','vstage-3'];
+
+let currentWord=null, vocabFilter=null, vocabLoading=false;
+
+function getWordStage(vd,wid){return (vd[wid]&&vd[wid].stage)||0;}
+function getWordHistory(vd,wid){return (vd[wid]&&vd[wid].history)||[];}
+function isDue(vd,wid){
+  const stage=getWordStage(vd,wid);
+  if(stage>=3)return false;
+  const h=getWordHistory(vd,wid);
+  if(!h.length)return true;
+  return h[h.length-1].date!==new Date().toDateString();
+}
+
+function goVocab(){
+  if(!CU)return;
+  showScreen('vocabScreen');
+  document.getElementById('vocabUserPill').textContent=CU.name;
+  document.getElementById('vocabUserPill').className='u-pill '+CU.pillClass;
+  buildVocabList();updateVocabStats();
+}
+function goTutorFromVocab(){showScreen('tutorScreen');}
+
+function updateVocabStats(){
+  const d=gUD(CU.id)||dUD();
+  const vd=d.vocabData||{};
+  let counts=[0,0,0,0];
+  VOCAB_WORDS.forEach(function(w){counts[getWordStage(vd,w.id)]++;});
+  document.getElementById('vstNew').textContent=counts[0];
+  document.getElementById('vstSeen').textContent=counts[1];
+  document.getElementById('vstPrac').textContent=counts[2];
+  document.getElementById('vstMast').textContent=counts[3];
+  const dueCount=VOCAB_WORDS.filter(function(w){return isDue(vd,w.id);}).length;
+  const db=document.getElementById('dueBtn');
+  if(db)db.textContent='Due'+(dueCount?' ('+dueCount+')':'');
+}
+
+function filterVocab(cat,btn){
+  vocabFilter=cat;
+  document.querySelectorAll('.vcat-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  buildVocabList();
+}
+
+function buildVocabList(){
+  const d=gUD(CU.id)||dUD();
+  const vd=d.vocabData||{};
+  const el=document.getElementById('vocabList');
+  var words=VOCAB_WORDS;
+  if(vocabFilter==='due'){words=words.filter(function(w){return isDue(vd,w.id);});}
+  else if(vocabFilter){words=words.filter(function(w){return w.cat===vocabFilter;});}
+  if(!words.length){el.innerHTML='<div style="font-size:11px;color:var(--tx3);padding:12px;text-align:center">No words in this category</div>';return;}
+  var html='',lastCat='';
+  words.forEach(function(w){
+    var stage=getWordStage(vd,w.id);
+    var due=isDue(vd,w.id);
+    if(!vocabFilter||vocabFilter==='due'){
+      if(w.cat!==lastCat){html+='<div style="font-size:9px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;padding:8px 10px 3px">'+VOCAB_CAT_LABELS[w.cat]+'</div>';lastCat=w.cat;}
+    }
+    html+='<div class="vword-item'+(due?' due':'')+'" data-wid="'+w.id+'"><div class="vword-stage '+STAGE_DOTS[stage]+'"></div><span class="vword-text">'+w.word+'</span><span class="vword-cat">'+(due?'<span class="vword-due">due</span>':STAGE_LABELS[stage])+'</span></div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.vword-item').forEach(function(el){
+    el.addEventListener('click',function(){selectWord(this.dataset.wid);});
+  });
+}
+
+function selectWord(wid){
+  var w=VOCAB_WORDS.find(function(x){return x.id===wid;});
+  if(!w)return;
+  currentWord=w;
+  document.querySelectorAll('.vword-item').forEach(function(el){el.classList.remove('active');});
+  var el=document.querySelector('[data-wid="'+wid+'"]');
+  if(el)el.classList.add('active');
+  document.getElementById('noWord').style.display='none';
+  var panel=document.getElementById('wordPanel');panel.style.display='flex';
+  var d=gUD(CU.id)||dUD();
+  var vd=d.vocabData||{};
+  var stage=getWordStage(vd,wid);
+  // Mark as seen if new
+  if(stage===0){d.vocabData=vd;d.vocabData[wid]=d.vocabData[wid]||{};d.vocabData[wid].stage=1;sUD(CU.id,d);updateVocabStats();buildVocabList();}
+  var stageNow=getWordStage(gUD(CU.id)||dUD(),wid);
+  document.getElementById('wTitle').textContent=w.word;
+  document.getElementById('wPos').textContent=w.pos+' · '+VOCAB_CAT_LABELS[w.cat];
+  document.getElementById('wDef').textContent=w.def;
+  document.getElementById('wConnote').textContent=w.connote;
+  document.getElementById('wExample').textContent=w.example;
+  var sb=document.getElementById('wStageBadge');
+  sb.textContent=STAGE_LABELS[stageNow];sb.className='wsb '+STAGE_CLASSES[stageNow];
+  var aoTags=w.tags.filter(function(t){return t.startsWith('AO');}).map(function(t){var n=t.replace('AO','');return '<span class="ao ao'+n+'">'+t+'</span>';}).join(' ');
+  var otherTags=w.tags.filter(function(t){return !t.startsWith('AO');}).map(function(t){return '<span class="word-tag">'+t+'</span>';}).join('');
+  document.getElementById('wTags').innerHTML=aoTags+otherTags;
+  var history=getWordHistory(vd,wid);
+  renderWordPractice(w,stageNow,history);
+}
+
+function getTaskForStage(w,stage){
+  var tasks=['Write one sentence using "'+w.word+'" correctly. The sentence must show that you understand its connotation, not just its definition.','Write a sentence using "'+w.word+'" in a formal or analytical context, as though writing a Cambridge essay response.','Write a sentence using "'+w.word+'" that shows the difference in connotation between this word and a simpler alternative. Then explain in a second sentence why "'+w.word+'" is the better choice in your context.','You have mastered this word. It is now part of your active vocabulary.'];
+  return tasks[Math.min(stage,3)];
+}
+
+function renderWordPractice(w,stage,history){
+  var pr=document.getElementById('wordPractice');
+  var task=getTaskForStage(w,stage);
+  var html='<div class="practice-prompt"><div class="pp-label">Practice — Stage '+(stage+1)+' of 4</div><div class="pp-task">'+task+'</div>';
+  if(stage<3){
+    var constraints=['Use it in a descriptive sentence of 15-25 words.','Use it in an analytical sentence, as though discussing a writer or text.','In your sentence, name a simpler word it replaces and explain in a second sentence why this word is better here.'];
+    html+='<div class="pp-constraints">'+(constraints[stage]||'Write a sentence that demonstrates mastery.')+'</div>';
+    html+='<textarea class="voc-ans" id="vocAns" placeholder="Write your sentence here..." rows="3"></textarea>';
+    html+='<div class="voc-footer"><span class="vwc" id="vocWC">0 words</span><button class="voc-submit" id="vocSub" onclick="submitVocab()">Get feedback</button></div>';
+  }
+  html+='</div><div id="vocFb"></div>';
+  if(history.length){
+    html+='<div class="word-history"><div class="wh-title">Practice history</div>';
+    history.slice().reverse().forEach(function(h){
+      html+='<div class="wh-entry"><div class="whe-date">'+h.date+' · Stage '+h.stage+'</div><div class="whe-sent">'+h.sentence+'</div><div class="whe-fb">'+h.feedback.slice(0,200)+(h.feedback.length>200?'…':'')+'</div></div>';
+    });
+    html+='</div>';
+  }
+  pr.innerHTML=html;
+  var ta=document.getElementById('vocAns');
+  if(ta)ta.addEventListener('input',function(){
+    var wc=this.value.trim()?this.value.trim().split(/\s+/).length:0;
+    var el=document.getElementById('vocWC');
+    if(el)el.textContent=wc+' word'+(wc!==1?'s':'');
+  });
+}
+
+async function submitVocab(){
+  if(!currentWord)return;
+  var ta=document.getElementById('vocAns');
+  var sentence=ta?ta.value.trim():'';
+  if(!sentence){alert('Please write a sentence first.');return;}
+  var sub=document.getElementById('vocSub');
+  var fbEl=document.getElementById('vocFb');
+  if(sub){sub.disabled=true;sub.textContent='Getting feedback...';}
+  if(fbEl)fbEl.innerHTML='<div style="padding:10px;font-size:12px;color:var(--tx2);opacity:.6">Analysing your sentence...</div>';
+  var d=gUD(CU.id)||dUD();
+  var vd=d.vocabData||{};
+  var stage=getWordStage(vd,currentWord.id);
+  var sys=VOCAB_SYS_TMPL
+    .replace('{WORD}',currentWord.word)
+    .replace('{POS}',currentWord.pos)
+    .replace('{DEF}',currentWord.def)
+    .replace('{CONNOTE}',currentWord.connote)
+    .replace('{CAT}',VOCAB_CAT_LABELS[currentWord.cat])
+    .replace('{TASK}',getTaskForStage(currentWord,stage));
+  try{
+    var r=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'Student sentence: '+sentence}],system:sys})});
+    var data=await r.json();
+    var feedback=r.ok?data.content:'Could not get feedback: '+(data.detail||'error');
+    var mastered=feedback.includes('[MASTERED]');
+    var cleanFb=feedback.replace('[MASTERED]','').trim();
+    // Save
+    d.vocabData=d.vocabData||{};
+    d.vocabData[currentWord.id]=d.vocabData[currentWord.id]||{stage:1,history:[]};
+    d.vocabData[currentWord.id].history=d.vocabData[currentWord.id].history||[];
+    d.vocabData[currentWord.id].history.push({date:new Date().toLocaleDateString(),stage:stage,sentence:sentence.slice(0,200),feedback:cleanFb.slice(0,400)});
+    if(d.vocabData[currentWord.id].history.length>10)d.vocabData[currentWord.id].history=d.vocabData[currentWord.id].history.slice(-10);
+    d.vocabData[currentWord.id].stage=mastered?3:(stage<2?stage+1:stage);
+    d.trackSessions=d.trackSessions||{};
+    d.trackSessions.vocabulary=(d.trackSessions.vocabulary||0)+1;
+    sUD(CU.id,d);updateVocabStats();buildVocabList();
+    if(fbEl){
+      var newStage=d.vocabData[currentWord.id].stage;
+      fbEl.innerHTML='<div class="feedback-block" style="margin-top:8px"><div class="fb-header"><span class="fb-tag" style="background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-line)">'+(mastered?'★ Mastered':'Stage '+(stage+1)+' → '+(newStage+1))+'</span></div><div class="fb-text">'+fmt(cleanFb)+'</div></div>';
+    }
+    if(sub){sub.disabled=false;sub.textContent=mastered?'Write another sentence':'Resubmit';}
+    selectWord(currentWord.id);
+  }catch(e){
+    if(fbEl)fbEl.innerHTML='<div style="color:var(--red);font-size:12px;padding:10px">Error: '+e.message+'</div>';
+    if(sub){sub.disabled=false;sub.textContent='Get feedback';}
+  }
+}
+
 refreshStats();
 </script>
-</body>
-</html>
