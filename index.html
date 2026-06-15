@@ -169,6 +169,22 @@ body{font-family:var(--sans);background:var(--bg0);color:var(--tx1);display:flex
 .ck4{background:var(--amber-bg);color:var(--amber);border:1px solid #f5a62330}
 .ck-inf{background:#f5606018;color:#f56060;border:1px solid #f5606030}
 .ck-we{background:#1fc98e18;color:var(--teal);border:1px solid var(--teal-line)}
+/* AO chips */
+.ao{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;letter-spacing:.04em}
+.ao1{background:#1fc98e22;color:#1fc98e;border:1px solid #1fc98e40}
+.ao2{background:#4d8ef522;color:#4d8ef5;border:1px solid #4d8ef540}
+.ao3{background:#9b8fff22;color:#9b8fff;border:1px solid #9b8fff40}
+.ao4{background:#f5a62322;color:#f5a623;border:1px solid #f5a62340}
+/* AO sidebar block */
+.ao-block{padding:6px 10px 10px}
+.ao-row{display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:1px solid var(--line)}
+.ao-row:last-child{border-bottom:none}
+.ao-badge{flex-shrink:0;margin-top:1px}
+.ao-desc{display:flex;flex-direction:column;gap:2px}
+.ao-title{font-size:11px;color:var(--tx1);font-weight:500;line-height:1.3}
+.ao-sub{font-size:10px;color:var(--tx3);line-height:1.4}
+.ao-row.active .ao-title{color:var(--teal)}
+.ao-row.active .ao-sub{color:var(--tx2)}
 .typing-bubble{display:flex;gap:4px;padding:10px 14px;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r12)}
 .td{width:5px;height:5px;border-radius:50%;background:var(--tx3);animation:tdot 1.3s ease infinite}
 .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
@@ -324,12 +340,12 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
   </nav>
 
   <div class="phase-bar" id="phaseBar">
-    <button class="ph-btn on" onclick="setPhase(0,this)"><span class="ph-num">1</span>Sentences + Literal Reading</button>
-    <button class="ph-btn" onclick="setPhase(1,this)"><span class="ph-num">2</span>Punctuation + Inference</button>
-    <button class="ph-btn" onclick="setPhase(2,this)"><span class="ph-num">3</span>Vocabulary + Writer's Effect</button>
-    <button class="ph-btn" onclick="setPhase(3,this)"><span class="ph-num">4</span>Register + Directed Writing</button>
-    <button class="ph-btn" onclick="setPhase(4,this)"><span class="ph-num">5</span>Structure + Summary</button>
-    <button class="ph-btn" onclick="setPhase(5,this)"><span class="ph-num">6</span>Error Elimination + Full Paper</button>
+    <button class="ph-btn on" onclick="setPhase(0,this)"><span class="ph-num">1</span>Sentences + Literal Reading<span class="ao ao1" style="margin-left:4px">AO1</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
+    <button class="ph-btn" onclick="setPhase(1,this)"><span class="ph-num">2</span>Punctuation + Inference<span class="ao ao1" style="margin-left:4px">AO1</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
+    <button class="ph-btn" onclick="setPhase(2,this)"><span class="ph-num">3</span>Vocabulary + Writer's Effect<span class="ao ao2" style="margin-left:4px">AO2</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
+    <button class="ph-btn" onclick="setPhase(3,this)"><span class="ph-num">4</span>Register + Directed Writing<span class="ao ao3" style="margin-left:4px">AO3</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
+    <button class="ph-btn" onclick="setPhase(4,this)"><span class="ph-num">5</span>Structure + Summary<span class="ao ao1" style="margin-left:4px">AO1</span><span class="ao ao2" style="margin-left:2px">AO2</span></button>
+    <button class="ph-btn" onclick="setPhase(5,this)"><span class="ph-num">6</span>Error Elimination + Full Paper<span class="ao ao1" style="margin-left:4px">AO1</span><span class="ao ao2" style="margin-left:2px">AO2</span><span class="ao ao3" style="margin-left:2px">AO3</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
   </div>
 
   <div class="main-body">
@@ -347,6 +363,27 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
         <div class="layer layer-camb lc">
           <div class="layer-label">Cambridge</div>
           <div class="layer-val" id="layerCamb">Q1 explicit meaning</div>
+        </div>
+      </div>
+
+      <div class="sb-div"></div>
+      <div class="sb-sec">Cambridge AOs</div>
+      <div class="ao-block" id="aoBlock">
+        <div class="ao-row" id="aoRow1">
+          <span class="ao ao1 ao-badge">AO1</span>
+          <div class="ao-desc"><div class="ao-title">Reading — Identify &amp; interpret</div><div class="ao-sub">Explicit and implicit meaning</div></div>
+        </div>
+        <div class="ao-row" id="aoRow2">
+          <span class="ao ao2 ao-badge">AO2</span>
+          <div class="ao-desc"><div class="ao-title">Reading — Language &amp; structure</div><div class="ao-sub">Writer's effect on readers</div></div>
+        </div>
+        <div class="ao-row" id="aoRow3">
+          <span class="ao ao3 ao-badge">AO3</span>
+          <div class="ao-desc"><div class="ao-title">Writing — Communicate</div><div class="ao-sub">Tone, style, register, purpose</div></div>
+        </div>
+        <div class="ao-row" id="aoRow4">
+          <span class="ao ao4 ao-badge">AO4</span>
+          <div class="ao-desc"><div class="ao-title">Writing — Technical accuracy</div><div class="ao-sub">Vocabulary, sentences, spelling</div></div>
         </div>
       </div>
 
@@ -681,7 +718,7 @@ function setupTutorUI(){
   document.getElementById('layerCamb').textContent=ph.camb;
   document.getElementById('focusLabel').textContent=ph.focus;
   document.querySelectorAll('.ph-btn').forEach((b,i)=>b.classList.toggle('on',i===phase));
-  renderErrList();updateSkillBars();
+  renderErrList();updateSkillBars();updateAOHighlight();
   document.getElementById('sbExch').textContent='0';
   tstart=Date.now();if(tiv)clearInterval(tiv);
   tiv=setInterval(()=>{
@@ -806,10 +843,31 @@ function getCritChips(t){
   if(/W4|register|audience/i.test(t))found.push({c:'ck4',l:'W4 Register'});
   if(/inferenc|implicit|between the lines|suggest/i.test(t))found.push({c:'ck-inf',l:'Inference'});
   if(/writer.*effect|quote.*meaning|effect on reader|purpose.*writer/i.test(t))found.push({c:'ck-we',l:"Writer's Effect"});
+  // AO chips — show which Cambridge Assessment Objective is being targeted
+  const aos=getActiveAOs();
+  aos.forEach(ao=>{
+    const cls='ao'+ao;const labels={1:'AO1 Reading',2:'AO2 Language',3:'AO3 Writing',4:'AO4 Accuracy'};
+    if(!found.find(f=>f.c===cls))found.push({c:cls,l:labels[ao],isAO:true});
+  });
   if(!found.length)return null;
   const r=document.createElement('div');r.className='chip-row';
-  found.forEach(f=>{const s=document.createElement('span');s.className='ck '+f.c;s.textContent=f.l;r.appendChild(s);});
+  found.forEach(f=>{
+    const s=document.createElement('span');
+    s.className=(f.isAO?'ao ':'ck ')+f.c;
+    s.textContent=f.l;r.appendChild(s);
+  });
   return r;
+}
+
+const PHASE_AOS=[[1,4],[1,4],[2,4],[3,4],[1,2],[1,2,3,4]];
+function getActiveAOs(){return PHASE_AOS[phase]||[];}
+
+function updateAOHighlight(){
+  const active=getActiveAOs();
+  [1,2,3,4].forEach(n=>{
+    const row=document.getElementById('aoRow'+n);
+    if(row)row.classList.toggle('active',active.includes(n));
+  });
 }
 
 function scanErrors(t){
@@ -855,6 +913,7 @@ function setPhase(p,btn){
   const d=gUD(CU.id)||dUD();d.currentPhase=p;sUD(CU.id,d);
   exch=0;document.getElementById('sbExch').textContent='0';
   document.getElementById('msgsWrap').innerHTML='';msgs=[];
+  updateAOHighlight();
   showInferenceDrill();beginSession();
 }
 
@@ -896,13 +955,30 @@ async function processAudio(){
 /* MENTOR DASHBOARD */
 function buildDash(){
   const w=document.getElementById('dashWrap');
-  let h=`<div class="dash-hero"><h2>Student Progress</h2><p>A* skill tracking · Error patterns · Session transcripts across all three students</p></div>`;
+  let h=`<div class="dash-hero"><h2>Student Progress</h2><p>A* skill tracking · AO alignment · Error patterns · Session transcripts</p>
+  <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px">
+    <div style="background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:8px 12px;font-size:11px">
+      <span class="ao ao1" style="margin-right:6px">AO1</span><span style="color:var(--tx2)">Reading: identify &amp; interpret explicit/implicit meaning</span>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:8px 12px;font-size:11px">
+      <span class="ao ao2" style="margin-right:6px">AO2</span><span style="color:var(--tx2)">Reading: analyse language and structure for effect</span>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:8px 12px;font-size:11px">
+      <span class="ao ao3" style="margin-right:6px">AO3</span><span style="color:var(--tx2)">Writing: communicate clearly — tone, style, register</span>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:8px 12px;font-size:11px">
+      <span class="ao ao4" style="margin-right:6px">AO4</span><span style="color:var(--tx2)">Writing: vocabulary, sentence structure, accuracy</span>
+    </div>
+  </div>
+  </div>`;
   h+=`<div class="cards-grid">`;
   STUDENTS.forEach(s=>{
     const d=gUD(s.id)||dUD();
     const sk=d.skills||{};
     const band=calcBand(sk);
     const bandColor=band==='A*'?'var(--teal)':band==='A'?'var(--blue)':band==='B'?'var(--purple)':'var(--tx3)';
+    const activeAOs=PHASE_AOS[d.currentPhase||0]||[];
+    const aoHtml=activeAOs.map(n=>`<span class="ao ao${n}">AO${n}</span>`).join(' ');
     const errs=d.errPats||[];
     const errH=errs.length?errs.map(e=>`<span class="dc-etag">${e}</span>`).join(''):'<span style="font-size:11px;color:var(--tx3)">None logged</span>';
     const skillRows=['inf','we','voc','reg','sum'].map((k,i)=>{
@@ -913,7 +989,7 @@ function buildDash(){
     h+=`<div class="d-card">
       <div class="dc-head">
         <div class="dc-av ${s.avClass}">${s.init}</div>
-        <div><div class="dc-name">${s.name}</div><div class="dc-phase">${PH_LABELS[d.currentPhase||0]}</div></div>
+        <div><div class="dc-name">${s.name}</div><div class="dc-phase">${PH_LABELS[d.currentPhase||0]}</div><div style="margin-top:4px;display:flex;gap:3px">${aoHtml}</div></div>
         <div style="margin-left:auto;text-align:right"><div class="dc-band" style="color:${bandColor}">${band}</div><div style="font-size:10px;color:var(--tx3)">current band</div></div>
       </div>
       <div class="dc-nums">
