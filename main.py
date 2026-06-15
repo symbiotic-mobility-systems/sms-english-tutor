@@ -27,7 +27,7 @@ async def chat(request: Request):
     messages = body.get("messages", [])
     system = body.get("system", "You are a helpful assistant.")
     response = anthropic_client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-5",
         max_tokens=1000,
         system=system,
         messages=messages
