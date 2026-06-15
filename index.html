@@ -268,6 +268,53 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
 .t-text{font-size:12px;color:var(--tx1);line-height:1.6}
 .t-empty{font-size:12px;color:var(--tx3);text-align:center;padding:28px}
 @media(max-width:580px){.sidebar{display:none}.student-grid{grid-template-columns:1fr 1fr}.cards-grid{grid-template-columns:1fr}}
+
+/* ── READING ENGINE ─────────────────── */
+.read-screen{flex:1;display:flex;overflow:hidden}
+.read-left{width:300px;background:var(--bg1);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.read-left::-webkit-scrollbar{width:0}
+.read-hero{padding:16px;border-bottom:1px solid var(--line)}
+.read-hero h2{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--tx0);margin-bottom:4px}
+.read-hero p{font-size:11px;color:var(--tx3);line-height:1.5}
+.streak-block{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;gap:10px}
+.streak-stat{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r8);padding:10px;text-align:center}
+.streak-n{font-size:20px;font-weight:500;color:var(--teal);font-family:var(--serif);line-height:1}
+.streak-l{font-size:10px;color:var(--tx3);margin-top:3px}
+.article-list{padding:8px}
+.art-item{padding:10px 10px;border-radius:var(--r8);cursor:pointer;transition:all .15s;margin-bottom:4px;border:1px solid transparent}
+.art-item:hover{background:var(--bg2);border-color:var(--line2)}
+.art-item.active{background:var(--bg2);border-color:var(--teal-line)}
+.art-item.done{opacity:.6}
+.art-day{font-size:10px;font-weight:500;color:var(--tx3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:5px}
+.art-done-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+.art-title{font-size:12px;color:var(--tx0);line-height:1.4;margin-bottom:4px}
+.art-meta{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.art-src{font-size:10px;color:var(--tx3)}
+.art-ao{font-size:9px;font-weight:600;padding:1px 5px;border-radius:10px}
+.art-diff{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500}
+.diff-found{background:#1fc98e18;color:var(--teal);border:1px solid #1fc98e30}
+.diff-adv{background:#f5a62318;color:var(--amber);border:1px solid #f5a62330}
+.read-right{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg0)}
+.art-header{padding:16px 20px;border-bottom:1px solid var(--line);flex-shrink:0}
+.art-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.art-header h3{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--tx0);line-height:1.3}
+.art-open-btn{flex-shrink:0;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--teal);background:var(--teal-bg);border:1px solid var(--teal-line);border-radius:var(--r8);padding:6px 12px;cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap}
+.art-open-btn:hover{background:#1fc98e28}
+.art-open-btn svg{width:12px;height:12px}
+.art-desc{font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px}
+.art-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.art-tag{font-size:11px;color:var(--tx3);background:var(--bg3);border:1px solid var(--line2);border-radius:20px;padding:2px 9px}
+.art-instruction{padding:12px 20px;background:var(--bg2);border-bottom:1px solid var(--line);flex-shrink:0}
+.art-instruction p{font-size:12px;color:var(--tx2);line-height:1.6}
+.art-instruction strong{color:var(--teal)}
+.read-chat{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.read-chat::-webkit-scrollbar{width:4px}
+.read-chat::-webkit-scrollbar-thumb{background:var(--bg4)}
+.read-inp{background:var(--bg1);border-top:1px solid var(--line);padding:12px 16px;flex-shrink:0}
+.no-art-selected{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--tx3)}
+.no-art-selected svg{width:40px;height:40px;opacity:.3}
+.no-art-selected p{font-size:13px;color:var(--tx3)}
+.week-group{padding:8px 10px 4px;font-size:10px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em}
 </style>
 </head>
 <body>
@@ -332,6 +379,10 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
       <span class="nav-timer" id="navTimer">00:00</span>
       <button class="nav-btn" onclick="newSession()" title="New session">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><path d="M13.5 2.5v3h-3"/></svg>
+      </button>
+      <button class="nav-btn" onclick="goReading()" title="Daily reading" style="position:relative">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3h5a2 2 0 0 1 2 2v8a1.5 1.5 0 0 0-1.5-1.5H2V3z"/><path d="M14 3H9a2 2 0 0 0-2 2v8a1.5 1.5 0 0 1 1.5-1.5H14V3z"/></svg>
+        <span id="readStreak" style="display:none;position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:var(--teal);color:#000;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center"></span>
       </button>
       <button class="nav-btn" onclick="doLogout()" title="Switch user">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
@@ -442,6 +493,74 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
           <button class="send-btn" id="sendBtn" onclick="sendMsg()" aria-label="Send">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- READING ENGINE -->
+<div class="screen" id="readingScreen">
+  <nav class="topnav">
+    <div class="nav-left">
+      <div class="nav-logo">0500 <span>Daily Reading</span></div>
+      <span class="ph-badge" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)">AO1 · AO2</span>
+    </div>
+    <div class="nav-right">
+      <span class="u-pill" id="readUserPill"></span>
+      <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--teal)">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v4l2 2"/><circle cx="8" cy="8" r="6"/></svg>
+        <span id="readStreakNav">0 day streak</span>
+      </div>
+      <button class="nav-btn" onclick="goTutor()" title="Back to tutor">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 8h8M6 5l-4 3 4 3"/></svg>
+      </button>
+      <button class="nav-btn" onclick="doLogout()" title="Switch user">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="read-screen">
+    <div class="read-left">
+      <div class="read-hero">
+        <h2>Daily Reading</h2>
+        <p>Read one article each day. Return here for Socratic questions. 20 minutes builds more A* skill than an hour of exercises.</p>
+      </div>
+      <div class="streak-block">
+        <div class="streak-stat"><div class="streak-n" id="rStreak">0</div><div class="streak-l">day streak</div></div>
+        <div class="streak-stat"><div class="streak-n" id="rTotal">0</div><div class="streak-l">articles done</div></div>
+        <div class="streak-stat"><div class="streak-n" id="rWeek">Wk 1</div><div class="streak-l">current week</div></div>
+      </div>
+      <div id="articleList"></div>
+    </div>
+    <div class="read-right" id="readRight">
+      <div class="no-art-selected" id="noArtSelected">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <p>Select an article from the left to begin</p>
+      </div>
+      <div id="artContent" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+        <div class="art-header">
+          <div class="art-header-top">
+            <h3 id="artTitle">Article title</h3>
+            <a class="art-open-btn" id="artLink" href="#" target="_blank" rel="noopener">
+              Read article
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 3H3v10h10V9M9 2h5v5M14 2L8 8"/></svg>
+            </a>
+          </div>
+          <div class="art-desc" id="artDesc"></div>
+          <div class="art-tags" id="artTags"></div>
+        </div>
+        <div class="art-instruction">
+          <p><strong>How to use this:</strong> Click "Read article" above — it opens in a new tab. Read it fully (15–20 minutes). Come back here and the tutor will question you on it. Do not summarise — engage.</p>
+        </div>
+        <div class="read-chat" id="readChat"></div>
+        <div class="read-inp">
+          <div class="inp-row">
+            <textarea id="readInput" placeholder="I've read the article. I'm ready for questions... (Enter to send)" rows="2" onkeydown="handleReadKey(event)" oninput="onReadInput()"></textarea>
+            <button class="send-btn" id="readSendBtn" onclick="sendReadMsg()" aria-label="Send">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3 8l5-5 5 5"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1007,7 +1126,7 @@ function buildDash(){
   h+=`<div class="prog-block"><div class="pb-title">Phase progress</div><div class="pb-rows">`;
   STUDENTS.forEach(s=>{
     const d=gUD(s.id)||dUD();const cp=d.currentPhase||0;
-    const segs=Array.from({length:6},(_,i)=>`<div class="pb-seg${i<cp?' done':i===cp?' cur':''}"></div>`).join('');
+    const segs=Array.from({length:6},(_,i)=>{ const cls=i<cp?' done':i===cp?' cur':''; return '<div class="pb-seg'+cls+'"></div>'; }).join('');
     const pct=Math.round((cp/6)*100);
     h+=`<div class="pb-row"><div class="pb-name">${s.name}</div><div class="pb-track">${segs}</div><div class="pb-pct">${pct}%</div></div>`;
   });
@@ -1040,6 +1159,150 @@ function viewTx(uid,name){
   document.getElementById('txBody').innerHTML=h;
   blk.scrollIntoView({behavior:'smooth'});
 }
+
+/* ── READING ENGINE ─────────────────────────────── */
+const ARTICLES=JSON.parse('[{"id":"w1d1","week":1,"day":1,"title":"The Quiet Power of Libraries","src":"The Guardian","url":"https://www.theguardian.com/books/2023/jul/15/libraries-matter-public-spaces","desc":"Why physical libraries matter in the digital age and what we lose when they close.","aos":[1],"diff":"found","focus":"Identify the explicit arguments and find evidence for each claim."},{"id":"w1d2","week":1,"day":2,"title":"Why Walking Makes You Think Better","src":"National Geographic","url":"https://www.nationalgeographic.com/science/article/walking-improves-creativity-brain-science","desc":"Scientists explain how moving through space changes how the brain processes ideas.","aos":[1],"diff":"found","focus":"What does the writer say explicitly about the relationship between walking and thinking?"},{"id":"w1d3","week":1,"day":3,"title":"The Last Fishermen of the Aral Sea","src":"BBC Future","url":"https://www.bbc.com/future/article/20180719-the-men-who-fish-a-dying-sea","desc":"A human account of what happens to a community when its livelihood disappears.","aos":[1,2],"diff":"found","focus":"What does the writer tell you directly and what do they suggest without stating?"},{"id":"w1d4","week":1,"day":4,"title":"The Science of Sleep","src":"Scientific American","url":"https://www.scientificamerican.com/article/what-happens-in-the-brain-during-sleep/","desc":"What actually happens to the brain during sleep and why skipping it costs more than tiredness.","aos":[1],"diff":"found","focus":"How does the writer organise information? What is stated first and why?"},{"id":"w1d5","week":1,"day":5,"title":"How Bees See the World","src":"BBC Earth","url":"https://www.bbc.com/earth/story/20150915-bees-see-a-world-we-cant-imagine","desc":"Bees perceive colours and patterns in ways utterly unlike human vision.","aos":[1,2],"diff":"found","focus":"Find every explicit comparison the writer makes between bee vision and human vision."},{"id":"w1d6","week":1,"day":6,"title":"The Town That Refused to Give Up","src":"The Guardian","url":"https://www.theguardian.com/society/2023/jan/14/communities-resilience","desc":"How one small community survived economic collapse through collective action.","aos":[1,2],"diff":"adv","focus":"What does the writer explicitly say? What do they imply about human resilience?"},{"id":"w1d7","week":1,"day":7,"title":"What Plastic Does to the Ocean","src":"National Geographic","url":"https://www.nationalgeographic.com/environment/article/ocean-plastic","desc":"The scale and consequence of plastic pollution told through specific images and data.","aos":[1],"diff":"found","focus":"List six explicit facts. Then identify which fact they chose to open with and why that choice matters."},{"id":"w2d1","week":2,"day":1,"title":"The Loneliness Epidemic","src":"The Guardian","url":"https://www.theguardian.com/society/2022/apr/07/loneliness-epidemic-modern-world","desc":"Research into rising loneliness in modern societies and what it reveals about how we live.","aos":[1,2],"diff":"found","focus":"What does the writer suggest about modern life beyond what they state directly? Find three implicit meanings."},{"id":"w2d2","week":2,"day":2,"title":"The Last Tigers of Sumatra","src":"BBC News","url":"https://www.bbc.com/news/science-environment-53656033","desc":"The story of conservationists trying to protect a critically endangered tiger population.","aos":[1,2],"diff":"found","focus":"What does the writer imply about human responsibility without stating it directly?"},{"id":"w2d3","week":2,"day":3,"title":"Learning to Fail Better","src":"Scientific American","url":"https://www.scientificamerican.com/article/the-surprising-benefits-of-failure/","desc":"Research shows that how we respond to failure shapes long-term success more than avoiding failure.","aos":[1,2],"diff":"found","focus":"What attitude does the writer implicitly hold toward education systems? Find evidence."},{"id":"w2d4","week":2,"day":4,"title":"Children Who Grew Up in Refugee Camps","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/children-refugees-growing-up-in-camps","desc":"Long-form reporting on a generation of children whose entire childhood has been displacement.","aos":[1,2],"diff":"adv","focus":"What is the larger argument? Where does the writer state it versus only imply it?"},{"id":"w2d5","week":2,"day":5,"title":"Why Cities Make Us Smarter","src":"The Guardian","url":"https://www.theguardian.com/cities/2021/dec/01/how-cities-make-us-smarter","desc":"Urban environments may accelerate cognitive development in ways rural settings cannot.","aos":[1,2],"diff":"found","focus":"What counterarguments does the writer anticipate? How do they handle them?"},{"id":"w2d6","week":2,"day":6,"title":"The Blind Climber Who Conquered Everest","src":"BBC Sport","url":"https://www.bbc.com/sport/disability-sport/51066516","desc":"Erik Weihenmayer became the first blind person to summit Everest.","aos":[1,2],"diff":"found","focus":"What does the writer imply about the nature of disability without stating it directly?"},{"id":"w2d7","week":2,"day":7,"title":"Inside the Last Nomads","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/mongolian-nomads","desc":"A portrait of Mongolian nomadic families navigating modernity while holding ancient patterns.","aos":[1,2],"diff":"adv","focus":"What does the writer suggest about the relationship between tradition and progress?"},{"id":"w3d1","week":3,"day":1,"title":"Eyewitness: A Total Solar Eclipse","src":"The Guardian","url":"https://www.theguardian.com/environment/2023/aug/22/solar-eclipse-eyewitness","desc":"Eyewitness accounts of a total solar eclipse written with powerful sensory and emotional language.","aos":[2],"diff":"found","focus":"Find three language choices the writer makes to create atmosphere. For each: Quote then Meaning then Suggest then Effect then Purpose."},{"id":"w3d2","week":3,"day":2,"title":"The Forest That Breathes","src":"BBC Future","url":"https://www.bbc.com/future/article/20200527-the-amazon-rainforest-is-a-living-being","desc":"A piece about the Amazon that uses extended metaphor throughout its ecological argument.","aos":[2],"diff":"found","focus":"The writer personifies the forest throughout. Identify three examples and analyse their effect."},{"id":"w3d3","week":3,"day":3,"title":"A City Underwater","src":"National Geographic","url":"https://www.nationalgeographic.com/environment/article/venice-flooding-sea-level-rise","desc":"Reportage on Venice flooding crisis using vivid imagery to make an abstract threat immediate.","aos":[2],"diff":"found","focus":"How does the writer use visual imagery to make the reader feel urgency? Find four examples."},{"id":"w3d4","week":3,"day":4,"title":"The Last Ice Merchant","src":"BBC News","url":"https://www.bbc.com/news/world-latin-america-48721703","desc":"A portrait of a man who harvests glacier ice in a dying trade in a warming world.","aos":[2],"diff":"found","focus":"The writer uses contrast throughout. Find three contrasts and analyse what effect each creates."},{"id":"w3d5","week":3,"day":5,"title":"The Smell of Rain","src":"Scientific American","url":"https://www.scientificamerican.com/article/what-is-that-smell-when-it-rains/","desc":"A scientific account of petrichor that becomes unexpectedly beautiful writing.","aos":[2],"diff":"found","focus":"Where does scientific language and literary language overlap? What effect does the combination create?"},{"id":"w3d6","week":3,"day":6,"title":"The Night Sky is Disappearing","src":"National Geographic","url":"https://www.nationalgeographic.com/environment/article/light-pollution","desc":"Light pollution is erasing the night sky combining data history and lyrical writing.","aos":[2],"diff":"found","focus":"Where does the writing shift register within this single article? What does each shift achieve?"},{"id":"w3d7","week":3,"day":7,"title":"What Octopuses Teach Us About Intelligence","src":"Scientific American","url":"https://www.scientificamerican.com/article/inside-the-mind-of-an-octopus/","desc":"The cognitive abilities of octopuses challenge our definition of intelligence.","aos":[1,2],"diff":"found","focus":"The writer uses contrast to build their argument. Find five contrasts and analyse what each forces the reader to reconsider."},{"id":"w4d1","week":4,"day":1,"title":"An Open Letter to World Leaders","src":"The Guardian","url":"https://www.theguardian.com/commentisfree/2023/sep/21/climate-crisis-open-letter-leaders","desc":"A passionate open letter written for a specific audience with a specific purpose.","aos":[2,3],"diff":"found","focus":"Who is the audience? How do the language choices reflect that audience? Find five examples of register at work."},{"id":"w4d2","week":4,"day":2,"title":"Should Schools Teach Happiness?","src":"BBC Future","url":"https://www.bbc.com/future/article/20180111-should-schools-teach-happiness","desc":"A balanced report on the debate around wellbeing education.","aos":[1,3],"diff":"found","focus":"What specific language choices signal that this is reporting rather than arguing?"},{"id":"w4d3","week":4,"day":3,"title":"The Art of the Great Speech","src":"The Economist","url":"https://www.economist.com/books-and-arts/2023/06/06/what-makes-a-great-speech","desc":"An analysis of what makes great speeches great examining rhetorical technique.","aos":[2,3],"diff":"adv","focus":"The writer analyses speeches. Now analyse the writer own language. What register do they use and why?"},{"id":"w4d4","week":4,"day":4,"title":"The Art of the Apology","src":"The Atlantic","url":"https://www.theatlantic.com/family/archive/2021/01/anatomy-of-an-apology/617799/","desc":"An analysis of what makes some apologies genuine and others hollow.","aos":[2,3],"diff":"adv","focus":"The writer argues language reveals sincerity or insincerity. Find three examples where they demonstrate this."},{"id":"w4d5","week":4,"day":5,"title":"Why Teenagers Need More Sleep","src":"Scientific American","url":"https://www.scientificamerican.com/article/teenagers-and-sleep/","desc":"A scientific argument presented for a general audience balancing evidence with accessibility.","aos":[1,3],"diff":"found","focus":"How does the writer adjust their language for a non-specialist audience?"},{"id":"w4d6","week":4,"day":6,"title":"The Case for Boredom","src":"National Geographic","url":"https://www.nationalgeographic.com/science/article/boredom-may-be-good-for-you","desc":"A counterintuitive argument that boredom produces creativity.","aos":[2,3],"diff":"found","focus":"Map the structure of this argument. How does the writer sequence their points to persuade sceptical readers?"},{"id":"w4d7","week":4,"day":7,"title":"Growing Up Between Two Languages","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/being-bilingual-two-languages-brain-science","desc":"The experience of bilingualism told through scientific research and personal narrative.","aos":[1,2],"diff":"found","focus":"Where does the writer shift between objective reporting and personal voice? What does each shift create?"},{"id":"w5d1","week":5,"day":1,"title":"The Ocean Memory of Climate","src":"BBC Future","url":"https://www.bbc.com/future/article/20200506-the-strange-way-the-ocean-keeps-a-record-of-past-climate","desc":"A complex scientific topic explained through clear structure and concrete illustration.","aos":[1,2],"diff":"adv","focus":"Summarise the writer three main points in exactly 60 of your own words. Then explain why you chose those three."},{"id":"w5d2","week":5,"day":2,"title":"The Forgotten Women of Computing","src":"The Guardian","url":"https://www.theguardian.com/technology/2023/jul/13/women-pioneers-computing-history","desc":"Profiles of women whose contributions to computing history were overlooked.","aos":[1,2],"diff":"found","focus":"What is the central argument? Summarise in 30 words then explain which example best supports it."},{"id":"w5d3","week":5,"day":3,"title":"Night Markets of Southeast Asia","src":"National Geographic","url":"https://www.nationalgeographic.com/travel/article/night-markets-asia-travel","desc":"Immersive travel writing about night markets a masterclass in sensory detail.","aos":[2],"diff":"found","focus":"Which sense is most used? What effect does that emphasis create?"},{"id":"w5d4","week":5,"day":4,"title":"The Problem with Being Always Connected","src":"The Economist","url":"https://www.economist.com/technology-quarterly/2022/09/12/the-dangers-of-always-being-connected","desc":"A structured argument about the psychological costs of constant connectivity.","aos":[1,2],"diff":"adv","focus":"Map the structure: introduction, argument, counter-argument, evidence, conclusion. Summarise the counter-argument in 25 words."},{"id":"w5d5","week":5,"day":5,"title":"The Village Where Everyone Shares a Name","src":"BBC Travel","url":"https://www.bbc.com/travel/article/20200309-the-village-where-everyone-shares-a-surname","desc":"A curious human interest story that opens into questions about identity and tradition.","aos":[1,2],"diff":"found","focus":"Summarise what the writer says about names and identity. Exactly 50 of your own words."},{"id":"w5d6","week":5,"day":6,"title":"The Farmer Who Saved the Seeds","src":"BBC Future","url":"https://www.bbc.com/future/article/20201210-the-seed-banks-protecting-our-food-supply","desc":"A portrait of seed bank conservationists human-centred writing about a large ecological story.","aos":[1,2],"diff":"found","focus":"The writer centres the article on individual people rather than abstract facts. What effect does this have on the reader?"},{"id":"w5d7","week":5,"day":7,"title":"The Psychology of Colours","src":"Scientific American","url":"https://www.scientificamerican.com/article/how-does-the-color-red-influence-our-behavior/","desc":"Research into how colour affects human behaviour and perception.","aos":[1,2],"diff":"found","focus":"Summarise three of the studies in your own words. Are any more convincing than others? Why?"},{"id":"w6d1","week":6,"day":1,"title":"The Language of Food","src":"The Guardian","url":"https://www.theguardian.com/food/2022/jan/18/the-language-of-food","desc":"How the words we use to describe food shape our experience of it.","aos":[2,4],"diff":"adv","focus":"Apply the full Writer Effect chain to five specific word choices. Why this word and not a simpler alternative?"},{"id":"w6d2","week":6,"day":2,"title":"The Silence Between Notes","src":"BBC Culture","url":"https://www.bbc.com/culture/article/20180524-the-power-of-silence-in-music","desc":"A meditation on how silence functions in music and why absence can be more powerful than presence.","aos":[2],"diff":"adv","focus":"Find three analogies the writer uses. For each: what does it argue? Why is it more effective than a direct statement?"},{"id":"w6d3","week":6,"day":3,"title":"Why We Dream","src":"Scientific American","url":"https://www.scientificamerican.com/article/why-do-we-dream/","desc":"The competing theories of dreaming with intellectual honesty about what we do not know.","aos":[1,2],"diff":"found","focus":"The writer acknowledges uncertainty throughout. Find four examples. What effect does intellectual honesty have on the reader trust?"},{"id":"w6d4","week":6,"day":4,"title":"The Island That Disappeared","src":"National Geographic","url":"https://www.nationalgeographic.com/environment/article/sinking-islands-climate-change-pacific","desc":"Rising sea levels have erased entire islands making an abstract crisis personal.","aos":[2],"diff":"adv","focus":"The writer uses specific named individuals to tell a global story. Find three moments where the personal and the planetary intersect and analyse the effect of each."},{"id":"w6d5","week":6,"day":5,"title":"How Language Shapes Thought","src":"Scientific American","url":"https://www.scientificamerican.com/article/does-language-shape-thought/","desc":"Research into whether the language we speak shapes what we can think.","aos":[1,2],"diff":"adv","focus":"Summarise the writer position in 40 words. Which single piece of evidence do they present most persuasively and why?"},{"id":"w6d6","week":6,"day":6,"title":"The Neuroscience of Music","src":"The Atlantic","url":"https://www.theatlantic.com/entertainment/archive/2022/01/the-neuroscience-of-music/251085/","desc":"Why music affects us so profoundly explained through neuroscience with writing that itself has rhythm.","aos":[1,2],"diff":"found","focus":"Does the writer language have rhythm? Find a paragraph where writing style echoes the subject. Quote it and analyse the effect."},{"id":"w6d7","week":6,"day":7,"title":"The Paradox of Choice","src":"The Guardian","url":"https://www.theguardian.com/technology/2022/oct/21/choice-stifles-us-paradox","desc":"Too much choice makes us less happy an argument that builds through accumulated evidence.","aos":[1,2],"diff":"found","focus":"How many pieces of evidence does the writer use? Do they vary the type? What is the cumulative effect?"},{"id":"w7d1","week":7,"day":1,"title":"The Power of Metaphor","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2022/04/how-metaphors-shape-our-thinking/622828/","desc":"How the metaphors we use shape the way we think without us realising it.","aos":[2,4],"diff":"adv","focus":"Apply the Writer Effect chain to five metaphors used in this article. Then: what metaphor does the writer use about metaphors themselves?"},{"id":"w7d2","week":7,"day":2,"title":"The Woman Who Mapped the Deep Ocean","src":"BBC Future","url":"https://www.bbc.com/future/article/20191112-marie-tharp-the-woman-who-mapped-the-ocean-floor","desc":"Marie Tharp work was ignored because of her gender and what she discovered anyway.","aos":[1,2],"diff":"found","focus":"How does the writer use words of defiance? What do such choices imply about their attitude?"},{"id":"w7d3","week":7,"day":3,"title":"The Architecture of Memory","src":"The Atlantic","url":"https://www.theatlantic.com/science/archive/2022/04/the-science-of-memory/478518/","desc":"How memory works told through a structure that mirrors the associative nature of memory itself.","aos":[2],"diff":"adv","focus":"The writer structure mirrors their topic. Identify three moments where form and content align and what effect that alignment creates."},{"id":"w7d4","week":7,"day":4,"title":"The Last Wild Place","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/wilderness-national-parks-environment","desc":"A meditation on what wilderness means and why it matters rich with imagery and implicit argument.","aos":[2],"diff":"adv","focus":"The entire piece argues implicitly that something is being lost. Identify five moments of implicit argument. State each one explicitly."},{"id":"w7d5","week":7,"day":5,"title":"What Cities Do to Children","src":"The Guardian","url":"https://www.theguardian.com/cities/2022/apr/26/city-children-nature-deficit","desc":"Research and argument on whether urban childhood damages development.","aos":[1,2,3],"diff":"adv","focus":"Full simulation: (1) Inference question on children and nature. (2) Language analysis on the most powerful sentence. (3) Summarise the argument in 40 words."},{"id":"w7d6","week":7,"day":6,"title":"The Lost Art of Letter Writing","src":"BBC Culture","url":"https://www.bbc.com/culture/article/20181114-the-lost-art-of-the-letter","desc":"A nostalgic meditation on handwritten letters and what their disappearance reveals.","aos":[2,3],"diff":"found","focus":"The writer implies a critique of digital communication without stating it. Find five moments of implicit criticism and make them explicit."},{"id":"w7d7","week":7,"day":7,"title":"The Memory Keeper","src":"BBC Future","url":"https://www.bbc.com/future/article/20220517-the-people-who-never-forget","desc":"People who remember everything and the burden that comes with perfect recall.","aos":[2],"diff":"found","focus":"This writer uses extended analogy throughout. Map every analogy. What does the accumulation argue that a single analogy could not?"},{"id":"w8d1","week":8,"day":1,"title":"Against Efficiency","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2022/03/against-efficiency/580463/","desc":"A provocative argument that our obsession with efficiency is making us less human.","aos":[2,3],"diff":"adv","focus":"Write a 200-word response to this argument. Then review it against your specific error patterns. Correct every instance and explain each correction."},{"id":"w8d2","week":8,"day":2,"title":"The Science of Awe","src":"Scientific American","url":"https://www.scientificamerican.com/article/why-do-we-experience-awe/","desc":"What happens in the brain when we experience awe and why it may be essential to wellbeing.","aos":[1,2],"diff":"found","focus":"Full synthesis: apply inference, writer effect, summary and register in one session."},{"id":"w8d3","week":8,"day":3,"title":"The Keeper of Lost Languages","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/saving-dying-languages","desc":"The people working to document languages before they disappear.","aos":[1,2,3],"diff":"adv","focus":"Timed 25 minutes: (1) Summarise the argument in 40 words. (2) Write a 150-word speech using information from the article. (3) Identify the single most powerful sentence and apply Writer Effect."},{"id":"w8d4","week":8,"day":4,"title":"Growing Up in Two Countries","src":"The Guardian","url":"https://www.theguardian.com/society/2022/sep/22/growing-up-in-two-countries","desc":"Personal essays about bicultural identity rich with implicit meaning and emotional precision.","aos":[1,2],"diff":"found","focus":"Apply everything: three-level reading, Writer Effect chain on five choices, 60-word summary, one directed writing task."},{"id":"w8d5","week":8,"day":5,"title":"The Last Glacier","src":"National Geographic","url":"https://www.nationalgeographic.com/environment/article/last-glacier-iceland","desc":"Iceland is losing its glaciers told through a combination of elegy reportage and science.","aos":[2],"diff":"adv","focus":"The entire article is elegiac in register. Identify ten specific language choices that create this tone. Full Writer Effect chain for each."},{"id":"w8d6","week":8,"day":6,"title":"Mother Tongue","src":"BBC Culture","url":"https://www.bbc.com/culture/article/20220204-the-writers-who-chose-to-write-in-a-foreign-language","desc":"Writers who write in their second language a meditation on voice and authenticity.","aos":[2,3],"diff":"adv","focus":"What does the writer imply about the relationship between language and identity? Find five implicit moments and state each explicitly."},{"id":"w8d7","week":8,"day":7,"title":"The Town That Remembered Everything","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/hyperthymesia-total-recall-memory","desc":"People with hyperthymesia remember every day of their lives and it is not a blessing.","aos":[1,2],"diff":"found","focus":"The writer subverts our expectation that memory is a gift. Where and how? Find four moments of reversal."},{"id":"w9d1","week":9,"day":1,"title":"The Ethics of Artificial Intelligence","src":"The Economist","url":"https://www.economist.com/leaders/2023/04/05/the-worlds-most-valuable-resource-is-no-longer-oil-but-data","desc":"Dense structured argumentation about data and power at the highest register.","aos":[1,2,3],"diff":"adv","focus":"Full Cambridge Q1 practice: (1) Three explicit points. (2) Two implicit arguments. (3) Two language choices with full Writer Effect chain."},{"id":"w9d2","week":9,"day":2,"title":"Why Silence is Disappearing","src":"BBC Future","url":"https://www.bbc.com/future/article/20150325-the-most-silent-place-on-earth","desc":"Noise pollution and the search for silence told with great specificity and emotional resonance.","aos":[1,2],"diff":"found","focus":"Q3 summary practice: what does this article suggest about the relationship between silence and wellbeing? 120 words own language only."},{"id":"w9d3","week":9,"day":3,"title":"The Children of the Digital Age","src":"The Guardian","url":"https://www.theguardian.com/society/2023/aug/29/children-digital-devices-screen-time","desc":"Research on how screen time affects children carefully balanced between evidence and interpretation.","aos":[1,2,3],"diff":"adv","focus":"Full analysis: (1) Summarise the main argument in 30 words. (2) Find the most powerful language choice and apply the full Writer Effect chain. (3) What is the implied recommendation?"},{"id":"w9d4","week":9,"day":4,"title":"What Makes a Great Teacher","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2022/01/what-makes-a-great-teacher/307841/","desc":"Research into what separates effective teachers from ineffective ones with surprising conclusions.","aos":[1,2],"diff":"found","focus":"Q2 directed writing: write a formal letter to a school principal arguing for better teacher training. 150 words. Formal register throughout."},{"id":"w9d5","week":9,"day":5,"title":"The Sound of the City","src":"National Geographic","url":"https://www.nationalgeographic.com/science/article/urban-noise-pollution-wildlife","desc":"How urban noise affects both humans and wildlife told through scene-setting and data.","aos":[1,2],"diff":"found","focus":"Q3 summary: what does the article suggest about the effects of urban noise on living things? 120 words, specific aspect only, own words."},{"id":"w9d6","week":9,"day":6,"title":"The Last Book Shop","src":"The Guardian","url":"https://www.theguardian.com/books/2023/jun/22/bookshops-closed-high-street","desc":"The decline of independent bookshops told with nostalgia data and quiet fury.","aos":[2,3],"diff":"adv","focus":"Full paper simulation Q1: What impression does the writer create of independent bookshops? Use evidence. Apply full Cambridge Q1 criteria."},{"id":"w9d7","week":9,"day":7,"title":"When the River Ran Dry","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/water-is-life","desc":"The Colorado River water crisis combining data journalism and human portrait.","aos":[1,2],"diff":"adv","focus":"Q2 simulation: write a speech to a water authority board arguing for urgent action. 200 words. Persuasive register throughout."},{"id":"w10d1","week":10,"day":1,"title":"The Power of a Single Story","src":"TED Talks","url":"https://www.ted.com/talks/chimamanda_ngozi_adichie_the_danger_of_a_single_story/transcript","desc":"Chimamanda Ngozi Adichie on stereotypes one of the most powerful pieces of contemporary rhetoric.","aos":[2,3],"diff":"adv","focus":"Full analysis: (1) Central argument. (2) Five rhetorical techniques. (3) Writer Effect on three language choices. (4) 150-word response: do you agree?"},{"id":"w10d2","week":10,"day":2,"title":"The Philosopher Walk","src":"BBC Travel","url":"https://www.bbc.com/travel/article/20191104-the-philosophers-path-in-kyoto","desc":"Travel writing about a meditative walk in Kyoto lyrical precise and structurally elegant.","aos":[2],"diff":"adv","focus":"Apply the full Writer Effect chain to fifteen language choices in this article. Quality over speed."},{"id":"w10d3","week":10,"day":3,"title":"What Ruins Tell Us","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2022/01/what-ruins-tell-us/306577/","desc":"A meditation on ancient ruins what survives what disappears and what the difference reveals.","aos":[2],"diff":"adv","focus":"Apply the Writer Effect chain to ten separate language choices. Make each analysis precise and specific."},{"id":"w10d4","week":10,"day":4,"title":"The Architecture of Happiness","src":"The Guardian","url":"https://www.theguardian.com/artanddesign/2023/sep/17/architecture-happiness-spaces","desc":"How the spaces we inhabit affect how we feel philosophy aesthetics and persuasion.","aos":[2,3],"diff":"adv","focus":"Directed writing: a report for a school architecture committee on how to design spaces that support student wellbeing. 200 words. Report register."},{"id":"w10d5","week":10,"day":5,"title":"The Island of Left-Handers","src":"Scientific American","url":"https://www.scientificamerican.com/article/why-are-some-people-left-handed/","desc":"The science of handedness and what dominance reveals about the brain.","aos":[1,2],"diff":"found","focus":"Full analysis: (1) Three explicit facts. (2) Two implicit arguments. (3) One language choice with full Writer Effect chain. (4) Main argument in 25 words."},{"id":"w10d6","week":10,"day":6,"title":"The Language of Bees","src":"BBC Earth","url":"https://www.bbc.com/earth/story/20150726-bees-have-a-secret-language","desc":"How bees communicate through dance and what this tells us about the nature of language.","aos":[1,2],"diff":"found","focus":"Q3 simulation: summarise what this article says about the methods bees use to communicate. 120 words, own language, specific aspect. Self-assess: how many distinct points did you include?"},{"id":"w10d7","week":10,"day":7,"title":"The Cartographer Dilemma","src":"National Geographic","url":"https://www.nationalgeographic.com/culture/article/all-maps-lie","desc":"All maps distort reality this fact becomes an argument about perspective power and truth.","aos":[2,3],"diff":"adv","focus":"The writer uses maps as an extended metaphor. What is the larger argument? Find five moments where the metaphor does the argumentative work."},{"id":"w11d1","week":11,"day":1,"title":"The Grammar of Silence","src":"The Guardian","url":"https://www.theguardian.com/culture/2022/nov/09/silence-the-history-of-a-difficult-idea","desc":"A philosophical and linguistic exploration of what silence means across cultures.","aos":[2,4],"diff":"adv","focus":"What is the central argument? Where does language become a barrier to understanding rather than a bridge?"},{"id":"w11d2","week":11,"day":2,"title":"The Science of Persuasion","src":"Scientific American","url":"https://www.scientificamerican.com/article/the-science-of-persuasion/","desc":"Research into what makes communication genuinely persuasive applied to rhetoric and writing.","aos":[2,3],"diff":"adv","focus":"Identify five persuasion techniques in this article. Then: are any of those same techniques used in this article itself?"},{"id":"w11d3","week":11,"day":3,"title":"What Darkness Teaches","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2022/04/power-of-darkness/309284/","desc":"A personal essay about darkness both literal and metaphorical written with lyrical precision.","aos":[2],"diff":"adv","focus":"Choose the most powerful paragraph. Apply Writer Effect to every single word choice in it. Be exhaustive."},{"id":"w11d4","week":11,"day":4,"title":"The Student Who Changed","src":"The Guardian","url":"https://www.theguardian.com/education/2023/aug/10/first-generation-students-university","desc":"First-generation university students reflect on how education transformed them.","aos":[1,2,3],"diff":"found","focus":"Read slowly. Write freely. Then apply the hardest questions you can to your own response."},{"id":"w11d5","week":11,"day":5,"title":"The Keeper of Clocks","src":"BBC Culture","url":"https://www.bbc.com/culture/article/20191108-the-man-who-keeps-time","desc":"A profile of the man responsible for the nation clocks a meditation on time precision and responsibility.","aos":[1,2],"diff":"found","focus":"What does the writer imply about the relationship between time and meaning? Find five implicit moments."},{"id":"w11d6","week":11,"day":6,"title":"Children Who Learn to Cook","src":"The Guardian","url":"https://www.theguardian.com/education/2023/sep/07/cooking-schools-children-food","desc":"An argument for cooking education in schools blending anecdote research and persuasive structure.","aos":[2,3],"diff":"found","focus":"The writer uses narrative, argument and evidence. Identify one example of each. Which mode is most effective here and why?"},{"id":"w11d7","week":11,"day":7,"title":"On Being a Stranger","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2022/08/on-being-a-stranger/592779/","desc":"A personal essay about the experience of not belonging written with exceptional literary precision.","aos":[2],"diff":"adv","focus":"Apply the full Writer Effect chain to twenty language choices in this essay. Your penultimate reading session."},{"id":"w12d1","week":12,"day":1,"title":"A Letter to My Younger Self","src":"The Guardian","url":"https://www.theguardian.com/lifeandstyle/2023/sep/15/a-letter-to-my-12-year-old-self","desc":"Writers reflect on advice they would give their younger selves a study in tone register and emotional truth.","aos":[2,3],"diff":"found","focus":"Exam week. Write your own 200-word version: a letter to your younger self about learning English."},{"id":"w12d2","week":12,"day":2,"title":"The Last Ice","src":"National Geographic","url":"https://www.nationalgeographic.com/magazine/article/last-ice-area-arctic","desc":"The only place in the Arctic where ice may survive climate change told with great lyricism.","aos":[2],"diff":"adv","focus":"Exam simulation 30 minutes: (1) What impression does the writer create? Evidence. (2) How does the writer use language to create a sense of loss? AO2 analysis. No notes. Timed."},{"id":"w12d3","week":12,"day":3,"title":"How Propaganda Works","src":"The Atlantic","url":"https://www.theatlantic.com/magazine/archive/2023/10/the-anatomy-of-propaganda/596437/","desc":"An analysis of persuasion techniques in propaganda relevant to understanding writer purpose.","aos":[2,3],"diff":"adv","focus":"Full analysis: (1) Five rhetorical techniques identified and named. (2) Writer Effect applied to three language choices. (3) What is the writer own implicit argument?"},{"id":"w12d4","week":12,"day":4,"title":"The Power of Reading","src":"The Guardian","url":"https://www.theguardian.com/books/2023/oct/07/why-reading-matters","desc":"Why reading matters and what we lose when we read less. Your final article.","aos":[1,2,3],"diff":"found","focus":"Your final reading session. Apply everything. Read slowly. Engage deeply. This article is about why you have been doing what you have been doing for twelve weeks."}]');
+
+const READING_SYS=`You are a Cambridge IGCSE 0500 Socratic reading tutor. The student has read an article and you are questioning them to develop their A* reading skills.
+
+YOUR APPROACH:
+1. Ask ONE focused question at a time.
+2. Target: literal comprehension (AO1), inference (AO1), writer's effect (AO2).
+3. NEVER confirm an answer is correct. Always challenge: "How do you know? What evidence supports that? Is there a more precise way to express that?"
+4. Push deeper after every response: "You said X. Now go further — what does that suggest about the writer's purpose?"
+5. At least one question per session must apply the full Writer's Effect chain: Quote then Meaning then Suggest then Effect then Purpose.
+6. Warm but relentless. Shallow answers get deeper questions. Good answers get harder questions.
+7. End every response with exactly one question or task.
+
+ARTICLE CONTEXT: {ARTICLE_CONTEXT}
+
+BEGIN: Welcome the student briefly then immediately ask your first Socratic question about inference — not what the article says but what it suggests.`;
+
+let currentArticle=null,readMsgs=[],readLoading=false;
+
+function goReading(){
+  const d=gUD(CU.id)||dUD();
+  showScreen('readingScreen');
+  document.getElementById('readUserPill').textContent=CU.name;
+  document.getElementById('readUserPill').className='u-pill '+CU.pillClass;
+  buildArticleList(d);updateReadStreak(d);
+}
+function goTutor(){showScreen('tutorScreen');}
+
+function buildArticleList(d){
+  const done=d.readingDone||[];
+  const el=document.getElementById('articleList');
+  let html='',lastWeek=0;
+  ARTICLES.forEach(function(a){
+    if(a.week!==lastWeek){html+='<div class="week-group">Week '+a.week+'</div>';lastWeek=a.week;}
+    const isDone=done.includes(a.id);
+    const aoHtml=a.aos.map(function(n){return '<span class="art-ao ao'+n+'">AO'+n+'</span>';}).join('');
+    html+='<div class="art-item'+(isDone?' done':'')+'" data-aid="'+a.id+'" id="ait-'+a.id+'">'
+      +'<div class="art-day">'+(isDone?'<div class="art-done-dot"></div>':'')+'Day '+a.day+'</div>'
+      +'<div class="art-title">'+a.title+'</div>'
+      +'<div class="art-meta"><span class="art-src">'+a.src+'</span>'+aoHtml
+      +'<span class="art-diff diff-'+a.diff+'">'+(a.diff==='found'?'Accessible':'Advanced')+'</span></div>'
+      +'</div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.art-item').forEach(function(el){
+    el.addEventListener('click',function(){selectArticle(this.dataset.aid);});
+  });
+}
+function selectArticle(id){
+  var art=ARTICLES.find(function(a){return a.id===id;});if(!art)return;
+  currentArticle=art;readMsgs=[];
+  document.querySelectorAll('.art-item').forEach(function(el){el.classList.remove('active');});
+  var aitEl=document.getElementById('ait-'+id);if(aitEl)aitEl.classList.add('active');
+  document.getElementById('noArtSelected').style.display='none';
+  var ac=document.getElementById('artContent');ac.style.display='flex';
+  document.getElementById('artTitle').textContent=art.title;
+  document.getElementById('artLink').href=art.url;
+  document.getElementById('artDesc').textContent=art.desc;
+  var aoHtml=art.aos.map(function(n){return '<span class="ao ao'+n+'">AO'+n+'</span>';}).join(' ');
+  document.getElementById('artTags').innerHTML=aoHtml+'<span class="art-diff diff-'+art.diff+'">'+(art.diff==='found'?'Accessible':'Advanced')+'</span><span class="art-tag">'+art.src+'</span><span class="art-tag">Week '+art.week+' Day '+art.day+'</span>';
+  document.getElementById('readChat').innerHTML='';
+  startReadSession(art);
+}
+
+async function startReadSession(art){
+  var ctx='Title: "'+art.title+'" Source: '+art.src+'\nDescription: '+art.desc+'\nFocus: '+art.focus+'\nAOs: '+art.aos.map(function(n){return 'AO'+n;}).join(', ');
+  var sys=READING_SYS.replace('{ARTICLE_CONTEXT}',ctx);
+  addReadTyping();
+  try{
+    var r=await callReadAPI([{role:'user',content:'The student has read the article and is ready. Begin.'}],sys);
+    removeReadTyping();addReadMsg('a',r);
+    readMsgs.push({role:'user',content:'The student has read the article and is ready. Begin.'});
+    readMsgs.push({role:'assistant',content:r});
+  }catch(e){removeReadTyping();addReadMsg('a','Could not connect. Try selecting the article again.\n\nError: '+e.message);}
+}
+
+async function callReadAPI(msgs,sys){
+  var useSys=sys||(currentArticle?READING_SYS.replace('{ARTICLE_CONTEXT}','Title: "'+currentArticle.title+'"'):'You are a reading tutor.');
+  var r=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:msgs,system:useSys})});
+  if(!r.ok){var e=await r.json();throw new Error(e.detail||'Server error '+r.status);}
+  return(await r.json()).content;
+}
+
+async function sendReadMsg(){
+  var ti=document.getElementById('readInput');
+  var txt=ti.value.trim();if(!txt||readLoading)return;
+  ti.value='';ti.style.height='auto';
+  addReadMsg('u',txt);readMsgs.push({role:'user',content:txt});
+  addReadTyping();readLoading=true;
+  document.getElementById('readSendBtn').disabled=true;
+  try{
+    var r=await callReadAPI(readMsgs);
+    removeReadTyping();addReadMsg('a',r);
+    readMsgs.push({role:'assistant',content:r});
+    if(readMsgs.filter(function(m){return m.role==='user';}).length>=3&&currentArticle)markArticleDone(currentArticle.id);
+  }catch(e){removeReadTyping();addReadMsg('a','Error: '+e.message);}
+  readLoading=false;document.getElementById('readSendBtn').disabled=false;
+  document.getElementById('readInput').focus();
+}
+
+function markArticleDone(id){
+  var d=gUD(CU.id)||dUD();
+  d.readingDone=d.readingDone||[];
+  if(!d.readingDone.includes(id)){
+    d.readingDone.push(id);
+    var today=new Date().toDateString();
+    if(d.readingLastDate!==today){
+      var yesterday=new Date(Date.now()-86400000).toDateString();
+      d.readingStreak=d.readingLastDate===yesterday?(d.readingStreak||0)+1:1;
+      d.readingLastDate=today;
+    }
+    sUD(CU.id,d);updateReadStreak(d);
+    var el=document.getElementById('ait-'+id);if(el)el.classList.add('done');
+  }
+}
+
+function addReadMsg(role,text){
+  var c=document.getElementById('readChat');
+  var d=document.createElement('div');d.className='msg '+(role==='a'?'a':'u');
+  d.style.animation='msgIn .25s ease';
+  var av=document.createElement('div');
+  av.className='av '+(role==='a'?'av-tutor':(CU&&CU.siClass?CU.siClass:'av-ud'));
+  av.textContent=role==='a'?'T':(CU&&CU.init?CU.init:'Y');
+  var bub=document.createElement('div');bub.className='bubble '+(role==='a'?'t':'u');
+  bub.innerHTML=fmt(text);
+  var wrap=document.createElement('div');wrap.className='msg-wrap';
+  wrap.appendChild(bub);d.appendChild(av);d.appendChild(wrap);
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function addReadTyping(){
+  var c=document.getElementById('readChat');
+  var d=document.createElement('div');d.className='msg a';d.id='readTyping';
+  d.innerHTML='<div class="av av-tutor">T</div><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function removeReadTyping(){var t=document.getElementById('readTyping');if(t)t.remove();}
+function handleReadKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendReadMsg();}
+  var ta=document.getElementById('readInput');
+  ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,120)+'px';
+}
+function onReadInput(){}
 
 refreshStats();
 </script>
