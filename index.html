@@ -1163,7 +1163,7 @@ function loginStudent(id){
   const d=gUD(id)||dUD();
   phase=d.currentPhase||0;errPats=d.errPats||[];errCnt=errPats.length;
   skills=d.skills||{inf:0,we:0,voc:0,reg:0,sum:0};
-  showScreen('tutorScreen');setupTutorUI();beginSession();
+  showScreen('tutorScreen');setupTutorUI();beginSession();startKeepAlive();
 }
 
 function togglePin(){
@@ -1265,14 +1265,47 @@ async function beginSession(){
   }catch(e){
     removeTyping();document.getElementById('sdot').className='dot err';
     document.getElementById('coldBar').style.display='none';
-    addMsg('a','Could not connect. Render may be waking up — wait 30 seconds and click the refresh icon.\n\nError: '+e.message);
+    addMsg('a','Auto-retrying... if this persists, check your connection.');
+  }
+}
+
+async function fetchWithWakeup(url, opts, retries=1){
+  try{
+    const r=await fetch(url,opts);
+    return r;
+  }catch(e){
+    if(retries>0){
+      // Backend is asleep — show countdown and retry
+      const typingEl=document.getElementById('typingIndicator');
+      let secs=35;
+      const countdown=setInterval(()=>{
+        secs--;
+        if(typingEl){
+          typingEl.innerHTML='<span style="color:var(--amber);font-size:12px">⏳ Backend waking up — retrying in '+secs+'s...</span>';
+        }
+        if(secs<=0)clearInterval(countdown);
+      },1000);
+      await new Promise(res=>setTimeout(res,36000));
+      clearInterval(countdown);
+      if(typingEl)typingEl.innerHTML='<span class="dot-pulse"></span><span class="dot-pulse"></span><span class="dot-pulse"></span>';
+      return fetchWithWakeup(url,opts,retries-1);
+    }
+    throw e;
   }
 }
 
 async function callAPI(m){
-  const r=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:m,system:PHASES[phase].sys})});
+  const r=await fetchWithWakeup(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:m,system:PHASES[phase].sys})});
   if(!r.ok){const e=await r.json();throw new Error(e.detail||'Server error '+r.status);}
   return(await r.json()).content;
+}
+
+// Keep backend awake — ping every 8 minutes during active session
+function startKeepAlive(){
+  if(window._keepAlive)clearInterval(window._keepAlive);
+  window._keepAlive=setInterval(async()=>{
+    try{await fetch(API+'/',{method:'GET'});}catch(e){}
+  },8*60*1000);
 }
 
 async function sendMsg(){
@@ -1288,7 +1321,7 @@ async function sendMsg(){
     removeTyping();addMsg('a',r,true);
     msgs.push({role:'assistant',content:r});
     scanErrors(r);updateSkillsFromResponse(r);saveNow();
-  }catch(e){removeTyping();addMsg('a','Error: '+e.message);}
+  }catch(e){removeTyping();addMsg('a','<span style="color:var(--red)">Connection failed after retry. Please check your internet connection and try again.</span>');}
   loading=false;document.getElementById('sendBtn').disabled=false;
   document.getElementById('msgInput').focus();
 }
@@ -1694,7 +1727,7 @@ async function startReadSession(art){
 
 async function callReadAPI(msgs,sys){
   var useSys=sys||(currentArticle?READING_SYS.replace('{ARTICLE_CONTEXT}','Title: "'+currentArticle.title+'"'):'You are a reading tutor.');
-  var r=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:msgs,system:useSys})});
+  var r=await fetchWithWakeup(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:msgs,system:useSys})});
   if(!r.ok){var e=await r.json();throw new Error(e.detail||'Server error '+r.status);}
   return(await r.json()).content;
 }
@@ -2252,7 +2285,7 @@ async function submitAnswer(pid, qid) {
   const prompt = 'STUDENT ANSWER:\n\n' + ans + '\n\nProvide professional Cambridge-style examiner feedback now.';
 
   try {
-    const r = await fetch(API+'/chat', {
+    const r = await fetchWithWakeup(API+'/chat', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({messages:[{role:'user',content:prompt}], system:sys})
@@ -3010,7 +3043,7 @@ async function submitVocab(){
     .replace('{CAT}',VOCAB_CAT_LABELS[currentWord.cat])
     .replace('{TASK}',getTaskForStage(currentWord,stage));
   try{
-    var r=await fetch(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'Student sentence: '+sentence}],system:sys})});
+    var r=await fetchWithWakeup(API+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'Student sentence: '+sentence}],system:sys})});
     var data=await r.json();
     var feedback=r.ok?data.content:'Could not get feedback: '+(data.detail||'error');
     var mastered=feedback.includes('[MASTERED]');
