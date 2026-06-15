@@ -1269,23 +1269,24 @@ async function beginSession(){
   }
 }
 
-async function fetchWithWakeup(url, opts, retries=1){
+async function fetchWithWakeup(url, opts, retries=3){
   try{
     const r=await fetch(url,opts);
     return r;
   }catch(e){
     if(retries>0){
-      // Backend is asleep — show countdown and retry
       const typingEl=document.getElementById('typingIndicator');
-      let secs=35;
+      const waitSecs=retries===3?30:retries===2?45:60;
+      let secs=waitSecs;
       const countdown=setInterval(()=>{
         secs--;
         if(typingEl){
-          typingEl.innerHTML='<span style="color:var(--amber);font-size:12px">⏳ Backend waking up — retrying in '+secs+'s...</span>';
+          const attempt=4-retries;
+          typingEl.innerHTML='<span style="color:var(--amber);font-size:12px">⏳ Attempt '+attempt+'/3 — backend waking, retrying in '+secs+'s...</span>';
         }
         if(secs<=0)clearInterval(countdown);
       },1000);
-      await new Promise(res=>setTimeout(res,36000));
+      await new Promise(res=>setTimeout(res,(waitSecs+1)*1000));
       clearInterval(countdown);
       if(typingEl)typingEl.innerHTML='<span class="dot-pulse"></span><span class="dot-pulse"></span><span class="dot-pulse"></span>';
       return fetchWithWakeup(url,opts,retries-1);
@@ -1321,7 +1322,37 @@ async function sendMsg(){
     removeTyping();addMsg('a',r,true);
     msgs.push({role:'assistant',content:r});
     scanErrors(r);updateSkillsFromResponse(r);saveNow();
-  }catch(e){removeTyping();addMsg('a','<span style="color:var(--red)">Connection failed after retry. Please check your internet connection and try again.</span>');}
+  }catch(e){
+    removeTyping();
+    // Save the last user message so student can resend
+    const lastMsg=msgs[msgs.length-1]&&msgs[msgs.length-1].role==='user'?msgs[msgs.length-1].content:'';
+    addMsg('a','<span style="color:var(--amber)">⚠ Could not reach the server after 3 attempts. Render may be temporarily down.</span>'
+      +(lastMsg?'<br><br><button onclick="resendLast()" style="margin-top:6px;padding:5px 14px;border-radius:var(--r8);background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-line);cursor:pointer;font-size:12px;font-family:var(--sans)">↺ Try again</button>':''));
+    window._lastFailedMsg=lastMsg;
+  }
+  loading=false;document.getElementById('sendBtn').disabled=false;
+  document.getElementById('msgInput').focus();
+}
+
+async function resendLast(){
+  if(!window._lastFailedMsg||loading)return;
+  // Remove the error message (last assistant bubble)
+  const bubbles=document.querySelectorAll('.msg-a');
+  if(bubbles.length)bubbles[bubbles.length-1].remove();
+  // Re-inject the user message and retry
+  const txt=window._lastFailedMsg;
+  window._lastFailedMsg=null;
+  addTyping();loading=true;document.getElementById('sendBtn').disabled=true;
+  try{
+    const r=await callAPI(msgs);
+    removeTyping();addMsg('a',r,true);
+    msgs.push({role:'assistant',content:r});
+    scanErrors(r);updateSkillsFromResponse(r);saveNow();
+  }catch(e){
+    removeTyping();
+    addMsg('a','<span style="color:var(--amber)">Still cannot connect. Please wait a minute and try again, or check your internet.</span>');
+    window._lastFailedMsg=txt;
+  }
   loading=false;document.getElementById('sendBtn').disabled=false;
   document.getElementById('msgInput').focus();
 }
