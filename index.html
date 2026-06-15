@@ -94,6 +94,53 @@ body{font-family:var(--sans);background:var(--bg0);color:var(--tx1);display:flex
 .ph-num{width:18px;height:18px;border-radius:50%;background:var(--bg4);color:var(--tx3);font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .ph-btn.on .ph-num{background:var(--teal-bg);color:var(--teal)}
 
+/* TRACK STRIP */
+.track-strip{background:var(--bg0);border-bottom:1px solid var(--line);padding:0 14px;display:flex;align-items:center;gap:0;flex-shrink:0;height:38px}
+.tk-btn{font-size:11px;font-weight:500;padding:0 13px;height:38px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;transition:all .15s;font-family:var(--sans);display:flex;align-items:center;gap:5px;letter-spacing:.01em}
+.tk-btn:hover{color:var(--tx1)}
+.tk-btn.on{border-bottom-color:currentColor}
+.tk-g.on{color:var(--teal)}.tk-r.on{color:var(--blue)}.tk-w.on{color:#e07cf0}.tk-v.on{color:var(--amber)}.tk-p.on{color:#f56060}
+.tk-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.tk-g .tk-dot{background:var(--teal)}.tk-r .tk-dot{background:var(--blue)}.tk-w .tk-dot{background:#e07cf0}.tk-v .tk-dot{background:var(--amber)}.tk-p .tk-dot{background:#f56060}
+.track-sep{width:1px;height:18px;background:var(--line2);margin:0 3px;flex-shrink:0}
+.tk-all{font-size:11px;font-weight:400;padding:0 10px;height:38px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--tx3);cursor:pointer;font-family:var(--sans);white-space:nowrap;transition:all .15s}
+.tk-all:hover{color:var(--tx1)}.tk-all.on{color:var(--tx1);border-bottom-color:var(--tx3)}
+
+/* STUDENT PROGRESS SCREEN */
+.prog-screen{flex:1;overflow-y:auto;background:var(--bg0);padding:24px}
+.prog-screen::-webkit-scrollbar{width:3px}
+.prog-screen::-webkit-scrollbar-thumb{background:var(--bg4)}
+.prog-hero{margin-bottom:22px}
+.prog-hero h2{font-family:var(--serif);font-size:1.4rem;font-weight:400;color:var(--tx0);margin-bottom:4px}
+.prog-hero p{font-size:12px;color:var(--tx2)}
+.five-tracks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:28px}
+.track-card{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r16);padding:20px;transition:border-color .2s}
+.track-card:hover{border-color:var(--line3)}
+.tc-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tc-icon svg{width:16px;height:16px}
+.tci-g{background:#1fc98e18;color:var(--teal)}.tci-r{background:#4d8ef518;color:var(--blue)}.tci-w{background:#e07cf018;color:#e07cf0}.tci-v{background:#f5a62318;color:var(--amber)}.tci-p{background:#f5606018;color:#f56060}
+.tc-title{font-size:13px;font-weight:500;color:var(--tx0)}
+.tc-sub{font-size:11px;color:var(--tx3);margin-top:1px}
+.tc-pct{font-size:22px;font-weight:500;font-family:var(--serif);margin-left:auto}
+.tpct-g{color:var(--teal)}.tpct-r{color:var(--blue)}.tpct-w{color:#e07cf0}.tpct-v{color:var(--amber)}.tpct-p{color:#f56060}
+.tc-bar-outer{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.tc-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.tcb-g{background:var(--teal)}.tcb-r{background:var(--blue)}.tcb-w{background:#e07cf0}.tcb-v{background:var(--amber)}.tcb-p{background:#f56060}
+.tc-skills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.tc-skill-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--bg3);color:var(--tx2);border:1px solid var(--line2)}
+.tc-skill-tag.done{background:var(--bg3);color:var(--teal);border-color:var(--teal-line)}
+.tc-next{font-size:11px;color:var(--tx3);padding-top:10px;border-top:1px solid var(--line)}
+.tc-next strong{color:var(--tx1)}
+.track-weekly{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r16);padding:20px;margin-bottom:20px}
+.tw-title{font-size:12px;font-weight:500;color:var(--tx0);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tw-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tw-cell{background:var(--bg3);border-radius:var(--r8);padding:10px 8px;text-align:center;border:1px solid var(--line)}
+.tw-cell.active{border-color:var(--teal-line)}
+.tw-cell-name{font-size:9px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.tw-cell-val{font-size:18px;font-weight:500;font-family:var(--serif);line-height:1}
+.tw-cell-label{font-size:9px;color:var(--tx3);margin-top:2px}
+
 /* MAIN */
 .main-body{display:flex;flex:1;overflow:hidden}
 
@@ -380,6 +427,9 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
       <button class="nav-btn" onclick="newSession()" title="New session">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13.5 8A5.5 5.5 0 1 1 8 2.5"/><path d="M13.5 2.5v3h-3"/></svg>
       </button>
+      <button class="nav-btn" onclick="goProgress()" title="My progress">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12l4-4 3 3 4-6"/><path d="M14 5h-3V2"/></svg>
+      </button>
       <button class="nav-btn" onclick="goReading()" title="Daily reading" style="position:relative">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 3h5a2 2 0 0 1 2 2v8a1.5 1.5 0 0 0-1.5-1.5H2V3z"/><path d="M14 3H9a2 2 0 0 0-2 2v8a1.5 1.5 0 0 1 1.5-1.5H14V3z"/></svg>
         <span id="readStreak" style="display:none;position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:var(--teal);color:#000;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center"></span>
@@ -397,6 +447,16 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
     <button class="ph-btn" onclick="setPhase(3,this)"><span class="ph-num">4</span>Register + Directed Writing<span class="ao ao3" style="margin-left:4px">AO3</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
     <button class="ph-btn" onclick="setPhase(4,this)"><span class="ph-num">5</span>Structure + Summary<span class="ao ao1" style="margin-left:4px">AO1</span><span class="ao ao2" style="margin-left:2px">AO2</span></button>
     <button class="ph-btn" onclick="setPhase(5,this)"><span class="ph-num">6</span>Error Elimination + Full Paper<span class="ao ao1" style="margin-left:4px">AO1</span><span class="ao ao2" style="margin-left:2px">AO2</span><span class="ao ao3" style="margin-left:2px">AO3</span><span class="ao ao4" style="margin-left:2px">AO4</span></button>
+  </div>
+
+  <div class="track-strip" id="trackStrip">
+    <button class="tk-btn tk-all on" onclick="setTrack(null,this)" id="tkAll">All tracks</button>
+    <div class="track-sep"></div>
+    <button class="tk-btn tk-g" onclick="setTrack(0,this)"><div class="tk-dot"></div>Grammar</button>
+    <button class="tk-btn tk-r" onclick="setTrack(1,this)"><div class="tk-dot"></div>Reading</button>
+    <button class="tk-btn tk-w" onclick="setTrack(2,this)"><div class="tk-dot"></div>Writing</button>
+    <button class="tk-btn tk-v" onclick="setTrack(3,this)"><div class="tk-dot"></div>Vocabulary</button>
+    <button class="tk-btn tk-p" onclick="setTrack(4,this)"><div class="tk-dot"></div>Past Paper</button>
   </div>
 
   <div class="main-body">
@@ -565,6 +625,26 @@ textarea:focus{outline:none;border-color:var(--teal-line)}
       </div>
     </div>
   </div>
+</div>
+
+<!-- STUDENT PROGRESS -->
+<div class="screen" id="progressScreen">
+  <nav class="topnav">
+    <div class="nav-left">
+      <div class="nav-logo">0500 <span>My Progress</span></div>
+      <span class="ph-badge" id="progBadge" style="background:var(--purple-bg);color:var(--purple);border-color:var(--purple-line)">5 tracks</span>
+    </div>
+    <div class="nav-right">
+      <span class="u-pill" id="progUserPill"></span>
+      <button class="nav-btn" onclick="goTutorFromProgress()" title="Back to tutor">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 8h8M6 5l-4 3 4 3"/></svg>
+      </button>
+      <button class="nav-btn" onclick="doLogout()" title="Switch user">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 8H3M6 5l-3 3 3 3"/><path d="M8 3h4a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="prog-screen" id="progContent"></div>
 </div>
 
 <!-- MENTOR -->
@@ -1303,6 +1383,173 @@ function handleReadKey(e){
   ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,120)+'px';
 }
 function onReadInput(){}
+
+// ── FIVE PARALLEL TRACKS ────────────────────────────────────────────────────
+const TRACKS=[
+{id:'grammar',name:'Grammar',cls:'g',
+ icon:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h8M2 12h5"/></svg>',
+ desc:'Sentence structure \xb7 Punctuation \xb7 Register \xb7 Error elimination',
+ phases:[0,1,3,5],aoTags:[4],
+ next:'Focus on one error pattern per session. Name it, fix every instance, move on.',
+ milestones:['Consistent sentence variety','Zero comma splices','Register held throughout','Error rate below 1 per paragraph']},
+{id:'reading',name:'Reading',cls:'r',
+ icon:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>',
+ desc:'Inference \xb7 Writer Effect \xb7 Summary precision \xb7 Daily articles',
+ phases:[1,2,4],aoTags:[1,2],
+ next:'Apply the full Quote to Purpose chain to every language question.',
+ milestones:['Three-level reading automatic','Writer Effect chain internalised','Q3 hits 8+ content points','No surface reading in any answer']},
+{id:'writing',name:'Writing',cls:'w',
+ icon:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 12L11 4l2 2L7 14H3v-2z"/></svg>',
+ desc:'Directed writing \xb7 Register control \xb7 Audience awareness',
+ phases:[3,5],aoTags:[3,4],
+ next:'Write the same content four ways: formal letter, speech, newspaper article, personal account.',
+ milestones:['Four forms mastered','Register consistent throughout','Audience explicitly addressed','Q2 hits top band criteria']},
+{id:'vocabulary',name:'Vocabulary',cls:'v',
+ icon:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h8M4 10h5"/><rect x="2" y="2" width="12" height="12" rx="2"/></svg>',
+ desc:'Precision \xb7 Connotation \xb7 Active usage in writing',
+ phases:[2],aoTags:[4],
+ next:'In every session: name one weak word in your writing. Find the precise word. Use it in three sentences.',
+ milestones:['No vague intensifiers','Strong verb choices throughout','Connotation used deliberately','Vocabulary matches register']},
+{id:'paper',name:'Past Paper',cls:'p',
+ icon:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="1" width="10" height="13" rx="1"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>',
+ desc:'Q1 comprehension \xb7 Q2 directed writing \xb7 Q3 summary \xb7 Full paper',
+ phases:[4,5],aoTags:[1,2,3],
+ next:'Attempt one timed Cambridge question per day. Read the mark scheme. Identify the one improvement.',
+ milestones:['Q1 hitting 12/15','Q2 hitting 16/20','Q3 hitting 8/10','Full paper completed timed']}
+];
+const PHASE_TRACKS=[[0],[0,1],[1,3],[0,2],[1,4],[0,1,2,3,4]];
+const TRACK_COLORS=['var(--teal)','var(--blue)','#e07cf0','var(--amber)','#f56060'];
+
+let activeTrack=null;
+
+function setTrack(idx,btn){
+  activeTrack=idx;
+  document.querySelectorAll('.tk-btn,.tk-all').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const phBtns=document.querySelectorAll('#phaseBar .ph-btn');
+  if(idx===null){
+    phBtns.forEach(b=>{b.style.display='flex';});
+  } else {
+    const allowed=TRACKS[idx].phases;
+    phBtns.forEach((b,i)=>{b.style.display=allowed.includes(i)?'flex':'none';});
+    if(!TRACKS[idx].phases.includes(phase)){
+      const fp=TRACKS[idx].phases[0];
+      setPhase(fp,phBtns[fp]);
+    }
+  }
+}
+
+function getTrackProgress(d){
+  const trk=d.trackSessions||{};
+  const sk=d.skills||{};
+  const readDone=(d.readingDone||[]).length;
+  return [
+    Math.min(100,Math.round((trk.grammar||0)*9+(sk.voc||0)*4+(d.totalSessions||0)*1)),
+    Math.min(100,Math.round((trk.reading||0)*7+(sk.inf||0)*7+(sk.we||0)*7+readDone*2)),
+    Math.min(100,Math.round((trk.writing||0)*12+(sk.reg||0)*10+(d.totalSessions||0)*1)),
+    Math.min(100,Math.round((trk.vocabulary||0)*9+(sk.voc||0)*10+readDone*1.5)),
+    Math.min(100,Math.round((trk.paper||0)*12+(sk.sum||0)*9+(sk.inf||0)*4))
+  ];
+}
+
+function goProgress(){
+  if(!CU)return;
+  showScreen('progressScreen');
+  document.getElementById('progUserPill').textContent=CU.name;
+  document.getElementById('progUserPill').className='u-pill '+CU.pillClass;
+  buildProgress();
+}
+function goTutorFromProgress(){showScreen('tutorScreen');}
+
+function buildProgress(){
+  const d=gUD(CU.id)||dUD();
+  const progs=getTrackProgress(d);
+  const trk=d.trackSessions||{};
+  const sk=d.skills||{};
+  const band=calcBand(sk);
+  const readDone=(d.readingDone||[]).length;
+  let h='<div class="prog-hero"><h2>'+CU.name+' \u2014 Five Parallel Tracks</h2>'
+    +'<p>All five tracks run simultaneously every week. Every session and article contributes to one or more tracks automatically.</p></div>';
+  h+='<div class="track-weekly">'
+    +'<div class="tw-title"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>Overview</div>'
+    +'<div class="tw-grid">'
+    +'<div class="tw-cell"><div class="tw-cell-name">Sessions</div><div class="tw-cell-val" style="color:var(--teal)">'+(d.totalSessions||0)+'</div></div>'
+    +'<div class="tw-cell"><div class="tw-cell-name">Articles</div><div class="tw-cell-val" style="color:var(--blue)">'+readDone+'</div></div>'
+    +'<div class="tw-cell"><div class="tw-cell-name">Streak</div><div class="tw-cell-val" style="color:var(--amber)">'+(d.readingStreak||0)+'<span style="font-size:12px">d</span></div></div>'
+    +'<div class="tw-cell"><div class="tw-cell-name">Band</div><div class="tw-cell-val" style="color:'+(band==='A*'?'var(--teal)':band==='A'?'var(--blue)':band==='B'?'var(--purple)':'var(--tx3)')+'">'+band+'</div></div>'
+    +'<div class="tw-cell"><div class="tw-cell-name">Phase</div><div class="tw-cell-val" style="color:var(--purple)">'+(( d.currentPhase||0)+1)+'<span style="font-size:12px">/6</span></div></div>'
+    +'</div></div>';
+  h+='<div class="five-tracks">';
+  TRACKS.forEach(function(t,i){
+    var pct=progs[i];
+    var sessions=trk[t.id]||0;
+    var aoTags=t.aoTags.map(function(n){return '<span class="ao ao'+n+'">AO'+n+'</span>';}).join(' ');
+    var milestonesHtml=t.milestones.map(function(m,mi){
+      var done=pct>=(25*(mi+1));
+      var style=done?'background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-line)':'background:var(--bg3);color:var(--tx3);border:1px solid var(--line)';
+      return '<span style="font-size:10px;padding:2px 8px;border-radius:20px;'+style+'">'+(done?'\u2713 ':'')+m+'</span>';
+    }).join('');
+    h+='<div class="track-card">'
+      +'<div class="tc-head"><div class="tc-icon tci-'+t.cls+'">'+t.icon+'</div>'
+      +'<div style="flex:1"><div class="tc-title">'+t.name+' Track</div><div class="tc-sub">'+t.desc+'</div></div>'
+      +'<div class="tc-pct tpct-'+t.cls+'">'+pct+'%</div></div>'
+      +'<div class="tc-bar-outer"><div class="tc-bar-fill tcb-'+t.cls+'" style="width:'+pct+'%"></div></div>'
+      +'<div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:10px">'
+      +'<span style="font-size:10px;color:var(--tx3)">'+sessions+' session'+(sessions!==1?'s':'')+'</span>'
+      +'<span style="font-size:10px;color:var(--tx3)">\xb7</span>'+aoTags+'</div>'
+      +'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">'+milestonesHtml+'</div>'
+      +'<div style="font-size:11px;color:var(--tx3);padding-top:10px;border-top:1px solid var(--line)"><strong style="color:var(--tx1)">Next:</strong> '+t.next+'</div>'
+      +'</div>';
+  });
+  h+='</div>';
+  document.getElementById('progContent').innerHTML=h;
+}
+
+// Update saveNow to track which tracks each session touches
+var _origSaveNow=saveNow;
+saveNow=function(){
+  if(!CU)return;
+  var d=gUD(CU.id)||dUD();
+  d.trackSessions=d.trackSessions||{grammar:0,reading:0,writing:0,vocabulary:0,paper:0};
+  var activeTracks=PHASE_TRACKS[phase]||[];
+  activeTracks.forEach(function(ti){d.trackSessions[TRACKS[ti].id]=(d.trackSessions[TRACKS[ti].id]||0)+1;});
+  d.errPats=errPats;d.currentPhase=phase;d.skills=skills;
+  d.lastActive=new Date().toLocaleDateString();
+  if(msgs.length>2){
+    d.transcripts=d.transcripts||[];
+    d.transcripts.push({date:new Date().toLocaleDateString(),phase:PH_LABELS[phase],messages:msgs.slice(-20),skills:Object.assign({},skills)});
+    if(d.transcripts.length>10)d.transcripts=d.transcripts.slice(-10);
+  }
+  sUD(CU.id,d);
+};
+
+// Update buildDash to append five-track comparison
+var _origBuildDash=buildDash;
+buildDash=function(){
+  _origBuildDash();
+  var w=document.getElementById('dashWrap');
+  var h='<div style="background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r16);padding:20px;margin-bottom:20px">'
+    +'<div style="font-size:12px;font-weight:500;color:var(--tx0);margin-bottom:16px">Five Parallel Tracks \u2014 All Students</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">';
+  STUDENTS.forEach(function(s){
+    var d=gUD(s.id)||dUD();
+    var progs=getTrackProgress(d);
+    h+='<div style="background:var(--bg3);border:1px solid var(--line2);border-radius:var(--r12);padding:14px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
+      +'<div class="'+s.avClass+'" style="width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:12px">'+s.init+'</div>'
+      +'<span style="font-size:12px;font-weight:500;color:var(--tx0)">'+s.name+'</span></div>';
+    TRACKS.forEach(function(t,i){
+      h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+        +'<span style="font-size:10px;color:var(--tx3);width:62px;flex-shrink:0">'+t.name+'</span>'
+        +'<div style="flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden">'
+        +'<div style="height:100%;width:'+progs[i]+'%;background:'+TRACK_COLORS[i]+';border-radius:2px"></div></div>'
+        +'<span style="font-size:10px;color:var(--tx3);width:28px;text-align:right">'+progs[i]+'%</span></div>';
+    });
+    h+='</div>';
+  });
+  h+='</div></div>';
+  w.innerHTML+=h;
+};
 
 refreshStats();
 </script>
